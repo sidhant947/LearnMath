@@ -1,0 +1,19 @@
+Features
+
+100% Offline & Private
+- Works entirely without an internet connection.
+- Zero analytics trackers, zero telemetry, zero data collection.
+- All your progress, streak stats, and mistake drills remain stored securely on your local device.
+
+No Ads, No Microtransactions
+- No pop-up ads, banner ads, or paywalled levels.
+- Pure, uninterrupted learning and math flow state.
+
+Game Modes
+- Level Progression: 60 structured levels spanning Addition, Subtraction, Multiplication, Division, and Mixed Boss Fights.
+- Daily Challenge: Fresh daily math puzzles to build and maintain your streak.
+- Time Attack: 60-second high-speed arithmetic sprint.
+- Survival Mode: 3 lives, progressive difficulty, test how far you can go.
+- Target 24: The classic 4-number 24 puzzle with unlimited combinations and an integrated solver.
+- Local 2-Player Duel: Split-screen head-to-head math battle on a single device.
+- Targeted Practice: Custom sessions by category and difficulty (Easy, Medium, Hard, Master).

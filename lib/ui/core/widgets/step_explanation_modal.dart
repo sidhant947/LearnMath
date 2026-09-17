@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:learnmath/domain/models/math_problem.dart';
 import 'package:learnmath/ui/core/widgets/tangible_button.dart';
 
-class StepExplanationModal extends StatelessWidget {
+class StepExplanationModal extends StatefulWidget {
   const StepExplanationModal({
     super.key,
     required this.problem,
@@ -11,13 +11,22 @@ class StepExplanationModal extends StatelessWidget {
   final MathProblem problem;
 
   @override
+  State<StepExplanationModal> createState() => _StepExplanationModalState();
+}
+
+class _StepExplanationModalState extends State<StepExplanationModal> {
+  int _revealedStepCount = 1;
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final steps = problem.explanationSteps.isNotEmpty
-        ? problem.explanationSteps
-        : ['The correct answer is ${problem.correctAnswer}.'];
+    final steps = widget.problem.explanationSteps.isNotEmpty
+        ? widget.problem.explanationSteps
+        : ['The correct answer is ${widget.problem.correctAnswer}.'];
+
+    final hasMoreSteps = _revealedStepCount < steps.length;
 
     return Container(
       decoration: BoxDecoration(
@@ -68,7 +77,7 @@ class StepExplanationModal extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        problem.prompt,
+                        widget.problem.prompt,
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -91,10 +100,10 @@ class StepExplanationModal extends StatelessWidget {
                 ),
               ),
               child: Column(
-                children: List.generate(steps.length, (index) {
+                children: List.generate(_revealedStepCount.clamp(1, steps.length), (index) {
                   return Padding(
                     padding: EdgeInsets.only(
-                      bottom: index == steps.length - 1 ? 0 : 12,
+                      bottom: index == _revealedStepCount - 1 && hasMoreSteps ? 0 : 12,
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,42 +143,50 @@ class StepExplanationModal extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: const Color(0xFF10B981).withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: const Color(0xFF10B981).withValues(alpha: 0.4),
+            if (!hasMoreSteps)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: const Color(0xFF10B981).withValues(alpha: 0.4),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Correct Answer:',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                      ),
+                    ),
+                    Text(
+                      widget.problem.correctAnswer,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 18,
+                        color: Color(0xFF10B981),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Correct Answer:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                    ),
-                  ),
-                  Text(
-                    problem.correctAnswer,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 18,
-                      color: Color(0xFF10B981),
-                    ),
-                  ),
-                ],
+            if (!hasMoreSteps) const SizedBox(height: 20),
+            if (hasMoreSteps)
+              TangibleButton(
+                text: 'Next Step ($_revealedStepCount/${steps.length})',
+                height: 48,
+                onPressed: () => setState(() => _revealedStepCount++),
+              )
+            else
+              TangibleButton(
+                text: 'Got It!',
+                height: 48,
+                onPressed: () => Navigator.pop(context),
               ),
-            ),
-            const SizedBox(height: 20),
-            TangibleButton(
-              text: 'Got It!',
-              height: 48,
-              onPressed: () => Navigator.pop(context),
-            ),
           ],
         ),
       ),

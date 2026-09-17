@@ -303,8 +303,8 @@ class MathGameEngine {
         category: MathCategory.concepts,
         explanationSteps: [
           count == 0
-              ? 'Zero represents an empty set or absence of items.'
-              : 'Count each glowing dot one by one to arrive at $count.',
+              ? 'Zero means nothing or an empty space — there are no items to count!'
+              : 'Count each glowing dot one by one: 1, 2, 3... until you reach $count.',
         ],
       );
     } else if (difficulty == MathDifficulty.medium) {
@@ -328,9 +328,9 @@ class MathGameEngine {
         tensCount: tens,
         onesCount: ones,
         explanationSteps: [
-          '$tens Tens = $tens × 10 = ${tens * 10}.',
-          '$ones Ones = $ones.',
-          'Add them together: ${tens * 10} + $ones = $num.',
+          'First, $tens Tens means $tens groups of 10, which equals ${tens * 10}.',
+          'Next, $ones Ones simply equals $ones.',
+          'Finally, combine them together: ${tens * 10} plus $ones gives $num.',
         ],
       );
     } else {
@@ -352,10 +352,10 @@ class MathGameEngine {
         inputType: ProblemInputType.multipleChoice,
         category: MathCategory.concepts,
         explanationSteps: [
-          '$hundreds Hundreds = ${hundreds * 100}.',
-          '$tens Tens = ${tens * 10}.',
-          '$ones Ones = $ones.',
-          'Sum: ${hundreds * 100} + ${tens * 10} + $ones = $num.',
+          'First, $hundreds Hundreds means $hundreds groups of 100 = ${hundreds * 100}.',
+          'Next, $tens Tens means $tens groups of 10 = ${tens * 10}.',
+          'Then, $ones Ones equals $ones.',
+          'Add them all up: ${hundreds * 100} + ${tens * 10} + $ones = $num.',
         ],
       );
     }
@@ -407,10 +407,10 @@ class MathGameEngine {
       numberLineEnd: sum,
       numberLineStep: b,
       explanationSteps: [
-        'Line up the numbers: $a and $b.',
-        'Add the ones column: (${a % 10} + ${b % 10} = ${(a % 10) + (b % 10)}).',
-        'Add remaining tens and hundreds with any carry.',
-        'Result: $a + $b = $sum.',
+        'Line up the numbers: starting with $a and adding $b.',
+        'First, add the ones digits: ${a % 10} + ${b % 10} = ${(a % 10) + (b % 10)}.',
+        'Next, add the remaining digits (tens and hundreds) along with any carry over.',
+        'Putting it all together: $a + $b = $sum.',
       ],
     );
   }
@@ -461,9 +461,9 @@ class MathGameEngine {
       numberLineEnd: diff,
       numberLineStep: -b,
       explanationSteps: [
-        'Start with the larger number: $a.',
-        'Subtract $b by counting down or subtracting column by column.',
-        'Result: $a - $b = $diff.',
+        'Start at the total amount: $a.',
+        'Count backward or take away $b step by step.',
+        'You are left with: $diff.',
       ],
     );
   }
@@ -508,9 +508,12 @@ class MathGameEngine {
       visualRows: a <= 6 ? a : 0,
       visualCols: b <= 6 ? b : 0,
       explanationSteps: [
-        '$a × $b means adding $a repeatedly $b times.',
-        if (a > 10) 'Break it down: ($a = ${(a ~/ 10) * 10} + ${a % 10}) × $b = (${(a ~/ 10) * 10 * b}) + (${(a % 10) * b}) = $product.',
-        'Result: $a × $b = $product.',
+        'Multiplication ($a × $b) means adding $a a total of $b times.',
+        if (a <= 10) 'Think of making $b groups with $a items in each group: $a + ... = $product.'
+        else 'Break $a into parts: ${(a ~/ 10) * 10} + ${a % 10}.',
+        if (a > 10) 'Multiply tens: ${(a ~/ 10) * 10} × $b = ${(a ~/ 10) * 10 * b}, then ones: ${a % 10} × $b = ${(a % 10) * b}.',
+        if (a > 10) 'Add the parts: ${(a ~/ 10) * 10 * b} + ${(a % 10) * b} = $product.'
+        else 'Final product: $product.',
       ],
     );
   }
@@ -542,9 +545,10 @@ class MathGameEngine {
       inputType: ProblemInputType.numberPad,
       category: MathCategory.division,
       explanationSteps: [
+        'Division ($dividend ÷ $divisor) means splitting a total of $dividend into $divisor equal groups.',
         'Ask: How many times does $divisor fit into $dividend?',
-        'Check with multiplication: $divisor × $quotient = $dividend.',
-        'Result: $dividend ÷ $divisor = $quotient.',
+        'Verify with multiplication: $quotient × $divisor = $dividend.',
+        'Result: Each group receives $quotient.',
       ],
     );
   }
@@ -562,8 +566,9 @@ class MathGameEngine {
           inputType: ProblemInputType.numberPad,
           category: MathCategory.powersRoots,
           explanationSteps: [
-            'Find a number multiplied by itself that gives $sq.',
-            '$b × $b = $sq, so √$sq = $b.',
+            'The square root symbol (√) asks: "What number multiplied by ITSELF equals $sq?"',
+            'Test candidate: $b × $b = $sq.',
+            'Therefore, √$sq = $b.',
           ],
         );
       } else {
@@ -577,8 +582,8 @@ class MathGameEngine {
           visualType: MathVisualType.squareGrid,
           visualRows: b <= 8 ? b : 0,
           explanationSteps: [
-            '$b² means multiplying $b by itself ($b × $b).',
-            'Result: $b × $b = ${b * b}.',
+            'The small ² exponent means "square" — multiply $b by itself ($b × $b).',
+            'Calculation: $b × $b = ${b * b}.',
           ],
         );
       }
@@ -592,9 +597,12 @@ class MathGameEngine {
           correctAnswer: (b * b).toString(),
           inputType: ProblemInputType.numberPad,
           category: MathCategory.powersRoots,
+          visualType: MathVisualType.squareGrid,
+          visualRows: b <= 8 ? b : 0,
           explanationSteps: [
-            '$b² = $b × $b.',
-            'Breakdown: ($b × 10) + ($b × ${b % 10}) = ${b * 10} + ${b * (b % 10)} = ${b * b}.',
+            '$b² means multiplying $b by itself ($b × $b).',
+            'Break $b into 10 + ${b % 10}: ($b × 10 = ${b * 10}) plus ($b × ${b % 10} = ${b * (b % 10)}).',
+            'Add them together: ${b * 10} + ${b * (b % 10)} = ${b * b}.',
           ],
         );
       } else if (type == 1) {
@@ -607,8 +615,9 @@ class MathGameEngine {
           inputType: ProblemInputType.numberPad,
           category: MathCategory.powersRoots,
           explanationSteps: [
-            'Find which number squared is $sq.',
-            '$b × $b = $sq, so √$sq = $b.',
+            'The square root (√$sq) asks what mystery number times itself equals $sq.',
+            'Check: $b × $b = $sq.',
+            'So the square root of $sq is $b.',
           ],
         );
       } else {
@@ -620,9 +629,9 @@ class MathGameEngine {
           inputType: ProblemInputType.numberPad,
           category: MathCategory.powersRoots,
           explanationSteps: [
-            '$b³ means $b × $b × $b.',
-            '$b × $b = ${b * b}.',
-            '${b * b} × $b = ${b * b * b}.',
+            'The ³ exponent means "cube" — multiply $b by itself 3 times ($b × $b × $b).',
+            'Step 1 (square): $b × $b = ${b * b}.',
+            'Step 2 (cube): ${b * b} × $b = ${b * b * b}.',
           ],
         );
       }
@@ -637,7 +646,8 @@ class MathGameEngine {
           inputType: ProblemInputType.numberPad,
           category: MathCategory.powersRoots,
           explanationSteps: [
-            '$b² = $b × $b = ${b * b}.',
+            '$b² means multiplying $b by itself: $b × $b.',
+            'Final calculation: $b × $b = ${b * b}.',
           ],
         );
       } else if (type == 1) {
@@ -650,7 +660,8 @@ class MathGameEngine {
           inputType: ProblemInputType.numberPad,
           category: MathCategory.powersRoots,
           explanationSteps: [
-            '$b × $b = $sq, therefore √$sq = $b.',
+            'Find the mystery number that gives $sq when multiplied by itself.',
+            'Since $b × $b = $sq, √$sq = $b.',
           ],
         );
       } else if (type == 2) {
@@ -662,7 +673,9 @@ class MathGameEngine {
           inputType: ProblemInputType.numberPad,
           category: MathCategory.powersRoots,
           explanationSteps: [
-            '$b³ = $b × $b × $b = ${b * b} × $b = ${b * b * b}.',
+            '$b³ means multiplying $b by itself 3 times ($b × $b × $b).',
+            'Step 1: $b × $b = ${b * b}.',
+            'Step 2: Multiply ${b * b} × $b = ${b * b * b}.',
           ],
         );
       } else {
@@ -674,7 +687,9 @@ class MathGameEngine {
           inputType: ProblemInputType.numberPad,
           category: MathCategory.powersRoots,
           explanationSteps: [
-            '$b⁴ = ($b²)² = (${b * b})² = ${b * b * b * b}.',
+            '$b⁴ means multiplying $b by itself 4 times ($b × $b × $b × $b).',
+            'Step 1 (square): $b × $b = ${b * b}.',
+            'Step 2 (power of 4): Square ${b * b} again: ${b * b} × ${b * b} = ${b * b * b * b}.',
           ],
         );
       }
@@ -906,9 +921,9 @@ class MathGameEngine {
       numberLineEnd: sum,
       numberLineStep: b,
       explanationSteps: [
-        'Add the units column: ${a % 10} + ${b % 10} = ${(a % 10) + (b % 10)}.',
-        if (a >= 10 || b >= 10) 'Add the tens: ${(a ~/ 10) * 10} + ${(b ~/ 10) * 10} = ${((a ~/ 10) + (b ~/ 10)) * 10}.',
-        'Total sum = $sum.',
+        'First, add the ones digits: ${a % 10} + ${b % 10} = ${(a % 10) + (b % 10)}.',
+        if (a >= 10 || b >= 10) 'Next, add the tens digits: ${(a ~/ 10) * 10} + ${(b ~/ 10) * 10} = ${((a ~/ 10) + (b ~/ 10)) * 10}.',
+        'Add them together to get the final sum: $sum.',
       ],
     );
   }
@@ -981,8 +996,9 @@ class MathGameEngine {
       numberLineEnd: diff,
       numberLineStep: -b,
       explanationSteps: [
-        'Subtract $b from $a.',
-        'Result = $diff.',
+        'Start with the starting amount of $a.',
+        'Take away $b step by step.',
+        'You are left with $diff.',
       ],
     );
   }
@@ -1057,8 +1073,8 @@ class MathGameEngine {
       visualRows: a <= 6 ? a : 0,
       visualCols: b <= 6 ? b : 0,
       explanationSteps: [
-        '$a × $b is $b groups of $a.',
-        'Total = $product.',
+        'Think of $a × $b as adding $a to itself $b times.',
+        'Counting up all $b groups of $a gives $product.',
       ],
     );
   }
@@ -1130,8 +1146,8 @@ class MathGameEngine {
       inputType: ProblemInputType.numberPad,
       category: MathCategory.division,
       explanationSteps: [
-        'How many $divisor\'s are in $dividend?',
-        'Since $divisor × $quotient = $dividend, the answer is $quotient.',
+        'Imagine dividing $dividend into $divisor equal parts.',
+        'Because $divisor × $quotient = $dividend, the result is $quotient.',
       ],
     );
   }
@@ -1147,7 +1163,10 @@ class MathGameEngine {
         category: MathCategory.powersRoots,
         visualType: MathVisualType.squareGrid,
         visualRows: b <= 8 ? b : 0,
-        explanationSteps: ['$b² = $b × $b = ${b * b}.'],
+        explanationSteps: [
+          'Squaring ($b²) means multiplying $b by itself.',
+          'Result: $b × $b = ${b * b}.',
+        ],
       );
     } else if (level == 46) {
       final b = 7 + rng.nextInt(6);
@@ -1157,7 +1176,10 @@ class MathGameEngine {
         correctAnswer: (b * b).toString(),
         inputType: ProblemInputType.numberPad,
         category: MathCategory.powersRoots,
-        explanationSteps: ['$b² = $b × $b = ${b * b}.'],
+        explanationSteps: [
+          'Multiply $b by itself: $b × $b.',
+          'Result: $b × $b = ${b * b}.',
+        ],
       );
     } else if (level == 47) {
       final b = 13 + rng.nextInt(13);
@@ -1167,7 +1189,10 @@ class MathGameEngine {
         correctAnswer: (b * b).toString(),
         inputType: ProblemInputType.numberPad,
         category: MathCategory.powersRoots,
-        explanationSteps: ['$b² = $b × $b = ${b * b}.'],
+        explanationSteps: [
+          'Multiply $b by itself ($b × $b).',
+          'Result: ${b * b}.',
+        ],
       );
     } else if (level == 48) {
       final b = 2 + rng.nextInt(6);
@@ -1177,7 +1202,10 @@ class MathGameEngine {
         correctAnswer: b.toString(),
         inputType: ProblemInputType.numberPad,
         category: MathCategory.powersRoots,
-        explanationSteps: ['What number squared is ${b * b}? $b × $b = ${b * b}, so answer is $b.'],
+        explanationSteps: [
+          'Ask: What number times itself equals ${b * b}?',
+          'Since $b × $b = ${b * b}, the answer is $b.',
+        ],
       );
     } else if (level == 49) {
       final b = 8 + rng.nextInt(13);
@@ -1187,7 +1215,10 @@ class MathGameEngine {
         correctAnswer: b.toString(),
         inputType: ProblemInputType.numberPad,
         category: MathCategory.powersRoots,
-        explanationSteps: ['$b × $b = ${b * b}, so √${b * b} = $b.'],
+        explanationSteps: [
+          'Find the number that gives ${b * b} when multiplied by itself.',
+          'Because $b × $b = ${b * b}, √${b * b} = $b.',
+        ],
       );
     } else if (level == 50) {
       final b = 1 + rng.nextInt(5);
@@ -1197,7 +1228,11 @@ class MathGameEngine {
         correctAnswer: (b * b * b).toString(),
         inputType: ProblemInputType.numberPad,
         category: MathCategory.powersRoots,
-        explanationSteps: ['$b³ = $b × $b × $b = ${b * b * b}.'],
+        explanationSteps: [
+          'Cubing ($b³) means multiplying $b by itself 3 times.',
+          'First, $b × $b = ${b * b}.',
+          'Then, ${b * b} × $b = ${b * b * b}.',
+        ],
       );
     } else if (level == 51) {
       final b = 6 + rng.nextInt(5);
@@ -1207,7 +1242,10 @@ class MathGameEngine {
         correctAnswer: (b * b * b).toString(),
         inputType: ProblemInputType.numberPad,
         category: MathCategory.powersRoots,
-        explanationSteps: ['$b³ = $b × $b × $b = ${b * b * b}.'],
+        explanationSteps: [
+          'Multiply $b by itself 3 times: $b × $b × $b.',
+          'Result: ${b * b * b}.',
+        ],
       );
     } else if (level == 52) {
       final b = 1 + rng.nextInt(3);
@@ -1217,7 +1255,10 @@ class MathGameEngine {
         correctAnswer: (b * b * b * b).toString(),
         inputType: ProblemInputType.numberPad,
         category: MathCategory.powersRoots,
-        explanationSteps: ['$b⁴ = ($b²)² = ${b * b * b * b}.'],
+        explanationSteps: [
+          'Multiply $b by itself 4 times: $b × $b × $b × $b.',
+          'Result: ${b * b * b * b}.',
+        ],
       );
     } else if (level == 53) {
       final b = [4, 5, 10][rng.nextInt(3)];

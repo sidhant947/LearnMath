@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:learnmath/ui/core/services/app_haptics.dart';
+import 'package:learnmath/ui/core/widgets/tangible_card.dart';
 import 'package:learnmath/ui/features/game/math_game/math_game_engine.dart';
 import 'package:learnmath/ui/features/game/math_game/math_game_screen.dart';
 import 'package:learnmath/ui/features/home/view_models/home_view_model.dart';
@@ -82,12 +83,14 @@ class _LevelSelectViewState extends ConsumerState<LevelSelectView> {
 
     Color cardBg;
     Color textColor;
+    Color shadowColor;
+    Color borderColor;
     Widget iconWidget;
 
     if (isCompleted) {
-      cardBg = isBoss
-          ? const Color(0xFFD97706)
-          : colorScheme.primaryContainer;
+      cardBg = isBoss ? const Color(0xFFD97706) : colorScheme.primaryContainer;
+      shadowColor = isBoss ? const Color(0xFF92400E) : colorScheme.primary;
+      borderColor = isBoss ? const Color(0xFFF59E0B) : colorScheme.primary;
       textColor = isBoss ? Colors.white : colorScheme.onPrimaryContainer;
       iconWidget = Icon(
         Icons.check_circle_rounded,
@@ -96,6 +99,8 @@ class _LevelSelectViewState extends ConsumerState<LevelSelectView> {
       );
     } else if (isCurrent) {
       cardBg = isBoss ? const Color(0xFFFFB800) : colorScheme.primary;
+      shadowColor = isBoss ? const Color(0xFFB45309) : const Color(0xFF047857);
+      borderColor = isBoss ? const Color(0xFFFBBF24) : const Color(0xFF34D399);
       textColor = isBoss ? Colors.black87 : colorScheme.onPrimary;
       iconWidget = isBoss
           ? const Icon(Icons.workspace_premium_rounded, size: 15, color: Colors.black87)
@@ -104,7 +109,11 @@ class _LevelSelectViewState extends ConsumerState<LevelSelectView> {
       cardBg = isBoss
           ? const Color(0xFFFFB800).withValues(alpha: 0.12)
           : colorScheme.surfaceContainer;
-      textColor = isBoss ? const Color(0xFFFFB800) : colorScheme.onSurfaceVariant.withValues(alpha: 0.5);
+      shadowColor = colorScheme.outlineVariant;
+      borderColor = colorScheme.outline;
+      textColor = isBoss
+          ? const Color(0xFFFFB800)
+          : colorScheme.onSurfaceVariant.withValues(alpha: 0.5);
       iconWidget = Icon(
         Icons.lock_outline_rounded,
         size: 15,
@@ -112,32 +121,26 @@ class _LevelSelectViewState extends ConsumerState<LevelSelectView> {
       );
     }
 
-    return Card(
+    return TangibleCard(
       color: cardBg,
-      elevation: isCurrent ? 2 : 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: isCurrent
-              ? (isBoss ? const Color(0xFFFFB800) : colorScheme.primary)
-              : colorScheme.outlineVariant.withValues(alpha: 0.3),
-          width: isCurrent ? 1.5 : 1.0,
-        ),
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: isClickable
-            ? () async {
-                AppHaptics.light();
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MathGameScreen(levelNumber: levelNumber),
-                  ),
-                );
-                ref.read(homeViewModelProvider.notifier).loadProgress();
-              }
-            : null,
+      shadowColor: shadowColor,
+      borderColor: borderColor,
+      borderRadius: 18,
+      depth: 4.0,
+      padding: EdgeInsets.zero,
+      onTap: isClickable
+          ? () async {
+              AppHaptics.light();
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MathGameScreen(levelNumber: levelNumber),
+                ),
+              );
+              ref.read(homeViewModelProvider.notifier).loadProgress();
+            }
+          : null,
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -151,16 +154,16 @@ class _LevelSelectViewState extends ConsumerState<LevelSelectView> {
                 Text(
                   '$levelNumber',
                   style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
                     color: textColor,
                     height: 1.2,
                   ),
                 ),
               ],
             ),
-            if (iconWidget is! SizedBox) ...[
-              const SizedBox(height: 3),
+            if (isCompleted || isLocked || (isBoss && isCurrent)) ...[
+              const SizedBox(height: 2),
               iconWidget,
             ],
           ],

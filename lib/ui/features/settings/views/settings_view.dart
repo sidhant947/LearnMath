@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:learnmath/ui/core/services/app_haptics.dart';
 import 'package:learnmath/ui/core/widgets/tangible_button.dart';
+import 'package:learnmath/ui/core/widgets/tangible_card.dart';
 import 'package:learnmath/ui/features/home/view_models/home_view_model.dart';
 
 class SettingsView extends ConsumerWidget {
@@ -39,84 +40,164 @@ class SettingsView extends ConsumerWidget {
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
           children: [
-            Card(
+            _buildSectionHeader(context, 'PREFERENCES'),
+            const SizedBox(height: 10),
+            TangibleCard(
               color: colorScheme.surfaceContainer,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              child: SwitchListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                secondary: Icon(
-                  Icons.vibration_rounded,
-                  size: 22,
-                  color: colorScheme.primary,
-                ),
-                title: Text(
-                  'Haptic Feedback',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: colorScheme.onSurface,
+              borderColor: colorScheme.outline,
+              borderRadius: 20,
+              depth: 3.5,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: colorScheme.primary.withValues(alpha: 0.3), width: 1.2),
+                    ),
+                    child: Icon(
+                      Icons.vibration_rounded,
+                      size: 22,
+                      color: colorScheme.primary,
+                    ),
                   ),
-                ),
-                subtitle: Text(
-                  'Vibrate on button taps and game events',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Haptic Feedback',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: colorScheme.onSurface,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Vibrate on button taps and game events',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                value: hapticsEnabled,
-                onChanged: (val) {
-                  AppHaptics.selection();
-                  ref.read(homeViewModelProvider.notifier).toggleHaptics(val);
-                },
+                  const SizedBox(width: 8),
+                  Switch.adaptive(
+                    value: hapticsEnabled,
+                    activeTrackColor: colorScheme.primary,
+                    onChanged: (val) {
+                      AppHaptics.selection();
+                      ref.read(homeViewModelProvider.notifier).toggleHaptics(val);
+                    },
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 12),
-            Card(
+            TangibleCard(
               color: colorScheme.surfaceContainer,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              child: SwitchListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                secondary: Icon(
-                  Icons.help_outline_rounded,
-                  size: 22,
-                  color: colorScheme.primary,
-                ),
-                title: Text(
-                  'Step-by-Step Explanation',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: colorScheme.onSurface,
+              borderColor: colorScheme.outline,
+              borderRadius: 20,
+              depth: 3.5,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF8B5CF6).withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: const Color(0xFF8B5CF6).withValues(alpha: 0.3), width: 1.2),
+                    ),
+                    child: const Icon(
+                      Icons.help_outline_rounded,
+                      size: 22,
+                      color: Color(0xFF8B5CF6),
+                    ),
                   ),
-                ),
-                subtitle: Text(
-                  'Show explanation help button during questions',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Step-by-Step Explanation',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: colorScheme.onSurface,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Show help button during question steps',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                value: showStepExplanation,
-                onChanged: (val) {
-                  AppHaptics.selection();
-                  ref.read(homeViewModelProvider.notifier).toggleStepExplanation(val);
-                },
+                  const SizedBox(width: 8),
+                  Switch.adaptive(
+                    value: showStepExplanation,
+                    activeTrackColor: colorScheme.primary,
+                    onChanged: (val) {
+                      AppHaptics.selection();
+                      ref.read(homeViewModelProvider.notifier).toggleStepExplanation(val);
+                    },
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 28),
+            _buildSectionHeader(context, 'SUPPORT & DATA'),
+            const SizedBox(height: 10),
             TangibleButton(
-              text: 'Report Error or Suggestions',
+              text: 'Report Error or Feedback',
               isSecondary: true,
-              icon: Icons.feedback_rounded,
+              height: 54,
+              icon: Icons.bug_report_rounded,
               onPressed: () => _openFeedbackUrl(),
             ),
             const SizedBox(height: 12),
             TangibleButton(
               text: 'Reset Progress',
               isSecondary: true,
+              height: 54,
+              textColor: const Color(0xFFEF4444),
               icon: Icons.restart_alt_rounded,
               onPressed: () => _confirmReset(context, ref),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(BuildContext context, String title) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.only(left: 4, bottom: 2),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w800,
+          color: colorScheme.onSurfaceVariant,
+          letterSpacing: 1.0,
         ),
       ),
     );
@@ -128,42 +209,80 @@ class SettingsView extends ConsumerWidget {
 
     showDialog(
       context: context,
-      builder: (dialogContext) => AlertDialog(
+      builder: (dialogContext) => Dialog(
         backgroundColor: colorScheme.surfaceContainerHigh,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(24),
+          side: BorderSide(color: colorScheme.outline, width: 1.5),
         ),
-        title: Text(
-          'Reset Progress?',
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w700,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: colorScheme.error.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.warning_amber_rounded,
+                      color: colorScheme.error,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    'Reset Progress?',
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'This clears all completed levels and returns you to Level 1. This action cannot be undone.',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.w500,
+                  height: 1.4,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: TangibleButton(
+                      text: 'Cancel',
+                      isSecondary: true,
+                      height: 46,
+                      onPressed: () => Navigator.pop(dialogContext),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TangibleButton(
+                      text: 'Reset',
+                      height: 46,
+                      color: colorScheme.error,
+                      shadowColor: const Color(0xFF991B1B),
+                      onPressed: () async {
+                        await ref.read(homeViewModelProvider.notifier).resetProgress();
+                        if (dialogContext.mounted) Navigator.pop(dialogContext);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-        content: Text(
-          'This clears all completed levels and returns you to Level 1. This action cannot be undone.',
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: colorScheme.onSurfaceVariant,
-            height: 1.4,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: colorScheme.error,
-              foregroundColor: colorScheme.onError,
-              minimumSize: const Size(100, 44),
-            ),
-            onPressed: () async {
-              await ref.read(homeViewModelProvider.notifier).resetProgress();
-              if (dialogContext.mounted) Navigator.pop(dialogContext);
-            },
-            child: const Text('Reset'),
-          ),
-        ],
       ),
     );
   }

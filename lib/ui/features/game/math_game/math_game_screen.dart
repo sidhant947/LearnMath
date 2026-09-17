@@ -617,34 +617,20 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
             }
           }
 
-          return Material(
+          return TangibleButton(
+            text: option,
+            height: 58,
+            borderRadius: 18,
+            depth: 4.5,
             color: tileBg,
-            borderRadius: BorderRadius.circular(18),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(18),
-              onTap: state.isChecking
-                  ? null
-                  : () {
-                      AppHaptics.light();
-                      notifier.selectOption(option);
-                    },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: borderColor, width: 1.5),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  option,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: textColor,
-                    height: 1.2,
-                  ),
-                ),
-              ),
-            ),
+            shadowColor: borderColor,
+            textColor: textColor,
+            onPressed: state.isChecking
+                ? null
+                : () {
+                    AppHaptics.light();
+                    notifier.selectOption(option);
+                  },
           );
         },
       ),
@@ -727,33 +713,18 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
     final colorScheme = Theme.of(context).colorScheme;
 
     return Expanded(
-      child: Material(
+      child: TangibleButton(
+        text: label,
+        onPressed: onTap,
+        height: 52,
+        borderRadius: 16,
+        depth: 4.5,
         color: isPrimary
             ? colorScheme.primary
             : colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(16),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: () {
-            AppHaptics.light();
-            onTap();
-          },
-          child: Container(
-            height: 46,
-            alignment: Alignment.center,
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: isPrimary
-                    ? colorScheme.onPrimary
-                    : (textColor ?? colorScheme.onSurface),
-                height: 1.2,
-              ),
-            ),
-          ),
-        ),
+        textColor: isPrimary
+            ? colorScheme.onPrimary
+            : (textColor ?? colorScheme.onSurface),
       ),
     );
   }

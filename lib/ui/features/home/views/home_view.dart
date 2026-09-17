@@ -5,6 +5,7 @@ import 'package:learnmath/domain/models/math_problem.dart';
 import 'package:learnmath/domain/models/user_progress.dart';
 import 'package:learnmath/ui/core/services/app_haptics.dart';
 import 'package:learnmath/ui/core/widgets/tangible_button.dart';
+import 'package:learnmath/ui/core/widgets/tangible_card.dart';
 import 'package:learnmath/ui/features/game/math_game/math_game_engine.dart';
 import 'package:learnmath/ui/features/game/math_game/math_game_screen.dart';
 import 'package:learnmath/ui/features/home/view_models/home_view_model.dart';
@@ -68,6 +69,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         decoration: BoxDecoration(
           color: colorScheme.surfaceContainerHigh,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+          border: Border.all(color: colorScheme.outline, width: 2),
         ),
         padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
         child: SafeArea(
@@ -78,11 +80,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
             children: [
               Center(
                 child: Container(
-                  width: 40,
-                  height: 4,
+                  width: 44,
+                  height: 5,
                   decoration: BoxDecoration(
-                    color: colorScheme.outlineVariant,
-                    borderRadius: BorderRadius.circular(2),
+                    color: colorScheme.outline,
+                    borderRadius: BorderRadius.circular(3),
                   ),
                 ),
               ),
@@ -90,7 +92,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
               Text(
                 'Special Game Modes',
                 style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 22,
                 ),
               ),
               const SizedBox(height: 14),
@@ -165,58 +168,51 @@ class _HomeViewState extends ConsumerState<HomeView> {
   }) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Material(
-      color: colorScheme.surfaceContainer,
-      borderRadius: BorderRadius.circular(20),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: () {
-          AppHaptics.light();
-          onTap();
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Row(
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Center(
-                  child: Icon(icon, color: Colors.white, size: 22),
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: colorScheme.onSurfaceVariant,
-                        height: 1.25,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(Icons.chevron_right_rounded, color: colorScheme.onSurfaceVariant),
-            ],
+    return TangibleCard(
+      onTap: onTap,
+      depth: 3.5,
+      borderRadius: 18,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: Colors.white24, width: 1.5),
+            ),
+            child: Center(
+              child: Icon(icon, color: Colors.white, size: 22),
+            ),
           ),
-        ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: colorScheme.onSurfaceVariant,
+                    height: 1.25,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Icon(Icons.chevron_right_rounded, color: colorScheme.onSurfaceVariant),
+        ],
       ),
     );
   }
@@ -257,6 +253,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
               insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(28),
+                side: BorderSide(color: colorScheme.outline, width: 2),
               ),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
@@ -275,13 +272,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           Text(
                             'Practice Setup',
                             style: theme.textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 22,
                             ),
                           ),
                           IconButton(
                             visualDensity: VisualDensity.compact,
-                            icon: const Icon(Icons.close_rounded, size: 20),
+                            icon: const Icon(Icons.close_rounded, size: 22),
                             onPressed: () => Navigator.pop(context),
                           ),
                         ],
@@ -299,7 +296,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                   Text(
                                     'DIFFICULTY',
                                     style: theme.textTheme.bodySmall?.copyWith(
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.w800,
                                       color: colorScheme.onSurfaceVariant,
                                       letterSpacing: 0.8,
                                     ),
@@ -313,14 +310,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                       color: diffColor.withValues(alpha: 0.18),
                                       borderRadius: BorderRadius.circular(8),
                                       border: Border.all(
-                                        color: diffColor.withValues(alpha: 0.4),
-                                        width: 1,
+                                        color: diffColor,
+                                        width: 1.5,
                                       ),
                                     ),
                                     child: Text(
                                       diffName,
                                       style: TextStyle(
-                                        fontSize: 11,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.w800,
                                         color: diffColor,
                                         letterSpacing: 0.8,
@@ -331,9 +328,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
                               ),
                               SliderTheme(
                                 data: SliderTheme.of(context).copyWith(
-                                  trackHeight: 4,
-                                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
-                                  overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
+                                  trackHeight: 6,
+                                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10),
+                                  overlayShape: const RoundSliderOverlayShape(overlayRadius: 18),
                                 ),
                                 child: Slider(
                                   value: selectedDifficulty.index.toDouble(),
@@ -359,7 +356,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                   Text(
                                     'QUESTIONS',
                                     style: theme.textTheme.bodySmall?.copyWith(
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.w800,
                                       color: colorScheme.onSurfaceVariant,
                                       letterSpacing: 0.8,
                                     ),
@@ -372,11 +369,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                     decoration: BoxDecoration(
                                       color: colorScheme.primaryContainer,
                                       borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(color: colorScheme.primary, width: 1.5),
                                     ),
                                     child: Text(
                                       '$selectedQuestions Questions',
                                       style: TextStyle(
-                                        fontSize: 11,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.w800,
                                         color: colorScheme.onPrimaryContainer,
                                       ),
@@ -386,9 +384,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
                               ),
                               SliderTheme(
                                 data: SliderTheme.of(context).copyWith(
-                                  trackHeight: 4,
-                                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
-                                  overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
+                                  trackHeight: 6,
+                                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10),
+                                  overlayShape: const RoundSliderOverlayShape(overlayRadius: 18),
                                 ),
                                 child: Slider(
                                   value: selectedQuestions.toDouble(),
@@ -411,7 +409,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                               Text(
                                 'CATEGORY',
                                 style: theme.textTheme.bodySmall?.copyWith(
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w800,
                                   color: colorScheme.onSurfaceVariant,
                                   letterSpacing: 0.8,
                                 ),
@@ -489,7 +487,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       const SizedBox(height: 16),
                       TangibleButton(
                         text: 'Start Practice',
-                        height: 48,
+                        height: 52,
                         onPressed: () {
                           Navigator.pop(context);
                           Navigator.push(
@@ -529,20 +527,20 @@ class _HomeViewState extends ConsumerState<HomeView> {
       onSelected: (_) => onTap(),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       visualDensity: VisualDensity.compact,
-      labelPadding: const EdgeInsets.symmetric(horizontal: 4),
+      labelPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       labelStyle: TextStyle(
-        fontSize: 11,
-        fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+        fontSize: 12,
+        fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
         color: isSelected ? colorScheme.onPrimary : colorScheme.onSurfaceVariant,
       ),
       selectedColor: colorScheme.primary,
-      backgroundColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+      backgroundColor: colorScheme.surfaceContainerHighest,
       showCheckmark: false,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: isSelected ? Colors.transparent : colorScheme.outlineVariant.withValues(alpha: 0.5),
-          width: 0.8,
+          color: isSelected ? colorScheme.primary : colorScheme.outline,
+          width: 1.5,
         ),
       ),
     );
@@ -591,8 +589,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         color: colorScheme.surfaceContainerHigh,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: colorScheme.outlineVariant.withValues(alpha: 0.5),
-                          width: 1,
+                          color: colorScheme.outline,
+                          width: 1.5,
                         ),
                       ),
                       child: Row(
@@ -603,7 +601,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           Text(
                             'Level ${progress.playerLevel}',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.w800,
                               color: colorScheme.primary,
                             ),
@@ -618,7 +616,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       color: const Color(0xFFF97316).withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: const Color(0xFFF97316).withValues(alpha: 0.4),
+                        color: const Color(0xFFF97316),
+                        width: 1.5,
                       ),
                     ),
                     child: Row(
@@ -629,7 +628,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         Text(
                           '${progress.dailyStreak}',
                           style: const TextStyle(
-                            fontSize: 12,
+                            fontSize: 13,
                             fontWeight: FontWeight.w900,
                             color: Color(0xFFF97316),
                           ),
@@ -656,7 +655,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onSurfaceVariant,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
 
@@ -664,6 +663,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
               TangibleButton(
                 text: 'Play',
+                height: 58,
                 onPressed: state.isLoading
                     ? null
                     : () async {
@@ -684,6 +684,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
               TangibleButton(
                 text: 'Daily Challenge',
                 isSecondary: true,
+                height: 54,
                 icon: isDailyDone ? Icons.check_circle_rounded : Icons.calendar_today_rounded,
                 onPressed: isDailyDone ? null : () => _startDailyChallenge(progress),
               ),
@@ -693,6 +694,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
               TangibleButton(
                 text: 'Levels',
                 isSecondary: true,
+                height: 54,
                 onPressed: () async {
                   await Navigator.push(
                     context,
@@ -709,6 +711,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
               TangibleButton(
                 text: 'Game Modes',
                 isSecondary: true,
+                height: 54,
                 icon: Icons.sports_esports_rounded,
                 onPressed: () => _showGameModesSheet(context),
               ),
@@ -718,6 +721,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
               TangibleButton(
                 text: 'Practice Mode',
                 isSecondary: true,
+                height: 54,
                 icon: Icons.tune_rounded,
                 onPressed: () => _showPracticeDialog(context),
               ),
@@ -727,6 +731,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
               TangibleButton(
                 text: 'Settings',
                 isSecondary: true,
+                height: 54,
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SettingsView()),

@@ -4,6 +4,7 @@ import 'package:learnmath/domain/models/badge_item.dart';
 import 'package:learnmath/domain/models/math_problem.dart';
 import 'package:learnmath/domain/models/user_progress.dart';
 import 'package:learnmath/ui/core/widgets/tangible_button.dart';
+import 'package:learnmath/ui/core/widgets/tangible_card.dart';
 import 'package:learnmath/ui/features/game/math_game/math_game_screen.dart';
 import 'package:learnmath/ui/features/home/view_models/home_view_model.dart';
 
@@ -33,6 +34,7 @@ class StatsView extends ConsumerWidget {
       ),
       body: SafeArea(
         child: ListView(
+          physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
           children: [
             _buildXpCard(context, progress),
@@ -42,7 +44,7 @@ class StatsView extends ConsumerWidget {
             _buildWeakSpotCard(context, progress, ref),
             const SizedBox(height: 16),
             _buildCategoryBreakdown(context, progress),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
             _buildBadgesSection(context, progress),
           ],
         ),
@@ -56,15 +58,13 @@ class StatsView extends ConsumerWidget {
     final playerLvl = progress.playerLevel;
     final title = _getPlayerTitle(playerLvl);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: colorScheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: const Color(0xFFF59E0B).withValues(alpha: 0.25),
-          width: 1.5,
-        ),
-      ),
+    return TangibleCard(
+      color: colorScheme.surfaceContainer,
+      borderColor: const Color(0xFFF59E0B),
+      shadowColor: const Color(0xFFB45309),
+      borderRadius: 24,
+      depth: 4.5,
+      padding: const EdgeInsets.all(18),
       child: Stack(
         children: [
           Positioned(
@@ -77,124 +77,125 @@ class StatsView extends ConsumerWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    const Color(0xFFF59E0B).withValues(alpha: 0.12),
+                    const Color(0xFFF59E0B).withValues(alpha: 0.15),
                     Colors.transparent,
                   ],
                 ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 52,
-                      height: 52,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFFBBF24), Color(0xFFD97706)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(18),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFFF59E0B).withValues(alpha: 0.3),
-                            blurRadius: 12,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFFBBF24), Color(0xFFD97706)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.military_tech_rounded,
-                          color: Colors.white,
-                          size: 30,
-                        ),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xFFFDE68A), width: 1.5),
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.military_tech_rounded,
+                        color: Colors.white,
+                        size: 30,
                       ),
                     ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Level $playerLvl',
-                                style: theme.textTheme.titleLarge?.copyWith(
-                                  fontWeight: FontWeight.w900,
-                                  color: colorScheme.onSurface,
-                                ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Level $playerLvl',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.w900,
+                                color: colorScheme.onSurface,
                               ),
-                              const SizedBox(width: 8),
-                              Flexible(
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 2,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF59E0B).withValues(alpha: 0.15),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Text(
-                                    title,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: const TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w800,
-                                      color: Color(0xFFF59E0B),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 3),
-                          Text(
-                            '${progress.totalXp} Total XP Earned',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurfaceVariant,
                             ),
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 3,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFF59E0B).withValues(alpha: 0.2),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: const Color(0xFFF59E0B),
+                                    width: 1.2,
+                                  ),
+                                ),
+                                child: Text(
+                                  title,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w800,
+                                    color: Color(0xFFF59E0B),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          '${progress.totalXp} Total XP Earned',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: colorScheme.onSurfaceVariant,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Level Progress',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w800,
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  Text(
+                    '${progress.currentLevelXp} / 100 XP',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFFF59E0B),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: colorScheme.outline, width: 1.5),
                 ),
-                const SizedBox(height: 18),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Level Progress',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                    Text(
-                      '${progress.currentLevelXp} / 100 XP',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFFF59E0B),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                ClipRRect(
+                child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: LinearProgressIndicator(
                     value: progress.playerLevelProgress,
@@ -203,8 +204,8 @@ class StatsView extends ConsumerWidget {
                     valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFF59E0B)),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
@@ -215,36 +216,36 @@ class StatsView extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final accuracy = (progress.overallAccuracy * 100).toStringAsFixed(0);
 
-    return Row(
+    return Column(
       children: [
-        Expanded(
-          child: _statTile(
-            context,
-            title: 'Accuracy',
-            value: '$accuracy%',
-            icon: Icons.track_changes_rounded,
-            color: const Color(0xFF10B981),
-          ),
+        _statTile(
+          context,
+          title: 'Accuracy',
+          value: '$accuracy%',
+          subtitle: 'Overall problem solving accuracy',
+          icon: Icons.track_changes_rounded,
+          color: const Color(0xFF10B981),
+          shadowColor: const Color(0xFF047857),
         ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: _statTile(
-            context,
-            title: 'Solved',
-            value: '${progress.totalSolved}',
-            icon: Icons.check_circle_outline_rounded,
-            color: colorScheme.primary,
-          ),
+        const SizedBox(height: 10),
+        _statTile(
+          context,
+          title: 'Solved Problems',
+          value: '${progress.totalSolved}',
+          subtitle: 'Total math problems completed',
+          icon: Icons.check_circle_outline_rounded,
+          color: colorScheme.primary,
+          shadowColor: const Color(0xFF047857),
         ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: _statTile(
-            context,
-            title: 'Streak',
-            value: '${progress.dailyStreak}d',
-            icon: Icons.local_fire_department_rounded,
-            color: const Color(0xFFF97316),
-          ),
+        const SizedBox(height: 10),
+        _statTile(
+          context,
+          title: 'Daily Streak',
+          value: '${progress.dailyStreak} Days',
+          subtitle: 'Consecutive active practice days',
+          icon: Icons.local_fire_department_rounded,
+          color: const Color(0xFFF97316),
+          shadowColor: const Color(0xFFC2410C),
         ),
       ],
     );
@@ -254,38 +255,65 @@ class StatsView extends ConsumerWidget {
     BuildContext context, {
     required String title,
     required String value,
+    required String subtitle,
     required IconData icon,
     required Color color,
+    required Color shadowColor,
   }) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      decoration: BoxDecoration(
-        color: colorScheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: colorScheme.outlineVariant.withValues(alpha: 0.4),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return TangibleCard(
+      color: colorScheme.surfaceContainer,
+      borderColor: color,
+      shadowColor: shadowColor,
+      borderRadius: 18,
+      depth: 3.5,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      child: Row(
         children: [
-          Icon(icon, color: color, size: 20),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w900,
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: color.withValues(alpha: 0.4), width: 1.2),
+            ),
+            child: Icon(icon, color: color, size: 24),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
             ),
           ),
+          const SizedBox(width: 8),
           Text(
-            title,
+            value,
             style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: colorScheme.onSurfaceVariant,
+              fontSize: 22,
+              fontWeight: FontWeight.w900,
+              color: color,
+              letterSpacing: -0.5,
             ),
           ),
         ],
@@ -320,27 +348,25 @@ class StatsView extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return Container(
+    return TangibleCard(
+      color: colorScheme.errorContainer.withValues(alpha: 0.35),
+      borderColor: colorScheme.error,
+      shadowColor: const Color(0xFF991B1B),
+      borderRadius: 20,
+      depth: 4.0,
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: colorScheme.errorContainer.withValues(alpha: 0.25),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: colorScheme.error.withValues(alpha: 0.3),
-        ),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.radar_rounded, color: colorScheme.error, size: 20),
+              Icon(Icons.radar_rounded, color: colorScheme.error, size: 22),
               const SizedBox(width: 8),
               Text(
                 'Focus Recommendation',
                 style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 14,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 15,
                   color: colorScheme.error,
                 ),
               ),
@@ -351,22 +377,25 @@ class StatsView extends ConsumerWidget {
             lowestCategory != null
                 ? 'Accuracy on ${lowestCategory.toUpperCase()} is ${(lowestAcc * 100).toStringAsFixed(0)}%. Practice this area to level up faster!'
                 : 'You have ${progress.savedMistakes.length} mistakes saved for review.',
-            style: theme.textTheme.bodySmall?.copyWith(
+            style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurface,
+              fontWeight: FontWeight.w600,
               height: 1.35,
             ),
           ),
           if (progress.savedMistakes.isNotEmpty) ...[
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             TangibleButton(
               text: 'Review Mistakes (${progress.savedMistakes.length})',
-              height: 42,
+              height: 48,
+              color: colorScheme.error,
+              shadowColor: const Color(0xFF991B1B),
               onPressed: () async {
                 final mistakeProblems = progress.savedMistakes.map((m) {
                   final parts = m.split(' = ');
                   final prompt = parts[0];
                   final answer = parts.length > 1 ? parts[1] : '0';
-                  
+
                   MathCategory cat = MathCategory.addition;
                   if (prompt.contains('+')) {
                     cat = MathCategory.addition;
@@ -412,22 +441,20 @@ class StatsView extends ConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Container(
+    return TangibleCard(
+      color: colorScheme.surfaceContainer,
+      borderColor: colorScheme.outline,
+      borderRadius: 22,
+      depth: 4.0,
       padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: colorScheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: colorScheme.outlineVariant.withValues(alpha: 0.5),
-        ),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Mastery Breakdown',
             style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w900,
+              fontSize: 18,
             ),
           ),
           const SizedBox(height: 14),
@@ -437,7 +464,7 @@ class StatsView extends ConsumerWidget {
             final acc = solved > 0 ? (correct / solved) : 0.0;
 
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6),
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -447,31 +474,37 @@ class StatsView extends ConsumerWidget {
                       Text(
                         category.name.toUpperCase(),
                         style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                       Text(
                         solved > 0 ? '${(acc * 100).toStringAsFixed(0)}% ($correct/$solved)' : 'Unplayed',
                         style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
                           color: colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 6),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(4),
-                    child: LinearProgressIndicator(
-                      value: acc,
-                      minHeight: 6,
-                      backgroundColor: colorScheme.surfaceContainerHighest,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        acc > 0.8
-                            ? const Color(0xFF10B981)
-                            : (acc > 0.5 ? const Color(0xFFF59E0B) : colorScheme.primary),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(color: colorScheme.outline, width: 1.2),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: LinearProgressIndicator(
+                        value: acc,
+                        minHeight: 8,
+                        backgroundColor: colorScheme.surfaceContainerHighest,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          acc > 0.8
+                              ? const Color(0xFF10B981)
+                              : (acc > 0.5 ? const Color(0xFFF59E0B) : colorScheme.primary),
+                        ),
                       ),
                     ),
                   ),
@@ -495,52 +528,70 @@ class StatsView extends ConsumerWidget {
         Text(
           'Achievements (${progress.unlockedBadges.length}/${allBadges.length})',
           style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w900,
+            fontSize: 20,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 1.4,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            mainAxisExtent: 132,
           ),
           itemCount: allBadges.length,
           itemBuilder: (context, index) {
             final badge = allBadges[index];
             final isUnlocked = progress.unlockedBadges.contains(badge.id);
 
-            return Container(
+            return TangibleCard(
+              color: isUnlocked
+                  ? colorScheme.surfaceContainerHigh
+                  : colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+              borderColor: isUnlocked
+                  ? badge.accentColor
+                  : colorScheme.outlineVariant,
+              shadowColor: isUnlocked
+                  ? HSLColor.fromColor(badge.accentColor)
+                      .withLightness((HSLColor.fromColor(badge.accentColor).lightness - 0.2).clamp(0.0, 1.0))
+                      .toColor()
+                  : colorScheme.outlineVariant,
+              borderRadius: 18,
+              depth: 3.5,
               padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: isUnlocked ? colorScheme.surfaceContainerHigh : colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(
-                  color: isUnlocked ? badge.accentColor.withValues(alpha: 0.5) : colorScheme.outlineVariant.withValues(alpha: 0.3),
-                  width: 1.2,
-                ),
-              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(
-                        badge.icon,
-                        color: isUnlocked ? badge.accentColor : colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
-                        size: 24,
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: isUnlocked
+                              ? badge.accentColor.withValues(alpha: 0.18)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          badge.icon,
+                          color: isUnlocked
+                              ? badge.accentColor
+                              : colorScheme.onSurfaceVariant.withValues(alpha: 0.35),
+                          size: 22,
+                        ),
                       ),
                       if (isUnlocked)
-                        const Icon(Icons.check_circle_rounded, color: Color(0xFF10B981), size: 16)
+                        const Icon(Icons.check_circle_rounded, color: Color(0xFF10B981), size: 18)
                       else
-                        Icon(Icons.lock_outline_rounded, color: colorScheme.onSurfaceVariant.withValues(alpha: 0.4), size: 16),
+                        Icon(Icons.lock_outline_rounded, color: colorScheme.onSurfaceVariant.withValues(alpha: 0.4), size: 18),
                     ],
                   ),
-                  const Spacer(),
+                  const SizedBox(height: 8),
                   Text(
                     badge.title,
                     maxLines: 1,
@@ -551,13 +602,14 @@ class StatsView extends ConsumerWidget {
                       color: isUnlocked ? colorScheme.onSurface : colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                     ),
                   ),
+                  const SizedBox(height: 2),
                   Text(
                     badge.description,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
                       color: colorScheme.onSurfaceVariant,
                       height: 1.2,
                     ),

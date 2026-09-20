@@ -1,8 +1,10 @@
 # LearnMath 🧮
+---
+ [![AI-DECLARATION: auto](https://img.shields.io/badge/䷼%20AI--DECLARATION-auto-ede9fe?labelColor=ede9fe)](AI-DECLARATION.md)
 
 A modern, fast, and tactile mental math training game.
 
-Play it here - https://learnmath.fossgames.online/ 
+Play it in your browser - https://learnmath.fossgames.online/ 
 
 Get it on F-Droid - https://f-droid.org/en/packages/com.sidhant.learnmath/
 

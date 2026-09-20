@@ -33,20 +33,25 @@ class StatsView extends ConsumerWidget {
         ),
       ),
       body: SafeArea(
-        child: ListView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
-          children: [
-            _buildXpCard(context, progress),
-            const SizedBox(height: 16),
-            _buildQuickStats(context, progress),
-            const SizedBox(height: 16),
-            _buildWeakSpotCard(context, progress, ref),
-            const SizedBox(height: 16),
-            _buildCategoryBreakdown(context, progress),
-            const SizedBox(height: 24),
-            _buildBadgesSection(context, progress),
-          ],
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 750),
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
+              children: [
+                _buildXpCard(context, progress),
+                const SizedBox(height: 16),
+                _buildQuickStats(context, progress),
+                const SizedBox(height: 16),
+                _buildWeakSpotCard(context, progress, ref),
+                const SizedBox(height: 16),
+                _buildCategoryBreakdown(context, progress),
+                const SizedBox(height: 24),
+                _buildBadgesSection(context, progress),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -391,12 +396,26 @@ class StatsView extends ConsumerWidget {
               color: colorScheme.error,
               shadowColor: const Color(0xFF991B1B),
               onPressed: () async {
-                final mistakeProblems = progress.savedMistakes.map((m) {
-                  final parts = m.split(' = ');
-                  final prompt = parts[0];
-                  final answer = parts.length > 1 ? parts[1] : '0';
+                final mistakeProblems = <MathProblem>[];
+                for (final m in progress.savedMistakes) {
+                  if (m.trim().isEmpty) continue;
+                  final parts = m.split(' = ').map((s) => s.trim()).toList();
+                  if (parts.length < 2) continue;
 
-                  MathCategory cat = MathCategory.addition;
+                  final answer = parts.last;
+                  if (answer == '?' || answer.isEmpty) continue;
+
+                  String prompt;
+                  if (parts.length > 2 && parts[parts.length - 2] == '?') {
+                    prompt = '${parts.sublist(0, parts.length - 2).join(' = ')} = ?';
+                  } else {
+                    prompt = parts.sublist(0, parts.length - 1).join(' = ');
+                    if (!prompt.endsWith('?') && !prompt.endsWith(':') && !prompt.contains('=')) {
+                      prompt = '$prompt = ?';
+                    }
+                  }
+
+                  MathCategory cat = MathCategory.concepts;
                   if (prompt.contains('+')) {
                     cat = MathCategory.addition;
                   } else if (prompt.contains('−') || prompt.contains('-')) {
@@ -405,18 +424,33 @@ class StatsView extends ConsumerWidget {
                     cat = MathCategory.multiplication;
                   } else if (prompt.contains('÷') || prompt.contains('/')) {
                     cat = MathCategory.division;
-                  } else if (prompt.contains('^') || prompt.contains('√')) {
+                  } else if (prompt.contains('^') || prompt.contains('√') || prompt.contains('²') || prompt.contains('³') || prompt.contains('⁴')) {
                     cat = MathCategory.powersRoots;
                   }
 
-                  return MathProblem(
-                    title: 'Mistake Review',
-                    prompt: prompt,
-                    correctAnswer: answer,
-                    category: cat,
-                    inputType: ProblemInputType.numberPad,
+                  ProblemInputType inputType = ProblemInputType.numberPad;
+                  List<String> options = const [];
+                  if (answer == 'Even' || answer == 'Odd') {
+                    inputType = ProblemInputType.multipleChoice;
+                    options = const ['Even', 'Odd'];
+                  } else if (int.tryParse(answer) == null && double.tryParse(answer) == null) {
+                    inputType = ProblemInputType.multipleChoice;
+                    options = [answer, '0', '1', '2'];
+                  }
+
+                  mistakeProblems.add(
+                    MathProblem(
+                      title: 'Mistake Review',
+                      prompt: prompt,
+                      correctAnswer: answer,
+                      category: cat,
+                      inputType: inputType,
+                      options: options,
+                    ),
                   );
-                }).toList();
+                }
+
+                if (mistakeProblems.isEmpty) return;
 
                 await Navigator.push(
                   context,

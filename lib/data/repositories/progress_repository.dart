@@ -81,9 +81,10 @@ class ProgressRepository {
     final mistakes = List<String>.from(current.savedMistakes);
     if (isCorrect) {
       if (mistakeData != null) {
-        mistakes.remove(mistakeData);
+        _removeMatchingMistake(mistakes, mistakeData);
       }
-    } else if (mistakeData != null && !mistakes.contains(mistakeData)) {
+    } else if (mistakeData != null) {
+      _removeMatchingMistake(mistakes, mistakeData);
       mistakes.add(mistakeData);
       if (mistakes.length > 50) {
         mistakes.removeAt(0);
@@ -190,8 +191,43 @@ class ProgressRepository {
 
   Future<void> removeMistake(String mistakeData) async {
     final current = await getProgress();
-    final mistakes = List<String>.from(current.savedMistakes)..remove(mistakeData);
+    final mistakes = List<String>.from(current.savedMistakes);
+    _removeMatchingMistake(mistakes, mistakeData);
     await saveProgress(current.copyWith(savedMistakes: mistakes));
+  }
+
+  void _removeMatchingMistake(List<String> mistakes, String mistakeData) {
+    if (mistakes.remove(mistakeData)) return;
+
+    final target = _parseMistakeString(mistakeData);
+    if (target == null) return;
+
+    mistakes.removeWhere((m) {
+      final parsed = _parseMistakeString(m);
+      if (parsed == null) return false;
+      return parsed.$1 == target.$1 && parsed.$2 == target.$2;
+    });
+  }
+
+  (String, String)? _parseMistakeString(String m) {
+    if (m.trim().isEmpty) return null;
+    final parts = m.split(' = ').map((s) => s.trim()).toList();
+    if (parts.length < 2) return null;
+    final answer = parts.last;
+    if (answer == '?' || answer.isEmpty) return null;
+
+    String rawPrompt;
+    if (parts.length > 2 && parts[parts.length - 2] == '?') {
+      rawPrompt = parts.sublist(0, parts.length - 2).join(' = ');
+    } else {
+      rawPrompt = parts.sublist(0, parts.length - 1).join(' = ');
+    }
+
+    final cleanedPrompt = rawPrompt
+        .replaceAll(RegExp(r'(\s*=\s*\?|\s*=\s*|\s*\?)+$'), '')
+        .trim();
+
+    return (cleanedPrompt, answer);
   }
 
   Future<void> clearAllMistakes() async {

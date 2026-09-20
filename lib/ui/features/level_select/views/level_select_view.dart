@@ -41,30 +41,35 @@ class _LevelSelectViewState extends ConsumerState<LevelSelectView> {
         ),
       ),
       body: SafeArea(
-        child: GridView.builder(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 1.0,
-          ),
-          itemCount: totalLevelsToShow,
-          itemBuilder: (context, index) {
-            final levelNumber = index + 1;
-            final isCompleted = levelNumber <= highestCompleted;
-            final isCurrent = levelNumber == currentLevel;
-            final isLocked = levelNumber > currentLevel;
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 850),
+            child: GridView.builder(
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 85,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                childAspectRatio: 1.0,
+              ),
+              itemCount: totalLevelsToShow,
+              itemBuilder: (context, index) {
+                final levelNumber = index + 1;
+                final isCompleted = levelNumber <= highestCompleted;
+                final isCurrent = levelNumber == currentLevel;
+                final isLocked = levelNumber > currentLevel;
 
-            return _buildLevelCard(
-              context,
-              colorScheme: colorScheme,
-              levelNumber: levelNumber,
-              isCompleted: isCompleted,
-              isCurrent: isCurrent,
-              isLocked: isLocked,
-            );
-          },
+                return _buildLevelCard(
+                  context,
+                  colorScheme: colorScheme,
+                  levelNumber: levelNumber,
+                  isCompleted: isCompleted,
+                  isCurrent: isCurrent,
+                  isLocked: isLocked,
+                );
+              },
+            ),
+          ),
         ),
       ),
     );

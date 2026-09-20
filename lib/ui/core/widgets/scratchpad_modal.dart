@@ -41,10 +41,10 @@ class _ScratchpadModalState extends State<ScratchpadModal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF111827),
+      backgroundColor: const Color(0xFF000000),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFF1F2937),
+        backgroundColor: const Color(0xFF0A0A0C),
         elevation: 0,
         title: const Row(
           children: [
@@ -103,7 +103,7 @@ class _ScratchpadModalState extends State<ScratchpadModal> {
                 setState(() {
                   _currentLine = DrawnLine(
                     path: [point],
-                    color: _isEraser ? const Color(0xFF111827) : _selectedColor,
+                    color: _isEraser ? const Color(0xFF000000) : _selectedColor,
                     width: _isEraser ? _strokeWidth * 3.5 : _strokeWidth,
                     isEraser: _isEraser,
                   );
@@ -127,7 +127,7 @@ class _ScratchpadModalState extends State<ScratchpadModal> {
                 painter: _ScratchpadPainter(
                   lines: _lines,
                   currentLine: _currentLine,
-                  backgroundColor: const Color(0xFF111827),
+                  backgroundColor: const Color(0xFF000000),
                 ),
                 size: Size.infinite,
               ),
@@ -136,9 +136,9 @@ class _ScratchpadModalState extends State<ScratchpadModal> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: const BoxDecoration(
-              color: Color(0xFF1F2937),
+              color: Color(0xFF0A0A0C),
               border: Border(
-                top: BorderSide(color: Color(0xFF374151), width: 1),
+                top: BorderSide(color: Color(0xFF2E2E38), width: 1),
               ),
             ),
             child: SafeArea(
@@ -235,7 +235,7 @@ class _ScratchpadPainter extends CustomPainter {
     );
 
     final gridPaint = Paint()
-      ..color = const Color(0xFF1E293B).withValues(alpha: 0.5)
+      ..color = const Color(0xFF202028).withValues(alpha: 0.6)
       ..strokeWidth = 0.8;
 
     const spacing = 28.0;

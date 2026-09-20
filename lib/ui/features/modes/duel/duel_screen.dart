@@ -181,60 +181,65 @@ class _DuelScreenState extends State<DuelScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Transform.rotate(
-                angle: math.pi,
-                child: _buildPlayerHalf(
-                  playerNumber: 2,
-                  score: _p2Score,
-                  problem: _p2Problem,
-                  onSelect: _onP2Answer,
-                  colorScheme: colorScheme,
-                  accentColor: const Color(0xFFEF4444),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 700),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Transform.rotate(
+                    angle: math.pi,
+                    child: _buildPlayerHalf(
+                      playerNumber: 2,
+                      score: _p2Score,
+                      problem: _p2Problem,
+                      onSelect: _onP2Answer,
+                      colorScheme: colorScheme,
+                      accentColor: const Color(0xFFEF4444),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Container(
-              height: 44,
-              color: colorScheme.surfaceContainerHighest,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'P2: $_p2Score/$_targetScore',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w800,
-                      color: Color(0xFFEF4444),
-                    ),
+                Container(
+                  height: 44,
+                  color: colorScheme.surfaceContainerHighest,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'P2: $_p2Score/$_targetScore',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: Color(0xFFEF4444),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close_rounded, size: 20),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      Text(
+                        'P1: $_p1Score/$_targetScore',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: colorScheme.primary,
+                        ),
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.close_rounded, size: 20),
-                    onPressed: () => Navigator.pop(context),
+                ),
+                Expanded(
+                  child: _buildPlayerHalf(
+                    playerNumber: 1,
+                    score: _p1Score,
+                    problem: _p1Problem,
+                    onSelect: _onP1Answer,
+                    colorScheme: colorScheme,
+                    accentColor: colorScheme.primary,
                   ),
-                  Text(
-                    'P1: $_p1Score/$_targetScore',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      color: colorScheme.primary,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Expanded(
-              child: _buildPlayerHalf(
-                playerNumber: 1,
-                score: _p1Score,
-                problem: _p1Problem,
-                onSelect: _onP1Answer,
-                colorScheme: colorScheme,
-                accentColor: colorScheme.primary,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

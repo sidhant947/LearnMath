@@ -234,291 +234,311 @@ class _TimeAttackScreenState extends ConsumerState<TimeAttackScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton.filledTonal(
-                    icon: const Icon(Icons.close_rounded, size: 18),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: isLowTime
-                          ? colorScheme.errorContainer
-                          : colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.timer_rounded,
-                          size: 16,
-                          color: isLowTime ? colorScheme.error : colorScheme.onPrimaryContainer,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1050),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final isLandscape = constraints.maxWidth > 700 && constraints.maxWidth > constraints.maxHeight;
+
+                final headerWidget = Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton.filledTonal(
+                        icon: const Icon(Icons.close_rounded, size: 18),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: isLowTime
+                              ? colorScheme.errorContainer
+                              : colorScheme.primaryContainer,
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        const SizedBox(width: 6),
-                        Text(
-                          '${_timeLeft}s',
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.timer_rounded,
+                              size: 16,
+                              color: isLowTime ? colorScheme.error : colorScheme.onPrimaryContainer,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              '${_timeLeft}s',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                                color: isLowTime ? colorScheme.error : colorScheme.onPrimaryContainer,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: colorScheme.surfaceContainerHigh,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          'Score: $_score',
                           style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w900,
-                            color: isLowTime ? colorScheme.error : colorScheme.onPrimaryContainer,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                            color: colorScheme.primary,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: colorScheme.surfaceContainerHigh,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      'Score: $_score',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                        color: colorScheme.primary,
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                    decoration: BoxDecoration(
-                      color: colorScheme.surfaceContainer,
-                      borderRadius: BorderRadius.circular(28),
-                      border: Border.all(
-                        color: colorScheme.outlineVariant.withValues(alpha: 0.4),
-                        width: 1.5,
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (_streak > 2) ...[
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF97316).withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(12),
+                );
+
+                final questionWidget = Expanded(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                        decoration: BoxDecoration(
+                          color: colorScheme.surfaceContainer,
+                          borderRadius: BorderRadius.circular(28),
+                          border: Border.all(
+                            color: colorScheme.outlineVariant.withValues(alpha: 0.4),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (_streak > 2) ...[
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFF97316).withValues(alpha: 0.15),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.local_fire_department_rounded, size: 14, color: Color(0xFFF97316)),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      '$_streak Streak! (+2s)',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        color: Color(0xFFF97316),
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+                            Text(
+                              _currentProblem.prompt,
+                              style: TextStyle(
+                                fontSize: 36,
+                                fontWeight: FontWeight.w900,
+                                color: colorScheme.onSurface,
+                              ),
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.local_fire_department_rounded, size: 14, color: Color(0xFFF97316)),
-                                const SizedBox(width: 4),
-                                Text(
-                                  '$_streak Streak! (+2s)',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    color: Color(0xFFF97316),
-                                    fontSize: 12,
+                            if (_currentProblem.inputType == ProblemInputType.numberPad) ...[
+                              const SizedBox(height: 16),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: colorScheme.surfaceContainerHighest,
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                    color: _currentInput.isNotEmpty
+                                        ? colorScheme.primary
+                                        : colorScheme.outlineVariant.withValues(alpha: 0.5),
+                                    width: 2,
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                        ],
-                        Text(
-                          _currentProblem.prompt,
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.w900,
-                            color: colorScheme.onSurface,
-                          ),
-                        ),
-                        if (_currentProblem.inputType == ProblemInputType.numberPad) ...[
-                          const SizedBox(height: 16),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                            decoration: BoxDecoration(
-                              color: colorScheme.surfaceContainerHighest,
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: _currentInput.isNotEmpty
-                                    ? colorScheme.primary
-                                    : colorScheme.outlineVariant.withValues(alpha: 0.5),
-                                width: 2,
+                                child: Text(
+                                  _currentInput.isNotEmpty ? _currentInput : '?',
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w800,
+                                    color: _currentInput.isNotEmpty
+                                        ? colorScheme.onSurface
+                                        : colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+                                  ),
+                                ),
                               ),
-                            ),
-                            child: Text(
-                              _currentInput.isNotEmpty ? _currentInput : '?',
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w800,
-                                color: _currentInput.isNotEmpty
-                                    ? colorScheme.onSurface
-                                    : colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            if (_currentProblem.inputType == ProblemInputType.multipleChoice)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 6, 20, 16),
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 2.3,
-                  ),
-                  itemCount: _currentProblem.options.length,
-                  itemBuilder: (context, index) {
-                    final option = _currentProblem.options[index];
-                    return Material(
-                      color: colorScheme.surfaceContainer,
-                      borderRadius: BorderRadius.circular(18),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(18),
-                        onTap: () => _onOptionTap(option),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(18),
-                            border: Border.all(
-                              color: colorScheme.outlineVariant.withValues(alpha: 0.5),
-                              width: 1.5,
-                            ),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            option,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: colorScheme.onSurface,
-                            ),
-                          ),
+                            ],
+                          ],
                         ),
                       ),
-                    );
-                  },
-                ),
-              )
-            else
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 2, 20, 10),
-                child: Column(
+                    ),
+                  ),
+                );
+
+                final inputWidget = _currentProblem.inputType == ProblemInputType.multipleChoice
+                    ? Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 6, 20, 16),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                            childAspectRatio: 2.3,
+                          ),
+                          itemCount: _currentProblem.options.length,
+                          itemBuilder: (context, index) {
+                            final option = _currentProblem.options[index];
+                            return Material(
+                              color: colorScheme.surfaceContainer,
+                              borderRadius: BorderRadius.circular(18),
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(18),
+                                onTap: () => _onOptionTap(option),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(18),
+                                    border: Border.all(
+                                      color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    option,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                      color: colorScheme.onSurface,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 2, 20, 10),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                _numButton('1'),
+                                const SizedBox(width: 8),
+                                _numButton('2'),
+                                const SizedBox(width: 8),
+                                _numButton('3'),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                _numButton('4'),
+                                const SizedBox(width: 8),
+                                _numButton('5'),
+                                const SizedBox(width: 8),
+                                _numButton('6'),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                _numButton('7'),
+                                const SizedBox(width: 8),
+                                _numButton('8'),
+                                const SizedBox(width: 8),
+                                _numButton('9'),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                _numButton('⌫', isAction: true, onTap: _onBackspace),
+                                const SizedBox(width: 8),
+                                _numButton('0'),
+                                const SizedBox(width: 8),
+                                _numButton('✓', isAction: true, isSubmit: true, onTap: _onSubmit),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+
+                if (isLandscape) {
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            headerWidget,
+                            questionWidget,
+                          ],
+                        ),
+                      ),
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 420),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            inputWidget,
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
+                return Column(
                   children: [
-                    Row(
-                      children: [
-                        _numButton('1'),
-                        const SizedBox(width: 8),
-                        _numButton('2'),
-                        const SizedBox(width: 8),
-                        _numButton('3'),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        _numButton('4'),
-                        const SizedBox(width: 8),
-                        _numButton('5'),
-                        const SizedBox(width: 8),
-                        _numButton('6'),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        _numButton('7'),
-                        const SizedBox(width: 8),
-                        _numButton('8'),
-                        const SizedBox(width: 8),
-                        _numButton('9'),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Material(
-                            color: colorScheme.surfaceContainerHighest,
-                            borderRadius: BorderRadius.circular(16),
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(16),
-                              onTap: _onBackspace,
-                              child: Container(
-                                height: 46,
-                                alignment: Alignment.center,
-                                child: Icon(Icons.backspace_rounded, color: colorScheme.error, size: 20),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        _numButton('0'),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Material(
-                            color: colorScheme.primary,
-                            borderRadius: BorderRadius.circular(16),
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(16),
-                              onTap: _onSubmit,
-                              child: Container(
-                                height: 46,
-                                alignment: Alignment.center,
-                                child: Icon(Icons.check_rounded, color: colorScheme.onPrimary, size: 24),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    headerWidget,
+                    const SizedBox(height: 10),
+                    questionWidget,
+                    inputWidget,
                   ],
-                ),
-              ),
-          ],
+                );
+              },
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _numButton(String label) {
+  Widget _numButton(String label, {bool isAction = false, bool isSubmit = false, VoidCallback? onTap}) {
     final colorScheme = Theme.of(context).colorScheme;
+    final bg = isSubmit ? colorScheme.primary : colorScheme.surfaceContainerHighest;
+    Widget content = Text(
+      label,
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+        color: isSubmit ? colorScheme.onPrimary : colorScheme.onSurface,
+      ),
+    );
+    if (label == '⌫') {
+      content = Icon(Icons.backspace_rounded, color: colorScheme.error, size: 20);
+    } else if (label == '✓') {
+      content = Icon(Icons.check_rounded, color: colorScheme.onPrimary, size: 24);
+    }
+
     return Expanded(
       child: Material(
-        color: colorScheme.surfaceContainerHighest,
+        color: bg,
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: () => _onDigit(label),
+          onTap: onTap ?? () => _onDigit(label),
           child: Container(
             height: 46,
             alignment: Alignment.center,
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: colorScheme.onSurface,
-              ),
-            ),
+            child: content,
           ),
         ),
       ),

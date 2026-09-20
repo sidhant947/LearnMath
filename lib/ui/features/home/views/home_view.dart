@@ -65,8 +65,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => Container(
-        decoration: BoxDecoration(
+      builder: (_) => Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 580),
+          child: Container(
+            decoration: BoxDecoration(
           color: colorScheme.surfaceContainerHigh,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
           border: Border.all(color: colorScheme.outline, width: 2),
@@ -156,7 +159,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
           ),
         ),
       ),
-    );
+    ),
+  ),
+);
   }
 
   Widget _modeTile({
@@ -557,188 +562,193 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 540),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  IconButton.filledTonal(
-                    icon: const Icon(Icons.insights_rounded, size: 20),
-                    onPressed: () {
-                      AppHaptics.light();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const StatsView()),
-                      ).then((_) => ref.read(homeViewModelProvider.notifier).loadProgress());
-                    },
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      AppHaptics.light();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const StatsView()),
-                      ).then((_) => ref.read(homeViewModelProvider.notifier).loadProgress());
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: colorScheme.surfaceContainerHigh,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: colorScheme.outline,
-                          width: 1.5,
-                        ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton.filledTonal(
+                        icon: const Icon(Icons.insights_rounded, size: 20),
+                        onPressed: () {
+                          AppHaptics.light();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const StatsView()),
+                          ).then((_) => ref.read(homeViewModelProvider.notifier).loadProgress());
+                        },
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.bolt_rounded, color: Color(0xFFF59E0B), size: 18),
-                          const SizedBox(width: 4),
-                          Text(
-                            'Level ${progress.playerLevel}',
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w800,
-                              color: colorScheme.primary,
+                      GestureDetector(
+                        onTap: () {
+                          AppHaptics.light();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const StatsView()),
+                          ).then((_) => ref.read(homeViewModelProvider.notifier).loadProgress());
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: colorScheme.surfaceContainerHigh,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: colorScheme.outline,
+                              width: 1.5,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF97316).withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: const Color(0xFFF97316),
-                        width: 1.5,
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.local_fire_department_rounded, color: Color(0xFFF97316), size: 16),
-                        const SizedBox(width: 3),
-                        Text(
-                          '${progress.dailyStreak}',
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xFFF97316),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.bolt_rounded, color: Color(0xFFF59E0B), size: 18),
+                              const SizedBox(width: 4),
+                              Text(
+                                'Level ${progress.playerLevel}',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w800,
+                                  color: colorScheme.primary,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF97316).withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: const Color(0xFFF97316),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.local_fire_department_rounded, color: Color(0xFFF97316), size: 16),
+                            const SizedBox(width: 3),
+                            Text(
+                              '${progress.dailyStreak}',
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFFF97316),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(flex: 2),
+
+                  Text(
+                    'Learn Math',
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.displaySmall?.copyWith(
+                      fontWeight: FontWeight.w900,
+                      color: colorScheme.onSurface,
+                      letterSpacing: -0.5,
                     ),
                   ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Think fast, solve smart',
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+
+                  const Spacer(flex: 3),
+
+                  TangibleButton(
+                    text: 'Play',
+                    height: 58,
+                    onPressed: state.isLoading
+                        ? null
+                        : () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MathGameScreen(
+                                  levelNumber: progress.currentLevel,
+                                ),
+                              ),
+                            );
+                            ref.read(homeViewModelProvider.notifier).loadProgress();
+                          },
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  TangibleButton(
+                    text: 'Daily Challenge',
+                    isSecondary: true,
+                    height: 54,
+                    icon: isDailyDone ? Icons.check_circle_rounded : Icons.calendar_today_rounded,
+                    onPressed: isDailyDone ? null : () => _startDailyChallenge(progress),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  TangibleButton(
+                    text: 'Levels',
+                    isSecondary: true,
+                    height: 54,
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LevelSelectView(),
+                        ),
+                      );
+                      ref.read(homeViewModelProvider.notifier).loadProgress();
+                    },
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  TangibleButton(
+                    text: 'Game Modes',
+                    isSecondary: true,
+                    height: 54,
+                    icon: Icons.sports_esports_rounded,
+                    onPressed: () => _showGameModesSheet(context),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  TangibleButton(
+                    text: 'Practice Mode',
+                    isSecondary: true,
+                    height: 54,
+                    icon: Icons.tune_rounded,
+                    onPressed: () => _showPracticeDialog(context),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  TangibleButton(
+                    text: 'Settings',
+                    isSecondary: true,
+                    height: 54,
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SettingsView()),
+                    ),
+                  ),
+                  const Spacer(),
                 ],
               ),
-              const Spacer(flex: 2),
-
-              Text(
-                'Learn Math',
-                textAlign: TextAlign.center,
-                style: theme.textTheme.displaySmall?.copyWith(
-                  fontWeight: FontWeight.w900,
-                  color: colorScheme.onSurface,
-                  letterSpacing: -0.5,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Think fast, solve smart',
-                textAlign: TextAlign.center,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-
-              const Spacer(flex: 3),
-
-              TangibleButton(
-                text: 'Play',
-                height: 58,
-                onPressed: state.isLoading
-                    ? null
-                    : () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MathGameScreen(
-                              levelNumber: progress.currentLevel,
-                            ),
-                          ),
-                        );
-                        ref.read(homeViewModelProvider.notifier).loadProgress();
-                      },
-              ),
-
-              const SizedBox(height: 12),
-
-              TangibleButton(
-                text: 'Daily Challenge',
-                isSecondary: true,
-                height: 54,
-                icon: isDailyDone ? Icons.check_circle_rounded : Icons.calendar_today_rounded,
-                onPressed: isDailyDone ? null : () => _startDailyChallenge(progress),
-              ),
-
-              const SizedBox(height: 12),
-
-              TangibleButton(
-                text: 'Levels',
-                isSecondary: true,
-                height: 54,
-                onPressed: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LevelSelectView(),
-                    ),
-                  );
-                  ref.read(homeViewModelProvider.notifier).loadProgress();
-                },
-              ),
-
-              const SizedBox(height: 12),
-
-              TangibleButton(
-                text: 'Game Modes',
-                isSecondary: true,
-                height: 54,
-                icon: Icons.sports_esports_rounded,
-                onPressed: () => _showGameModesSheet(context),
-              ),
-
-              const SizedBox(height: 12),
-
-              TangibleButton(
-                text: 'Practice Mode',
-                isSecondary: true,
-                height: 54,
-                icon: Icons.tune_rounded,
-                onPressed: () => _showPracticeDialog(context),
-              ),
-
-              const SizedBox(height: 12),
-
-              TangibleButton(
-                text: 'Settings',
-                isSecondary: true,
-                height: 54,
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SettingsView()),
-                ),
-              ),
-              const Spacer(),
-            ],
+            ),
           ),
         ),
       ),

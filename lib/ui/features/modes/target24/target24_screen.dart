@@ -343,176 +343,181 @@ class _Target24ScreenState extends ConsumerState<Target24Screen> {
         ],
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                decoration: BoxDecoration(
-                  color: colorScheme.surfaceContainerHigh,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: colorScheme.surfaceContainerHigh,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Make the Target Number',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: colorScheme.onSurfaceVariant,
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Make the Target Number',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                            if (_solvedStreak > 0)
+                              Text(
+                                '$_solvedStreak Puzzles Solved',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 11,
+                                  color: Color(0xFF10B981),
+                                ),
+                              ),
+                          ],
                         ),
-                        if (_solvedStreak > 0)
-                          Text(
-                            '$_solvedStreak Puzzles Solved',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 11,
-                              color: Color(0xFF10B981),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            'Target: ${_currentPuzzle.target}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 14,
+                              color: colorScheme.onPrimaryContainer,
                             ),
                           ),
+                        ),
                       ],
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: colorScheme.primaryContainer,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        'Target: ${_currentPuzzle.target}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 14,
-                          color: colorScheme.onPrimaryContainer,
+                  ),
+                  const SizedBox(height: 14),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: List.generate(4, (index) {
+                      final num = _currentPuzzle.numbers[index];
+                      final isUsed = _usedNumbers[index];
+                      return GestureDetector(
+                        onTap: isUsed ? null : () => _onNumberTap(index),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          width: 68,
+                          height: 68,
+                          decoration: BoxDecoration(
+                            color: isUsed
+                                ? colorScheme.surfaceContainerHighest.withValues(alpha: 0.3)
+                                : colorScheme.primary,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: isUsed
+                                ? null
+                                : [
+                                    BoxShadow(
+                                      color: colorScheme.primary.withValues(alpha: 0.35),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            num.toString(),
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w900,
+                              color: isUsed
+                                  ? colorScheme.onSurfaceVariant.withValues(alpha: 0.3)
+                                  : colorScheme.onPrimary,
+                            ),
+                          ),
                         ),
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    constraints: const BoxConstraints(minHeight: 70),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    decoration: BoxDecoration(
+                      color: colorScheme.surfaceContainer,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+                        width: 1.5,
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      _tokens.isEmpty ? 'Tap numbers & operators' : _tokens.join(' '),
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1.5,
+                        color: _tokens.isEmpty
+                            ? colorScheme.onSurfaceVariant.withValues(alpha: 0.4)
+                            : colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
+                  if (_statusMessage != null) ...[
+                    const SizedBox(height: 10),
+                    Text(
+                      _statusMessage!,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                        color: _isSuccess ? const Color(0xFF10B981) : colorScheme.error,
                       ),
                     ),
                   ],
-                ),
-              ),
-              const SizedBox(height: 14),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(4, (index) {
-                  final num = _currentPuzzle.numbers[index];
-                  final isUsed = _usedNumbers[index];
-                  return GestureDetector(
-                    onTap: isUsed ? null : () => _onNumberTap(index),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      width: 68,
-                      height: 68,
-                      decoration: BoxDecoration(
-                        color: isUsed
-                            ? colorScheme.surfaceContainerHighest.withValues(alpha: 0.3)
-                            : colorScheme.primary,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: isUsed
-                            ? null
-                            : [
-                                BoxShadow(
-                                  color: colorScheme.primary.withValues(alpha: 0.35),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        num.toString(),
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w900,
-                          color: isUsed
-                              ? colorScheme.onSurfaceVariant.withValues(alpha: 0.3)
-                              : colorScheme.onPrimary,
-                        ),
-                      ),
+                  const Spacer(),
+                  Row(
+                    children: [
+                      _opButton('+', () => _onOperatorTap('+')),
+                      const SizedBox(width: 8),
+                      _opButton('-', () => _onOperatorTap('-')),
+                      const SizedBox(width: 8),
+                      _opButton('×', () => _onOperatorTap('×')),
+                      const SizedBox(width: 8),
+                      _opButton('÷', () => _onOperatorTap('÷')),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      _opButton('(', () => _onOperatorTap('(')),
+                      const SizedBox(width: 8),
+                      _opButton(')', () => _onOperatorTap(')')),
+                      const SizedBox(width: 8),
+                      _opButton('⌫', _onBackspace, isError: true),
+                      const SizedBox(width: 8),
+                      _opButton('C', _onClear),
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                  if (_isSuccess)
+                    TangibleButton(
+                      text: 'Next Puzzle',
+                      height: 48,
+                      onPressed: _nextPuzzle,
+                    )
+                  else
+                    TangibleButton(
+                      text: 'Check Equation',
+                      height: 48,
+                      onPressed: _evaluateExpression,
                     ),
-                  );
-                }),
-              ),
-              const SizedBox(height: 16),
-              Container(
-                constraints: const BoxConstraints(minHeight: 70),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                decoration: BoxDecoration(
-                  color: colorScheme.surfaceContainer,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: colorScheme.outlineVariant.withValues(alpha: 0.5),
-                    width: 1.5,
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  _tokens.isEmpty ? 'Tap numbers & operators' : _tokens.join(' '),
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.5,
-                    color: _tokens.isEmpty
-                        ? colorScheme.onSurfaceVariant.withValues(alpha: 0.4)
-                        : colorScheme.onSurface,
-                  ),
-                ),
-              ),
-              if (_statusMessage != null) ...[
-                const SizedBox(height: 10),
-                Text(
-                  _statusMessage!,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w800,
-                    color: _isSuccess ? const Color(0xFF10B981) : colorScheme.error,
-                  ),
-                ),
-              ],
-              const Spacer(),
-              Row(
-                children: [
-                  _opButton('+', () => _onOperatorTap('+')),
-                  const SizedBox(width: 8),
-                  _opButton('-', () => _onOperatorTap('-')),
-                  const SizedBox(width: 8),
-                  _opButton('×', () => _onOperatorTap('×')),
-                  const SizedBox(width: 8),
-                  _opButton('÷', () => _onOperatorTap('÷')),
                 ],
               ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  _opButton('(', () => _onOperatorTap('(')),
-                  const SizedBox(width: 8),
-                  _opButton(')', () => _onOperatorTap(')')),
-                  const SizedBox(width: 8),
-                  _opButton('⌫', _onBackspace, isError: true),
-                  const SizedBox(width: 8),
-                  _opButton('C', _onClear),
-                ],
-              ),
-              const SizedBox(height: 14),
-              if (_isSuccess)
-                TangibleButton(
-                  text: 'Next Puzzle',
-                  height: 48,
-                  onPressed: _nextPuzzle,
-                )
-              else
-                TangibleButton(
-                  text: 'Check Equation',
-                  height: 48,
-                  onPressed: _evaluateExpression,
-                ),
-            ],
+            ),
           ),
         ),
       ),

@@ -39,149 +39,200 @@ class SettingsView extends ConsumerWidget {
         ),
       ),
       body: SafeArea(
-        child: ListView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
-          children: [
-            _buildSectionHeader(context, 'PREFERENCES'),
-            const SizedBox(height: 10),
-            TangibleCard(
-              color: colorScheme.surfaceContainer,
-              borderColor: colorScheme.outline,
-              borderRadius: 20,
-              depth: 3.5,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: colorScheme.primary.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: colorScheme.primary.withValues(alpha: 0.3), width: 1.2),
-                    ),
-                    child: Icon(
-                      Icons.vibration_rounded,
-                      size: 22,
-                      color: colorScheme.primary,
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Haptic Feedback',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                            color: colorScheme.onSurface,
-                          ),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 700),
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
+              children: [
+                _buildSectionHeader(context, 'PREFERENCES'),
+                const SizedBox(height: 10),
+                TangibleCard(
+                  color: colorScheme.surfaceContainer,
+                  borderColor: colorScheme.outline,
+                  borderRadius: 20,
+                  depth: 3.5,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: colorScheme.primary.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: colorScheme.primary.withValues(alpha: 0.3), width: 1.2),
                         ),
-                        const SizedBox(height: 2),
-                        Text(
-                          'Vibrate on button taps and game events',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: colorScheme.onSurfaceVariant,
-                          ),
+                        child: Icon(
+                          Icons.vibration_rounded,
+                          size: 22,
+                          color: colorScheme.primary,
                         ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Switch.adaptive(
-                    value: hapticsEnabled,
-                    activeTrackColor: colorScheme.primary,
-                    onChanged: (val) {
-                      AppHaptics.selection();
-                      ref.read(homeViewModelProvider.notifier).toggleHaptics(val);
-                    },
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 12),
-            TangibleCard(
-              color: colorScheme.surfaceContainer,
-              borderColor: colorScheme.outline,
-              borderRadius: 20,
-              depth: 3.5,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF8B5CF6).withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFF8B5CF6).withValues(alpha: 0.3), width: 1.2),
-                    ),
-                    child: const Icon(
-                      Icons.help_outline_rounded,
-                      size: 22,
-                      color: Color(0xFF8B5CF6),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Step-by-Step Explanation',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                            color: colorScheme.onSurface,
-                          ),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Haptic Feedback',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w800,
+                                color: colorScheme.onSurface,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Vibrate on button taps and game events',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 2),
-                        Text(
-                          'Show help button during question steps',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: colorScheme.onSurfaceVariant,
-                          ),
+                      ),
+                      const SizedBox(width: 8),
+                      Switch.adaptive(
+                        value: hapticsEnabled,
+                        activeTrackColor: colorScheme.primary,
+                        onChanged: (val) {
+                          AppHaptics.selection();
+                          ref.read(homeViewModelProvider.notifier).toggleHaptics(val);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TangibleCard(
+                  color: colorScheme.surfaceContainer,
+                  borderColor: colorScheme.outline,
+                  borderRadius: 20,
+                  depth: 3.5,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: colorScheme.primary.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: colorScheme.primary.withValues(alpha: 0.3), width: 1.2),
                         ),
-                      ],
-                    ),
+                        child: Icon(
+                          Icons.help_outline_rounded,
+                          size: 22,
+                          color: colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Step Explanations',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w800,
+                                color: colorScheme.onSurface,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Show help icon during questions',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Switch.adaptive(
+                        value: showStepExplanation,
+                        activeTrackColor: colorScheme.primary,
+                        onChanged: (val) {
+                          AppHaptics.selection();
+                          ref.read(homeViewModelProvider.notifier).toggleStepExplanation(val);
+                        },
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 8),
-                  Switch.adaptive(
-                    value: showStepExplanation,
-                    activeTrackColor: colorScheme.primary,
-                    onChanged: (val) {
-                      AppHaptics.selection();
-                      ref.read(homeViewModelProvider.notifier).toggleStepExplanation(val);
-                    },
+                ),
+                const SizedBox(height: 24),
+                _buildSectionHeader(context, 'ABOUT & HELP'),
+                const SizedBox(height: 10),
+                TangibleCard(
+                  color: colorScheme.surfaceContainer,
+                  borderColor: colorScheme.outline,
+                  borderRadius: 20,
+                  depth: 3.5,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  onTap: () {
+                    AppHaptics.light();
+                    _openFeedbackUrl();
+                  },
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF06B6D4).withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: const Color(0xFF06B6D4).withValues(alpha: 0.3), width: 1.2),
+                        ),
+                        child: const Icon(
+                          Icons.code_rounded,
+                          size: 22,
+                          color: Color(0xFF06B6D4),
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'GitHub Repository',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w800,
+                                color: colorScheme.onSurface,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Open source code & report issues',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(Icons.open_in_new_rounded, size: 18, color: colorScheme.onSurfaceVariant),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 28),
+                TangibleButton(
+                  text: 'Reset Progress',
+                  isSecondary: true,
+                  height: 54,
+                  icon: Icons.restart_alt_rounded,
+                  onPressed: () => _confirmReset(context, ref),
+                ),
+              ],
             ),
-            const SizedBox(height: 28),
-            _buildSectionHeader(context, 'SUPPORT & DATA'),
-            const SizedBox(height: 10),
-            TangibleButton(
-              text: 'Report Error or Feedback',
-              isSecondary: true,
-              height: 54,
-              icon: Icons.bug_report_rounded,
-              onPressed: () => _openFeedbackUrl(),
-            ),
-            const SizedBox(height: 12),
-            TangibleButton(
-              text: 'Reset Progress',
-              isSecondary: true,
-              height: 54,
-              textColor: const Color(0xFFEF4444),
-              icon: Icons.restart_alt_rounded,
-              onPressed: () => _confirmReset(context, ref),
-            ),
-          ],
+          ),
         ),
       ),
     );

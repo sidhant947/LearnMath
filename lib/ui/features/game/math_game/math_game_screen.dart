@@ -125,51 +125,92 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            _buildTopAppBar(context, isBoss, state, notifier),
-            _buildSegmentedProgress(context, state),
-            Expanded(
-              child: AnimatedBuilder(
-                animation: _shakeAnimation,
-                builder: (context, child) {
-                  final offset = math.sin(_shakeAnimation.value * math.pi * 4) * 8 * (1 - _shakeAnimation.value);
-                  return Transform.translate(
-                    offset: Offset(offset, 0),
-                    child: child,
-                  );
-                },
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 250),
-                  transitionBuilder: (child, animation) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: SlideTransition(
-                        position: Tween<Offset>(
-                          begin: const Offset(0.04, 0.0),
-                          end: Offset.zero,
-                        ).animate(animation),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1050),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final isLandscape = constraints.maxWidth > 700 && constraints.maxWidth > constraints.maxHeight;
+
+                final questionWidget = Expanded(
+                  child: AnimatedBuilder(
+                    animation: _shakeAnimation,
+                    builder: (context, child) {
+                      final offset = math.sin(_shakeAnimation.value * math.pi * 4) * 8 * (1 - _shakeAnimation.value);
+                      return Transform.translate(
+                        offset: Offset(offset, 0),
                         child: child,
-                      ),
-                    );
-                  },
-                  child: problem == null
-                      ? const Center(child: CircularProgressIndicator())
-                      : _buildQuestionCard(
-                          key: ValueKey(state.currentQuestionIndex),
-                          context: context,
-                          state: state,
-                          problem: problem,
-                          notifier: notifier,
+                      );
+                    },
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 250),
+                      transitionBuilder: (child, animation) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(0.04, 0.0),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: problem == null
+                          ? const Center(child: CircularProgressIndicator())
+                          : _buildQuestionCard(
+                              key: ValueKey(state.currentQuestionIndex),
+                              context: context,
+                              state: state,
+                              problem: problem,
+                              notifier: notifier,
+                            ),
+                    ),
+                  ),
+                );
+
+                final inputWidget = problem == null
+                    ? const SizedBox.shrink()
+                    : (problem.inputType == ProblemInputType.multipleChoice
+                        ? _buildMultipleChoiceArea(context, state, problem, notifier)
+                        : _buildKeypadArea(context, state, notifier));
+
+                if (isLandscape) {
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            _buildTopAppBar(context, isBoss, state, notifier),
+                            _buildSegmentedProgress(context, state),
+                            questionWidget,
+                          ],
                         ),
-                ),
-              ),
+                      ),
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 420),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            inputWidget,
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
+                return Column(
+                  children: [
+                    _buildTopAppBar(context, isBoss, state, notifier),
+                    _buildSegmentedProgress(context, state),
+                    questionWidget,
+                    inputWidget,
+                  ],
+                );
+              },
             ),
-            if (problem != null)
-              problem.inputType == ProblemInputType.multipleChoice
-                  ? _buildMultipleChoiceArea(context, state, problem, notifier)
-                  : _buildKeypadArea(context, state, notifier),
-          ],
+          ),
         ),
       ),
     );

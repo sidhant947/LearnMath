@@ -184,7 +184,10 @@ class MathGameViewModel extends Notifier<MathGameState> {
     );
 
     if (problem != null) {
-      final mistakeData = '${problem.prompt} = ${problem.correctAnswer}';
+      final promptText = problem.prompt.endsWith(' = ?')
+          ? problem.prompt.substring(0, problem.prompt.length - 4).trim()
+          : problem.prompt;
+      final mistakeData = '$promptText = ${problem.correctAnswer}';
       ref.read(progressRepositoryProvider).recordAnswer(
         categoryKey: problem.category.name,
         isCorrect: isCorrect,

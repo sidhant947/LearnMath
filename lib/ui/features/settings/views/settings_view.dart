@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:learnmath/l10n/l10n.dart';
 import 'package:learnmath/ui/core/services/app_haptics.dart';
 import 'package:learnmath/ui/core/widgets/tangible_button.dart';
 import 'package:learnmath/ui/core/widgets/tangible_card.dart';
@@ -29,10 +30,12 @@ class SettingsView extends ConsumerWidget {
     final progress = ref.watch(homeViewModelProvider).progress;
     final hapticsEnabled = progress?.hapticsEnabled ?? true;
     final showStepExplanation = progress?.showStepExplanation ?? true;
+    final languageCode = progress?.languageCode ?? 'en';
+    final l10n = context.l10n;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(l10n.settings),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
           onPressed: () => Navigator.pop(context),
@@ -46,8 +49,98 @@ class SettingsView extends ConsumerWidget {
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
               children: [
-                _buildSectionHeader(context, 'PREFERENCES'),
+                _buildSectionHeader(context, l10n.preferences),
                 const SizedBox(height: 10),
+                TangibleCard(
+                  color: colorScheme.surfaceContainer,
+                  borderColor: colorScheme.outline,
+                  borderRadius: 20,
+                  depth: 3.5,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: colorScheme.primary.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: colorScheme.primary.withValues(alpha: 0.3), width: 1.2),
+                        ),
+                        child: Icon(
+                          Icons.translate_rounded,
+                          size: 22,
+                          color: colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.language,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w800,
+                                color: colorScheme.onSurface,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              l10n.languageSubtitle,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: colorScheme.surfaceContainerHigh,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: colorScheme.outline, width: 1.2),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: languageCode,
+                            icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 20),
+                            borderRadius: BorderRadius.circular(16),
+                            dropdownColor: colorScheme.surfaceContainerHigh,
+                            isDense: true,
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'en',
+                                child: Text(
+                                  'English',
+                                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: 'de',
+                                child: Text(
+                                  'Deutsch',
+                                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                                ),
+                              ),
+                            ],
+                            onChanged: (val) {
+                              if (val != null && val != languageCode) {
+                                AppHaptics.selection();
+                                ref.read(homeViewModelProvider.notifier).setLanguage(val);
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
                 TangibleCard(
                   color: colorScheme.surfaceContainer,
                   borderColor: colorScheme.outline,
@@ -75,7 +168,7 @@ class SettingsView extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Haptic Feedback',
+                              l10n.hapticFeedback,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w800,
@@ -84,7 +177,7 @@ class SettingsView extends ConsumerWidget {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              'Vibrate on button taps and game events',
+                              l10n.hapticFeedbackSubtitle,
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
@@ -134,7 +227,7 @@ class SettingsView extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Step Explanations',
+                              l10n.stepExplanations,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w800,
@@ -143,7 +236,7 @@ class SettingsView extends ConsumerWidget {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              'Show help icon during questions',
+                              l10n.stepExplanationsSubtitle,
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
@@ -166,7 +259,7 @@ class SettingsView extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-                _buildSectionHeader(context, 'ABOUT & HELP'),
+                _buildSectionHeader(context, l10n.aboutAndHelp),
                 const SizedBox(height: 10),
                 TangibleCard(
                   color: colorScheme.surfaceContainer,
@@ -199,7 +292,7 @@ class SettingsView extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'GitHub Repository',
+                              l10n.githubRepo,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w800,
@@ -208,7 +301,7 @@ class SettingsView extends ConsumerWidget {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              'Open source code & report issues',
+                              l10n.githubRepoSubtitle,
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
@@ -224,7 +317,7 @@ class SettingsView extends ConsumerWidget {
                 ),
                 const SizedBox(height: 28),
                 TangibleButton(
-                  text: 'Reset Progress',
+                  text: l10n.resetProgress,
                   isSecondary: true,
                   height: 54,
                   icon: Icons.restart_alt_rounded,
@@ -257,6 +350,7 @@ class SettingsView extends ConsumerWidget {
   void _confirmReset(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = context.l10n;
 
     showDialog(
       context: context,
@@ -288,7 +382,7 @@ class SettingsView extends ConsumerWidget {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    'Reset Progress?',
+                    l10n.resetProgressQuestion,
                     style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w900,
                       fontSize: 20,
@@ -298,7 +392,7 @@ class SettingsView extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                'This clears all completed levels and returns you to Level 1. This action cannot be undone.',
+                l10n.resetProgressWarning,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onSurfaceVariant,
                   fontWeight: FontWeight.w500,
@@ -310,7 +404,7 @@ class SettingsView extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: TangibleButton(
-                      text: 'Cancel',
+                      text: l10n.cancel,
                       isSecondary: true,
                       height: 46,
                       onPressed: () => Navigator.pop(dialogContext),
@@ -319,7 +413,7 @@ class SettingsView extends ConsumerWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: TangibleButton(
-                      text: 'Reset',
+                      text: l10n.reset,
                       height: 46,
                       color: colorScheme.error,
                       shadowColor: const Color(0xFF991B1B),

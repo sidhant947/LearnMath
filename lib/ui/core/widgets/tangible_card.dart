@@ -32,8 +32,7 @@ class _TangibleCardState extends State<TangibleCard> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     final Color faceColor = widget.color ?? colorScheme.surfaceContainer;
     final Color depthColor = widget.shadowColor ??

@@ -20,6 +20,7 @@ class UserProgress {
     this.savedMistakes = const [],
     this.hapticsEnabled = true,
     this.showStepExplanation = true,
+    this.languageCode = 'en',
   });
 
   final int currentLevel;
@@ -38,6 +39,7 @@ class UserProgress {
   final List<String> savedMistakes;
   final bool hapticsEnabled;
   final bool showStepExplanation;
+  final String languageCode;
 
   int get playerLevel => (totalXp / 100).floor() + 1;
   int get currentLevelXp => totalXp % 100;
@@ -65,6 +67,7 @@ class UserProgress {
     List<String>? savedMistakes,
     bool? hapticsEnabled,
     bool? showStepExplanation,
+    String? languageCode,
   }) {
     return UserProgress(
       currentLevel: currentLevel ?? this.currentLevel,
@@ -87,6 +90,7 @@ class UserProgress {
       savedMistakes: savedMistakes ?? this.savedMistakes,
       hapticsEnabled: hapticsEnabled ?? this.hapticsEnabled,
       showStepExplanation: showStepExplanation ?? this.showStepExplanation,
+      languageCode: languageCode ?? this.languageCode,
     );
   }
 

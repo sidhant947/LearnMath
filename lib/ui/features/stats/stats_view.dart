@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:learnmath/domain/models/badge_item.dart';
 import 'package:learnmath/domain/models/math_problem.dart';
 import 'package:learnmath/domain/models/user_progress.dart';
+import 'package:learnmath/l10n/l10n.dart';
 import 'package:learnmath/ui/core/widgets/tangible_button.dart';
 import 'package:learnmath/ui/core/widgets/tangible_card.dart';
 import 'package:learnmath/ui/features/game/math_game/math_game_screen.dart';
@@ -11,14 +12,6 @@ import 'package:learnmath/ui/features/home/view_models/home_view_model.dart';
 class StatsView extends ConsumerWidget {
   const StatsView({super.key});
 
-  String _getPlayerTitle(int level) {
-    if (level < 5) return 'Math Novice';
-    if (level < 15) return 'Apprentice';
-    if (level < 30) return 'Mathlete';
-    if (level < 50) return 'Arithmetic Master';
-    return 'Grandmaster';
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(homeViewModelProvider);
@@ -26,7 +19,7 @@ class StatsView extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Analytics & Achievements'),
+        title: Text(context.l10n.analyticsAndAchievements),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
           onPressed: () => Navigator.pop(context),
@@ -60,8 +53,9 @@ class StatsView extends ConsumerWidget {
   Widget _buildXpCard(BuildContext context, UserProgress progress) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = context.l10n;
     final playerLvl = progress.playerLevel;
-    final title = _getPlayerTitle(playerLvl);
+    final title = l10n.playerTitle(playerLvl);
 
     return TangibleCard(
       color: colorScheme.surfaceContainer,
@@ -123,7 +117,7 @@ class StatsView extends ConsumerWidget {
                         Row(
                           children: [
                             Text(
-                              'Level $playerLvl',
+                              l10n.levelNumber(playerLvl),
                               style: theme.textTheme.titleLarge?.copyWith(
                                 fontWeight: FontWeight.w900,
                                 color: colorScheme.onSurface,
@@ -160,7 +154,7 @@ class StatsView extends ConsumerWidget {
                         ),
                         const SizedBox(height: 3),
                         Text(
-                          '${progress.totalXp} Total XP Earned',
+                          l10n.totalXpEarned(progress.totalXp),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
@@ -177,7 +171,7 @@ class StatsView extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Level Progress',
+                    l10n.levelProgress,
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w800,
@@ -185,7 +179,7 @@ class StatsView extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    '${progress.currentLevelXp} / 100 XP',
+                    l10n.xpOutOf(progress.currentLevelXp, 100),
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w900,
@@ -219,15 +213,16 @@ class StatsView extends ConsumerWidget {
 
   Widget _buildQuickStats(BuildContext context, UserProgress progress) {
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = context.l10n;
     final accuracy = (progress.overallAccuracy * 100).toStringAsFixed(0);
 
     return Column(
       children: [
         _statTile(
           context,
-          title: 'Accuracy',
+          title: l10n.accuracy,
           value: '$accuracy%',
-          subtitle: 'Overall problem solving accuracy',
+          subtitle: l10n.accuracySubtitle,
           icon: Icons.track_changes_rounded,
           color: const Color(0xFF10B981),
           shadowColor: const Color(0xFF047857),
@@ -235,9 +230,9 @@ class StatsView extends ConsumerWidget {
         const SizedBox(height: 10),
         _statTile(
           context,
-          title: 'Solved Problems',
+          title: l10n.solvedProblems,
           value: '${progress.totalSolved}',
-          subtitle: 'Total math problems completed',
+          subtitle: l10n.solvedProblemsSubtitle,
           icon: Icons.check_circle_outline_rounded,
           color: colorScheme.primary,
           shadowColor: const Color(0xFF047857),
@@ -245,9 +240,9 @@ class StatsView extends ConsumerWidget {
         const SizedBox(height: 10),
         _statTile(
           context,
-          title: 'Daily Streak',
-          value: '${progress.dailyStreak} Days',
-          subtitle: 'Consecutive active practice days',
+          title: l10n.dailyStreak,
+          value: l10n.dailyStreakDays(progress.dailyStreak),
+          subtitle: l10n.dailyStreakSubtitle,
           icon: Icons.local_fire_department_rounded,
           color: const Color(0xFFF97316),
           shadowColor: const Color(0xFFC2410C),
@@ -333,6 +328,7 @@ class StatsView extends ConsumerWidget {
   ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = context.l10n;
 
     String? lowestCategory;
     double lowestAcc = 1.0;
@@ -368,7 +364,7 @@ class StatsView extends ConsumerWidget {
               Icon(Icons.radar_rounded, color: colorScheme.error, size: 22),
               const SizedBox(width: 8),
               Text(
-                'Focus Recommendation',
+                l10n.focusRecommendation,
                 style: TextStyle(
                   fontWeight: FontWeight.w900,
                   fontSize: 15,
@@ -380,8 +376,11 @@ class StatsView extends ConsumerWidget {
           const SizedBox(height: 6),
           Text(
             lowestCategory != null
-                ? 'Accuracy on ${lowestCategory.toUpperCase()} is ${(lowestAcc * 100).toStringAsFixed(0)}%. Practice this area to level up faster!'
-                : 'You have ${progress.savedMistakes.length} mistakes saved for review.',
+                ? l10n.focusAreaAccuracy(
+                    l10n.categoryName(lowestCategory),
+                    (lowestAcc * 100).toStringAsFixed(0),
+                  )
+                : l10n.mistakesSavedForReview(progress.savedMistakes.length),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurface,
               fontWeight: FontWeight.w600,
@@ -391,7 +390,7 @@ class StatsView extends ConsumerWidget {
           if (progress.savedMistakes.isNotEmpty) ...[
             const SizedBox(height: 14),
             TangibleButton(
-              text: 'Review Mistakes (${progress.savedMistakes.length})',
+              text: l10n.reviewMistakes(progress.savedMistakes.length),
               height: 48,
               color: colorScheme.error,
               shadowColor: const Color(0xFF991B1B),
@@ -440,7 +439,7 @@ class StatsView extends ConsumerWidget {
 
                   mistakeProblems.add(
                     MathProblem(
-                      title: 'Mistake Review',
+                      title: l10n.mistakeReview,
                       prompt: prompt,
                       correctAnswer: answer,
                       category: cat,
@@ -458,7 +457,7 @@ class StatsView extends ConsumerWidget {
                     builder: (_) => MathGameScreen(
                       levelNumber: 1,
                       customProblems: mistakeProblems,
-                      customTitle: 'Mistakes Drill',
+                      customTitle: l10n.mistakesDrill,
                     ),
                   ),
                 );
@@ -474,6 +473,7 @@ class StatsView extends ConsumerWidget {
   Widget _buildCategoryBreakdown(BuildContext context, UserProgress progress) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = context.l10n;
 
     return TangibleCard(
       color: colorScheme.surfaceContainer,
@@ -485,7 +485,7 @@ class StatsView extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Mastery Breakdown',
+            l10n.masteryBreakdown,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w900,
               fontSize: 18,
@@ -506,14 +506,14 @@ class StatsView extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        category.name.toUpperCase(),
+                        l10n.categoryName(category.name).toUpperCase(),
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w800,
                         ),
                       ),
                       Text(
-                        solved > 0 ? '${(acc * 100).toStringAsFixed(0)}% ($correct/$solved)' : 'Unplayed',
+                        solved > 0 ? '${(acc * 100).toStringAsFixed(0)}% ($correct/$solved)' : l10n.unplayed,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
@@ -560,7 +560,7 @@ class StatsView extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Achievements (${progress.unlockedBadges.length}/${allBadges.length})',
+          '${context.l10n.badges} (${progress.unlockedBadges.length}/${allBadges.length})',
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w900,
             fontSize: 20,
@@ -627,7 +627,7 @@ class StatsView extends ConsumerWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    badge.title,
+                    context.l10n.badgeTitle(badge.id),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -638,7 +638,7 @@ class StatsView extends ConsumerWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    badge.description,
+                    context.l10n.badgeDescription(badge.id),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(

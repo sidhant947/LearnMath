@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:learnmath/domain/models/math_problem.dart';
+import 'package:learnmath/l10n/l10n.dart';
 import 'package:learnmath/ui/core/services/app_haptics.dart';
 import 'package:learnmath/ui/core/widgets/tangible_button.dart';
 import 'package:learnmath/ui/features/game/math_game/math_game_engine.dart';
@@ -110,6 +111,7 @@ class _DuelScreenState extends State<DuelScreen> {
   void _showWinnerDialog(int winner) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = context.l10n;
 
     showDialog(
       context: context,
@@ -128,7 +130,7 @@ class _DuelScreenState extends State<DuelScreen> {
             ),
             const SizedBox(height: 10),
             Text(
-              'Player $winner Wins!',
+              l10n.playerWins(winner),
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w800,
               ),
@@ -139,14 +141,14 @@ class _DuelScreenState extends State<DuelScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Score: P1 ($_p1Score) vs P2 ($_p2Score)',
+              l10n.duelScoreSummary(_p1Score, _p2Score),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 20),
             TangibleButton(
-              text: 'Play Again',
+              text: l10n.playAgain,
               height: 48,
               onPressed: () {
                 Navigator.pop(context);
@@ -161,7 +163,7 @@ class _DuelScreenState extends State<DuelScreen> {
             ),
             const SizedBox(height: 10),
             TangibleButton(
-              text: 'Exit',
+              text: l10n.exit,
               isSecondary: true,
               height: 48,
               onPressed: () {
@@ -207,7 +209,7 @@ class _DuelScreenState extends State<DuelScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'P2: $_p2Score/$_targetScore',
+                        context.l10n.playerScore(2, _p2Score, _targetScore),
                         style: const TextStyle(
                           fontWeight: FontWeight.w800,
                           color: Color(0xFFEF4444),
@@ -218,7 +220,7 @@ class _DuelScreenState extends State<DuelScreen> {
                         onPressed: () => Navigator.pop(context),
                       ),
                       Text(
-                        'P1: $_p1Score/$_targetScore',
+                        context.l10n.playerScore(1, _p1Score, _targetScore),
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           color: colorScheme.primary,
@@ -261,7 +263,7 @@ class _DuelScreenState extends State<DuelScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Player $playerNumber',
+                context.l10n.playerNumber(playerNumber),
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w800,

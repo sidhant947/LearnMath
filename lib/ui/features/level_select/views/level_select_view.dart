@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:learnmath/l10n/l10n.dart';
 import 'package:learnmath/ui/core/services/app_haptics.dart';
 import 'package:learnmath/ui/core/widgets/tangible_card.dart';
 import 'package:learnmath/ui/features/game/math_game/math_game_engine.dart';
@@ -34,7 +35,7 @@ class _LevelSelectViewState extends ConsumerState<LevelSelectView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Levels'),
+        title: Text(context.l10n.levels),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
           onPressed: () => Navigator.pop(context),

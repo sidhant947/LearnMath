@@ -36,6 +36,11 @@ class ProgressRepository {
     await saveProgress(current.copyWith(showStepExplanation: enabled));
   }
 
+  Future<void> setLanguage(String languageCode) async {
+    final current = await getProgress();
+    await saveProgress(current.copyWith(languageCode: languageCode));
+  }
+
   Future<void> completeLevel(int levelNumber, {int xpEarned = 25}) async {
     final current = await getProgress();
     final newHighest = math.max(current.highestLevelCompleted, levelNumber);
@@ -118,11 +123,6 @@ class ProgressRepository {
     await saveProgress(updated);
   }
 
-  Future<void> addXp(int amount) async {
-    final current = await getProgress();
-    await saveProgress(current.copyWith(totalXp: current.totalXp + amount));
-  }
-
   Future<void> recordTimeAttackScore(int score) async {
     final current = await getProgress();
     final updatedBadges = List<String>.from(current.unlockedBadges);
@@ -189,13 +189,6 @@ class ProgressRepository {
     await saveProgress(updated);
   }
 
-  Future<void> removeMistake(String mistakeData) async {
-    final current = await getProgress();
-    final mistakes = List<String>.from(current.savedMistakes);
-    _removeMatchingMistake(mistakes, mistakeData);
-    await saveProgress(current.copyWith(savedMistakes: mistakes));
-  }
-
   void _removeMatchingMistake(List<String> mistakes, String mistakeData) {
     if (mistakes.remove(mistakeData)) return;
 
@@ -230,13 +223,9 @@ class ProgressRepository {
     return (cleanedPrompt, answer);
   }
 
-  Future<void> clearAllMistakes() async {
-    final current = await getProgress();
-    await saveProgress(current.copyWith(savedMistakes: []));
-  }
-
   Future<void> resetProgress() async {
     _cachedProgress = null;
     await _hiveService.clearProgress();
   }
 }
+

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:learnmath/domain/models/math_problem.dart';
 import 'package:learnmath/domain/models/user_progress.dart';
+import 'package:learnmath/l10n/l10n.dart';
 import 'package:learnmath/ui/core/services/app_haptics.dart';
 import 'package:learnmath/ui/core/widgets/tangible_button.dart';
 import 'package:learnmath/ui/core/widgets/tangible_card.dart';
@@ -47,7 +48,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         builder: (_) => MathGameScreen(
           levelNumber: 1,
           customProblems: problems,
-          customTitle: 'Daily Challenge',
+          customTitle: context.l10n.dailyChallenge,
           isDailyChallenge: true,
         ),
       ),
@@ -93,7 +94,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Special Game Modes',
+                context.l10n.specialGameModes,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w900,
                   fontSize: 22,
@@ -101,8 +102,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
               const SizedBox(height: 14),
               _modeTile(
-                title: 'Time Attack Blitz',
-                subtitle: '60 seconds speed rush with +2s time bonus per correct answer',
+                title: context.l10n.timeAttackTitle,
+                subtitle: context.l10n.timeAttackSubtitle,
                 icon: Icons.timer_rounded,
                 color: const Color(0xFF8B5CF6),
                 onTap: () {
@@ -115,8 +116,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
               const SizedBox(height: 10),
               _modeTile(
-                title: 'Endless Survival',
-                subtitle: '3 Hearts. Increasing difficulty. How far can you survive?',
+                title: context.l10n.survivalTitle,
+                subtitle: context.l10n.survivalSubtitle,
                 icon: Icons.favorite_rounded,
                 color: const Color(0xFFEC4899),
                 onTap: () {
@@ -129,8 +130,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
               const SizedBox(height: 10),
               _modeTile(
-                title: '2-Player Split-Screen Duel',
-                subtitle: 'Race a friend head-to-head on the same screen to 10 points',
+                title: context.l10n.duelTitle,
+                subtitle: context.l10n.duelSubtitle,
                 icon: Icons.sports_kabaddi_rounded,
                 color: const Color(0xFFF97316),
                 onTap: () {
@@ -143,8 +144,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
               const SizedBox(height: 10),
               _modeTile(
-                title: 'Target 24 Puzzle',
-                subtitle: 'Use 4 numbers and operations to build an equation that equals 24',
+                title: context.l10n.target24Title,
+                subtitle: context.l10n.target24Subtitle,
                 icon: Icons.extension_rounded,
                 color: const Color(0xFF06B6D4),
                 onTap: () {
@@ -226,6 +227,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final screenHeight = MediaQuery.sizeOf(context).height;
+    final l10n = context.l10n;
 
     MathDifficulty selectedDifficulty = MathDifficulty.medium;
     int selectedQuestions = 10;
@@ -241,15 +243,15 @@ class _HomeViewState extends ConsumerState<HomeView> {
             switch (selectedDifficulty) {
               case MathDifficulty.easy:
                 diffColor = const Color(0xFF10B981);
-                diffName = 'EASY';
+                diffName = l10n.easy;
                 break;
               case MathDifficulty.medium:
                 diffColor = const Color(0xFFF59E0B);
-                diffName = 'MEDIUM';
+                diffName = l10n.medium;
                 break;
               case MathDifficulty.hard:
                 diffColor = const Color(0xFFEF4444);
-                diffName = 'HARD';
+                diffName = l10n.hard;
                 break;
             }
 
@@ -275,7 +277,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Practice Setup',
+                            l10n.practiceSetup,
                             style: theme.textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.w900,
                               fontSize: 22,
@@ -299,7 +301,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'DIFFICULTY',
+                                    l10n.difficulty,
                                     style: theme.textTheme.bodySmall?.copyWith(
                                       fontWeight: FontWeight.w800,
                                       color: colorScheme.onSurfaceVariant,
@@ -359,7 +361,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'QUESTIONS',
+                                    l10n.questions,
                                     style: theme.textTheme.bodySmall?.copyWith(
                                       fontWeight: FontWeight.w800,
                                       color: colorScheme.onSurfaceVariant,
@@ -377,7 +379,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                       border: Border.all(color: colorScheme.primary, width: 1.5),
                                     ),
                                     child: Text(
-                                      '$selectedQuestions Questions',
+                                      l10n.nQuestions(selectedQuestions),
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w800,
@@ -412,7 +414,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                'CATEGORY',
+                                l10n.category,
                                 style: theme.textTheme.bodySmall?.copyWith(
                                   fontWeight: FontWeight.w800,
                                   color: colorScheme.onSurfaceVariant,
@@ -425,7 +427,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 runSpacing: 6,
                                 children: [
                                   _categoryChip(
-                                    title: 'All Mixed',
+                                    title: l10n.allMixed,
                                     isSelected: selectedCategory == null,
                                     onTap: () {
                                       AppHaptics.selection();
@@ -434,7 +436,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                     colorScheme: colorScheme,
                                   ),
                                   _categoryChip(
-                                    title: 'Addition',
+                                    title: l10n.categoryAddition,
                                     isSelected: selectedCategory == MathCategory.addition,
                                     onTap: () {
                                       AppHaptics.selection();
@@ -444,7 +446,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                     colorScheme: colorScheme,
                                   ),
                                   _categoryChip(
-                                    title: 'Subtraction',
+                                    title: l10n.categorySubtraction,
                                     isSelected: selectedCategory == MathCategory.subtraction,
                                     onTap: () {
                                       AppHaptics.selection();
@@ -454,7 +456,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                     colorScheme: colorScheme,
                                   ),
                                   _categoryChip(
-                                    title: 'Multiplication',
+                                    title: l10n.categoryMultiplication,
                                     isSelected: selectedCategory == MathCategory.multiplication,
                                     onTap: () {
                                       AppHaptics.selection();
@@ -464,7 +466,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                     colorScheme: colorScheme,
                                   ),
                                   _categoryChip(
-                                    title: 'Division',
+                                    title: l10n.categoryDivision,
                                     isSelected: selectedCategory == MathCategory.division,
                                     onTap: () {
                                       AppHaptics.selection();
@@ -474,7 +476,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                     colorScheme: colorScheme,
                                   ),
                                   _categoryChip(
-                                    title: 'Powers & Roots',
+                                    title: l10n.categoryPowersRoots,
                                     isSelected: selectedCategory == MathCategory.powersRoots,
                                     onTap: () {
                                       AppHaptics.selection();
@@ -491,7 +493,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       ),
                       const SizedBox(height: 16),
                       TangibleButton(
-                        text: 'Start Practice',
+                        text: l10n.startPractice,
                         height: 52,
                         onPressed: () {
                           Navigator.pop(context);
@@ -556,6 +558,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final state = ref.watch(homeViewModelProvider);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = context.l10n;
     final progress = state.progress ?? const UserProgress();
     final today = _todayDateString();
     final isDailyDone = progress.lastDailyDate == today;
@@ -607,7 +610,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                               const Icon(Icons.bolt_rounded, color: Color(0xFFF59E0B), size: 18),
                               const SizedBox(width: 4),
                               Text(
-                                'Level ${progress.playerLevel}',
+                                l10n.levelNumber(progress.playerLevel),
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w800,
@@ -649,7 +652,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   const Spacer(flex: 2),
 
                   Text(
-                    'Learn Math',
+                    l10n.appTitle,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.displaySmall?.copyWith(
                       fontWeight: FontWeight.w900,
@@ -659,7 +662,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Think fast, solve smart',
+                    l10n.appTagline,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: colorScheme.onSurfaceVariant,
@@ -670,7 +673,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   const Spacer(flex: 3),
 
                   TangibleButton(
-                    text: 'Play',
+                    text: context.l10n.play,
                     height: 58,
                     onPressed: state.isLoading
                         ? null
@@ -690,7 +693,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   const SizedBox(height: 12),
 
                   TangibleButton(
-                    text: 'Daily Challenge',
+                    text: context.l10n.dailyChallenge,
                     isSecondary: true,
                     height: 54,
                     icon: isDailyDone ? Icons.check_circle_rounded : Icons.calendar_today_rounded,
@@ -700,7 +703,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   const SizedBox(height: 12),
 
                   TangibleButton(
-                    text: 'Levels',
+                    text: context.l10n.level,
                     isSecondary: true,
                     height: 54,
                     onPressed: () async {
@@ -717,7 +720,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   const SizedBox(height: 12),
 
                   TangibleButton(
-                    text: 'Game Modes',
+                    text: context.l10n.specialGameModes,
                     isSecondary: true,
                     height: 54,
                     icon: Icons.sports_esports_rounded,
@@ -727,7 +730,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   const SizedBox(height: 12),
 
                   TangibleButton(
-                    text: 'Practice Mode',
+                    text: context.l10n.practice,
                     isSecondary: true,
                     height: 54,
                     icon: Icons.tune_rounded,
@@ -737,7 +740,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   const SizedBox(height: 12),
 
                   TangibleButton(
-                    text: 'Settings',
+                    text: context.l10n.settings,
                     isSecondary: true,
                     height: 54,
                     onPressed: () => Navigator.push(

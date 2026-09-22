@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:learnmath/domain/models/math_problem.dart';
+import 'package:learnmath/l10n/l10n.dart';
 import 'package:learnmath/ui/core/services/app_haptics.dart';
 import 'package:learnmath/ui/core/widgets/rich_math_visualizer.dart';
 import 'package:learnmath/ui/core/widgets/scratchpad_modal.dart';
@@ -223,23 +224,27 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
     MathGameViewModel notifier,
   ) {
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = context.l10n;
 
     String title;
     String subtitle;
 
     if (widget.customTitle != null) {
       title = widget.customTitle!;
-      subtitle = 'Special Session';
+      subtitle = l10n.specialSession;
     } else if (widget.isRandom) {
-      title = 'Practice (${state.difficulty.name.toUpperCase()})';
+      final diffText = state.difficulty == MathDifficulty.easy
+          ? l10n.easy
+          : (state.difficulty == MathDifficulty.medium ? l10n.medium : l10n.hard);
+      title = '${l10n.practice} ($diffText)';
       subtitle = state.category != null
-          ? MathGameEngine.getCategoryName(state.category!)
-          : 'Mixed Practice';
+          ? l10n.categoryName(state.category!.name)
+          : l10n.allMixed;
     } else {
       title = isBoss
-          ? 'Boss Level ${widget.levelNumber}'
-          : 'Level ${widget.levelNumber}';
-      subtitle = MathGameEngine.getLevelTitle(widget.levelNumber);
+          ? l10n.bossLevel(widget.levelNumber)
+          : l10n.levelNumber(widget.levelNumber);
+      subtitle = l10n.levelTitle(widget.levelNumber);
     }
 
     return Padding(
@@ -295,7 +300,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton.filledTonal(
-                tooltip: 'Scratchpad',
+                tooltip: l10n.scratchpad,
                 icon: const Icon(Icons.draw_rounded, size: 18),
                 onPressed: _openScratchpad,
               ),
@@ -326,7 +331,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Question ${state.currentQuestionIndex + 1} of $total',
+                context.l10n.questionProgress(state.currentQuestionIndex + 1, total),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
@@ -355,7 +360,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
                           ),
                           const SizedBox(width: 3),
                           Text(
-                            '${state.streak} Streak',
+                            context.l10n.streakCount(state.streak),
                             style: const TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w800,
@@ -485,7 +490,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          MathGameEngine.getCategoryName(problem.category),
+                          context.l10n.categoryName(problem.category.name).toUpperCase(),
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w800,
@@ -499,7 +504,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
                   if (ref.watch(homeViewModelProvider).progress?.showStepExplanation ?? true)
                     IconButton(
                       visualDensity: VisualDensity.compact,
-                      tooltip: 'Explain Step',
+                      tooltip: context.l10n.explainStep,
                       icon: Icon(
                         Icons.help_outline_rounded,
                         size: 20,
@@ -511,7 +516,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
               ),
               const SizedBox(height: 12),
               Text(
-                problem.prompt,
+                context.l10n.translatePrompt(problem.prompt),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: problem.prompt.length > 15 ? 26 : 34,
@@ -524,7 +529,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
               if (problem.subtitle != null) ...[
                 const SizedBox(height: 4),
                 Text(
-                  problem.subtitle!,
+                  context.l10n.translateSubtitle(problem.subtitle!),
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onSurfaceVariant,
@@ -659,7 +664,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
           }
 
           return TangibleButton(
-            text: option,
+            text: context.l10n.translateOption(option),
             height: 58,
             borderRadius: 18,
             depth: 4.5,
@@ -773,6 +778,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
   void _showCompletionDialog(int score, int total, int xpEarned) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = context.l10n;
     final isPerfect = score == total;
 
     showDialog(
@@ -809,10 +815,10 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
             const SizedBox(height: 12),
             Text(
               widget.customTitle != null
-                  ? '${widget.customTitle} Complete!'
+                  ? l10n.completeWithTitle(widget.customTitle!)
                   : (widget.isRandom
-                      ? 'Practice Complete!'
-                      : (isPerfect ? 'Perfect Score!' : 'Level Complete!')),
+                      ? l10n.practiceComplete
+                      : (isPerfect ? l10n.perfectScore : l10n.levelComplete)),
               textAlign: TextAlign.center,
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w800,
@@ -824,7 +830,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'You solved $score of $total questions correctly.',
+              l10n.solvedCountSummary(score, total),
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onSurfaceVariant,
@@ -848,7 +854,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
                     const Icon(Icons.bolt_rounded, color: Color(0xFFF59E0B), size: 18),
                     const SizedBox(width: 4),
                     Text(
-                      '+$xpEarned XP Earned',
+                      l10n.xpEarned(xpEarned),
                       style: const TextStyle(
                         fontWeight: FontWeight.w800,
                         color: Color(0xFFF59E0B),
@@ -862,7 +868,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
             const SizedBox(height: 20),
             if (!widget.isRandom && widget.customProblems == null) ...[
               TangibleButton(
-                text: 'Next Level',
+                text: l10n.nextLevel,
                 height: 48,
                 onPressed: () {
                   Navigator.pop(context);
@@ -880,7 +886,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
             ],
             if (widget.isRandom) ...[
               TangibleButton(
-                text: 'New Practice',
+                text: l10n.newPractice,
                 height: 48,
                 onPressed: () {
                   Navigator.pop(context);
@@ -895,7 +901,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
               ),
               const SizedBox(height: 10),
               TangibleButton(
-                text: 'Home',
+                text: l10n.home,
                 isSecondary: true,
                 height: 48,
                 icon: Icons.home_rounded,
@@ -906,7 +912,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
               ),
             ] else ...[
               TangibleButton(
-                text: 'Home',
+                text: l10n.home,
                 isSecondary: true,
                 height: 48,
                 icon: Icons.home_rounded,
@@ -918,7 +924,7 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
             ],
             const SizedBox(height: 10),
             TangibleButton(
-              text: 'Buy Me a Coffee',
+              text: l10n.buyMeACoffee,
               isSecondary: true,
               height: 48,
               icon: Icons.favorite_rounded,

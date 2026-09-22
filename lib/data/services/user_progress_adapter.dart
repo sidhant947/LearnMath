@@ -77,6 +77,7 @@ class UserProgressAdapter extends TypeAdapter<UserProgress> {
         savedMistakes: savedMistakes,
         hapticsEnabled: fields[14] is bool ? (fields[14] as bool) : true,
         showStepExplanation: fields[15] is bool ? (fields[15] as bool) : true,
+        languageCode: fields[16]?.toString() ?? 'en',
       );
     } catch (_) {
       return const UserProgress();
@@ -85,7 +86,7 @@ class UserProgressAdapter extends TypeAdapter<UserProgress> {
 
   @override
   void write(BinaryWriter writer, UserProgress obj) {
-    writer.writeByte(16);
+    writer.writeByte(17);
 
     writer.writeByte(0);
     writer.write(obj.currentLevel);
@@ -134,5 +135,8 @@ class UserProgressAdapter extends TypeAdapter<UserProgress> {
 
     writer.writeByte(15);
     writer.write(obj.showStepExplanation);
+
+    writer.writeByte(16);
+    writer.write(obj.languageCode);
   }
 }

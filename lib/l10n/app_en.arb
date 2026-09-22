@@ -1,0 +1,361 @@
+{
+  "@@locale": "en",
+  "appTitle": "Learn Math",
+  "appTagline": "Think fast, solve smart",
+  "play": "Play",
+  "dailyChallenge": "Daily Challenge",
+  "level": "Level",
+  "levels": "Levels",
+  "levelNumber": "Level {number}",
+  "@levelNumber": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "specialGameModes": "Special Game Modes",
+  "practice": "Practice",
+  "settings": "Settings",
+  "stats": "Stats",
+  "score": "Score",
+  "round": "Round",
+  "preferences": "PREFERENCES",
+  "language": "Language",
+  "languageSubtitle": "Select application language",
+  "hapticFeedback": "Haptic Feedback",
+  "hapticFeedbackSubtitle": "Vibrate on button taps and game events",
+  "stepExplanations": "Step Explanations",
+  "stepExplanationsSubtitle": "Show help icon during questions",
+  "aboutAndHelp": "ABOUT & HELP",
+  "githubRepo": "GitHub Repository",
+  "githubRepoSubtitle": "Open source code & report issues",
+  "resetProgress": "Reset Progress",
+  "resetProgressQuestion": "Reset Progress?",
+  "resetProgressWarning": "This clears all completed levels and returns you to Level 1. This action cannot be undone.",
+  "cancel": "Cancel",
+  "reset": "Reset",
+  "timeAttackTitle": "Time Attack Blitz",
+  "timeAttackSubtitle": "60 seconds speed rush with +2s time bonus per correct answer",
+  "survivalTitle": "Endless Survival",
+  "survivalSubtitle": "3 Hearts. Increasing difficulty. How far can you survive?",
+  "duelTitle": "2-Player Split-Screen Duel",
+  "duelSubtitle": "Race a friend head-to-head on the same screen to 10 points",
+  "target24Title": "Target 24 Puzzle",
+  "target24Subtitle": "Use 4 numbers and operations to build an equation that equals 24",
+  "practiceSetup": "Practice Setup",
+  "difficulty": "DIFFICULTY",
+  "easy": "EASY",
+  "medium": "MEDIUM",
+  "hard": "HARD",
+  "questions": "QUESTIONS",
+  "nQuestions": "{count} Questions",
+  "@nQuestions": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "category": "CATEGORY",
+  "allMixed": "All Mixed",
+  "startPractice": "Start Practice",
+  "newPractice": "New Practice",
+  "analyticsAndAchievements": "Analytics & Achievements",
+  "totalXpEarned": "{xp} Total XP Earned",
+  "@totalXpEarned": {
+    "placeholders": {
+      "xp": { "type": "int" }
+    }
+  },
+  "levelProgress": "Level Progress",
+  "xpOutOf": "{current} / {total} XP",
+  "@xpOutOf": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "accuracy": "Accuracy",
+  "accuracySubtitle": "Overall problem solving accuracy",
+  "solvedProblems": "Solved Problems",
+  "solvedProblemsSubtitle": "Total math problems completed",
+  "dailyStreak": "Daily Streak",
+  "dailyStreakDays": "{days} Days",
+  "@dailyStreakDays": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "dailyStreakSubtitle": "Consecutive active practice days",
+  "focusRecommendation": "Focus Recommendation",
+  "focusAreaAccuracy": "Accuracy on {category} is {percent}%. Practice this area to level up faster!",
+  "@focusAreaAccuracy": {
+    "placeholders": {
+      "category": { "type": "String" },
+      "percent": { "type": "String" }
+    }
+  },
+  "mistakesSavedForReview": "You have {count} mistakes saved for review.",
+  "@mistakesSavedForReview": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "reviewMistakes": "Review Mistakes ({count})",
+  "@reviewMistakes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mistakesDrill": "Mistakes Drill",
+  "mistakeReview": "Mistake Review",
+  "masteryBreakdown": "Mastery Breakdown",
+  "unplayed": "Unplayed",
+  "badges": "Badges",
+  "unlocked": "unlocked",
+  "specialSession": "Special Session",
+  "bossLevel": "Boss Level {number}",
+  "@bossLevel": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "questionProgress": "Question {current} of {total}",
+  "@questionProgress": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "streakCount": "{count} Streak",
+  "@streakCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "scratchpad": "Scratchpad",
+  "undo": "Undo",
+  "clear": "Clear",
+  "explainStep": "Explain Step",
+  "stepByStepExplanation": "Step-by-Step Explanation",
+  "correctAnswerIs": "The correct answer is {answer}.",
+  "@correctAnswerIs": {
+    "placeholders": {
+      "answer": { "type": "String" }
+    }
+  },
+  "correctAnswer": "Correct Answer:",
+  "nextStep": "Next Step ({current}/{total})",
+  "@nextStep": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "gotIt": "Got It!",
+  "completeWithTitle": "{title} Complete!",
+  "@completeWithTitle": {
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
+  "practiceComplete": "Practice Complete!",
+  "perfectScore": "Perfect Score!",
+  "levelComplete": "Level Complete!",
+  "solvedCountSummary": "You solved {score} of {total} questions correctly.",
+  "@solvedCountSummary": {
+    "placeholders": {
+      "score": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "xpEarned": "+{xp} XP Earned",
+  "@xpEarned": {
+    "placeholders": {
+      "xp": { "type": "int" }
+    }
+  },
+  "nextLevel": "Next Level",
+  "home": "Home",
+  "buyMeACoffee": "Buy Me a Coffee",
+  "newBestScore": "New Best Score!",
+  "timesUp": "Time's Up!",
+  "finalScore": "Final Score: {score}",
+  "@finalScore": {
+    "placeholders": {
+      "score": { "type": "int" }
+    }
+  },
+  "bestScore": "Best: {score}",
+  "@bestScore": {
+    "placeholders": {
+      "score": { "type": "int" }
+    }
+  },
+  "playAgain": "Play Again",
+  "exit": "Exit",
+  "newSurvivalRecord": "New Survival Record!",
+  "gameOver": "Game Over",
+  "roundsCleared": "Rounds Cleared: {rounds}",
+  "@roundsCleared": {
+    "placeholders": {
+      "rounds": { "type": "int" }
+    }
+  },
+  "bestRounds": "Best: {rounds} Rounds",
+  "@bestRounds": {
+    "placeholders": {
+      "rounds": { "type": "int" }
+    }
+  },
+  "tryAgain": "Try Again",
+  "playerWins": "Player {player} Wins!",
+  "@playerWins": {
+    "placeholders": {
+      "player": { "type": "int" }
+    }
+  },
+  "duelScoreSummary": "Score: P1 ({p1}) vs P2 ({p2})",
+  "@duelScoreSummary": {
+    "placeholders": {
+      "p1": { "type": "int" },
+      "p2": { "type": "int" }
+    }
+  },
+  "puzzleHint": "Puzzle Hint",
+  "oneSolutionIs": "One solution is:\n\n{solution}",
+  "@oneSolutionIs": {
+    "placeholders": {
+      "solution": { "type": "String" }
+    }
+  },
+  "ok": "OK",
+  "useAll4Numbers": "Use all 4 numbers!",
+  "correctEqualsTarget": "Correct! Equals {target} 🎉",
+  "@correctEqualsTarget": {
+    "placeholders": {
+      "target": { "type": "int" }
+    }
+  },
+  "invalidExpression": "Invalid expression",
+  "invalidMathSyntax": "Invalid math syntax",
+  "equalsTarget": "Equals {val} (Target: {target})",
+  "@equalsTarget": {
+    "placeholders": {
+      "val": { "type": "String" },
+      "target": { "type": "int" }
+    }
+  },
+  "mathNovice": "Math Novice",
+  "apprentice": "Apprentice",
+  "mathlete": "Mathlete",
+  "arithmeticMaster": "Arithmetic Master",
+  "grandmaster": "Grandmaster",
+  "badgeFirstStepTitle": "First Step",
+  "badgeFirstStepDesc": "Complete your first math level",
+  "badgeStreak5Title": "Hot Streak",
+  "badgeStreak5Desc": "Reach a streak of 5 correct answers",
+  "badgeStreak15Title": "Unstoppable",
+  "badgeStreak15Desc": "Reach a streak of 15 correct answers",
+  "badgeCenturyTitle": "Century Club",
+  "badgeCenturyDesc": "Solve 100 math problems correctly",
+  "badgeSpeedDemonTitle": "Speed Demon",
+  "badgeSpeedDemonDesc": "Score 15+ in Time Attack mode",
+  "badgeSurvivorTitle": "Survivor",
+  "badgeSurvivorDesc": "Survive 15+ rounds in Survival mode",
+  "badgeTargetMasterTitle": "Number Wizard",
+  "badgeTargetMasterDesc": "Solve 5 Target 24 puzzles",
+  "badgeDailyChampionTitle": "Dedicated Learner",
+  "badgeDailyChampionDesc": "Maintain a 3-day daily streak",
+  "badgeBossSlayerTitle": "Boss Slayer",
+  "badgeBossSlayerDesc": "Defeat a milestone review boss level",
+  "badgeGrandMasterTitle": "Grandmaster",
+  "badgeGrandMasterDesc": "Complete all 60 curriculum levels",
+  "categoryConcepts": "Concepts",
+  "categoryAddition": "Addition",
+  "categorySubtraction": "Subtraction",
+  "categoryMultiplication": "Multiplication",
+  "categoryDivision": "Division",
+  "categoryPowersRoots": "Powers & Roots",
+  "categoryMaster": "Master Practice",
+  "categoryFractions": "Fractions",
+  "categoryPercentages": "Percentages",
+  "categoryPowers": "Powers",
+  "categoryAlgebra": "Algebra",
+  "playerNumber": "Player {player}",
+  "@playerNumber": {
+    "placeholders": {
+      "player": { "type": "int" }
+    }
+  },
+  "makeTargetNumber": "Make the Target Number",
+  "puzzlesSolved": "{count} Puzzles Solved",
+  "@puzzlesSolved": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "targetLabel": "Target: {target}",
+  "@targetLabel": {
+    "placeholders": {
+      "target": { "type": "int" }
+    }
+  },
+  "tapNumbersOperators": "Tap numbers & operators",
+  "nextPuzzle": "Next Puzzle",
+  "checkEquation": "Check Equation",
+  "newPuzzle": "New Puzzle",
+  "hint": "Hint",
+  "playerScore": "P{player}: {score}/{target}",
+  "@playerScore": {
+    "placeholders": {
+      "player": { "type": "int" },
+      "score": { "type": "int" },
+      "target": { "type": "int" }
+    }
+  },
+  "rowsCols": "{rows} rows × {cols} columns",
+  "@rowsCols": {
+    "placeholders": {
+      "rows": { "type": "int" },
+      "cols": { "type": "int" }
+    }
+  },
+  "startAt": "Start at {value}",
+  "@startAt": {
+    "placeholders": {
+      "value": { "type": "int" }
+    }
+  },
+  "endAt": "End at {value}",
+  "@endAt": {
+    "placeholders": {
+      "value": { "type": "int" }
+    }
+  },
+  "jumpStep": "{step} jump",
+  "@jumpStep": {
+    "placeholders": {
+      "step": { "type": "int" }
+    }
+  },
+  "jumpStepPositive": "+{step} jump",
+  "@jumpStepPositive": {
+    "placeholders": {
+      "step": { "type": "int" }
+    }
+  },
+  "tensVisual": "{count} Tens ({value})",
+  "@tensVisual": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "value": { "type": "int" }
+    }
+  },
+  "onesVisual": "{count} Ones ({value})",
+  "@onesVisual": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "value": { "type": "int" }
+    }
+  }
+}
+
+

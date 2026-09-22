@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:learnmath/domain/models/math_problem.dart';
+import 'package:learnmath/l10n/l10n.dart';
 
 class RichMathVisualizer extends StatelessWidget {
   const RichMathVisualizer({
@@ -97,7 +98,7 @@ class RichMathVisualizer extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            '$r rows × $c columns',
+            context.l10n.rowsCols(r, c),
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w700,
@@ -156,7 +157,7 @@ class RichMathVisualizer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Start at $start',
+                context.l10n.startAt(start),
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
@@ -171,7 +172,7 @@ class RichMathVisualizer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    step > 0 ? '+$step jump' : '$step jump',
+                    step > 0 ? context.l10n.jumpStepPositive(step) : context.l10n.jumpStep(step),
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w800,
@@ -180,7 +181,7 @@ class RichMathVisualizer extends StatelessWidget {
                   ),
                 ),
               Text(
-                'End at $end',
+                context.l10n.endAt(end),
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
@@ -226,7 +227,7 @@ class RichMathVisualizer extends StatelessWidget {
           Column(
             children: [
               Text(
-                '$tens Tens (${tens * 10})',
+                context.l10n.tensVisual(tens, tens * 10),
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
@@ -258,7 +259,7 @@ class RichMathVisualizer extends StatelessWidget {
           Column(
             children: [
               Text(
-                '$ones Ones ($ones)',
+                context.l10n.onesVisual(ones, ones),
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,

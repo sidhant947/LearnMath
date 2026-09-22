@@ -68,6 +68,13 @@ class HomeViewModel extends Notifier<HomeViewModelState> {
     state = state.copyWith(progress: updated);
   }
 
+  Future<void> setLanguage(String languageCode) async {
+    final progressRepository = ref.read(progressRepositoryProvider);
+    await progressRepository.setLanguage(languageCode);
+    final updated = await progressRepository.getProgress();
+    state = state.copyWith(progress: updated);
+  }
+
   Future<void> resetProgress() async {
     final progressRepository = ref.read(progressRepositoryProvider);
     await progressRepository.resetProgress();

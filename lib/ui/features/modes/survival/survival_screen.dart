@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:learnmath/domain/models/math_problem.dart';
+import 'package:learnmath/l10n/l10n.dart';
 import 'package:learnmath/ui/core/services/app_haptics.dart';
 import 'package:learnmath/ui/core/widgets/tangible_button.dart';
 import 'package:learnmath/ui/features/game/math_game/math_game_engine.dart';
@@ -106,12 +107,14 @@ class _SurvivalScreenState extends ConsumerState<SurvivalScreen> {
     AppHaptics.heavy();
     final completedRounds = _round - 1;
     ref.read(progressRepositoryProvider).recordSurvivalScore(completedRounds);
-    _showGameOverDialog(completedRounds);
+    _showGameOverDialog();
   }
 
-  void _showGameOverDialog(int completedRounds) {
+  void _showGameOverDialog() {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = context.l10n;
+    final completedRounds = _round - 1;
     final isNewRecord = completedRounds > _highScore;
 
     showDialog(
@@ -131,7 +134,7 @@ class _SurvivalScreenState extends ConsumerState<SurvivalScreen> {
             ),
             const SizedBox(height: 10),
             Text(
-              isNewRecord ? 'New Survival Record!' : 'Game Over',
+              isNewRecord ? l10n.newSurvivalRecord : l10n.gameOver,
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w800,
               ),
@@ -142,7 +145,7 @@ class _SurvivalScreenState extends ConsumerState<SurvivalScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Rounds Cleared: $completedRounds',
+              l10n.roundsCleared(completedRounds),
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.w900,
@@ -151,7 +154,7 @@ class _SurvivalScreenState extends ConsumerState<SurvivalScreen> {
             ),
             const SizedBox(height: 6),
             Text(
-              'Best: ${math.max(_highScore, completedRounds)} Rounds',
+              l10n.bestRounds(math.max(_highScore, completedRounds)),
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -160,7 +163,7 @@ class _SurvivalScreenState extends ConsumerState<SurvivalScreen> {
             ),
             const SizedBox(height: 20),
             TangibleButton(
-              text: 'Try Again',
+              text: l10n.tryAgain,
               height: 48,
               onPressed: () {
                 Navigator.pop(context);
@@ -174,7 +177,7 @@ class _SurvivalScreenState extends ConsumerState<SurvivalScreen> {
             ),
             const SizedBox(height: 10),
             TangibleButton(
-              text: 'Exit',
+              text: l10n.exit,
               isSecondary: true,
               height: 48,
               onPressed: () {
@@ -231,7 +234,7 @@ class _SurvivalScreenState extends ConsumerState<SurvivalScreen> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          'Round $_round',
+                          '${context.l10n.round} $_round',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w800,

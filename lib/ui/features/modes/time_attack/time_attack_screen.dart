@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:learnmath/domain/models/math_problem.dart';
+import 'package:learnmath/l10n/l10n.dart';
 import 'package:learnmath/ui/core/services/app_haptics.dart';
 import 'package:learnmath/ui/core/widgets/tangible_button.dart';
 import 'package:learnmath/ui/features/game/math_game/math_game_engine.dart';
@@ -142,6 +143,7 @@ class _TimeAttackScreenState extends ConsumerState<TimeAttackScreen> {
   void _showGameOverDialog() {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = context.l10n;
     final isNewRecord = _score > _highScore;
 
     showDialog(
@@ -161,7 +163,7 @@ class _TimeAttackScreenState extends ConsumerState<TimeAttackScreen> {
             ),
             const SizedBox(height: 10),
             Text(
-              isNewRecord ? 'New Best Score!' : 'Time\'s Up!',
+              isNewRecord ? l10n.newBestScore : l10n.timesUp,
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w800,
               ),
@@ -172,7 +174,7 @@ class _TimeAttackScreenState extends ConsumerState<TimeAttackScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Final Score: $_score',
+              l10n.finalScore(_score),
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w900,
@@ -181,7 +183,7 @@ class _TimeAttackScreenState extends ConsumerState<TimeAttackScreen> {
             ),
             const SizedBox(height: 6),
             Text(
-              'Best: ${math.max(_highScore, _score)}',
+              l10n.bestScore(math.max(_highScore, _score)),
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -190,7 +192,7 @@ class _TimeAttackScreenState extends ConsumerState<TimeAttackScreen> {
             ),
             const SizedBox(height: 20),
             TangibleButton(
-              text: 'Play Again',
+              text: l10n.playAgain,
               height: 48,
               onPressed: () {
                 Navigator.pop(context);
@@ -206,7 +208,7 @@ class _TimeAttackScreenState extends ConsumerState<TimeAttackScreen> {
             ),
             const SizedBox(height: 10),
             TangibleButton(
-              text: 'Exit',
+              text: l10n.exit,
               isSecondary: true,
               height: 48,
               onPressed: () {
@@ -284,7 +286,7 @@ class _TimeAttackScreenState extends ConsumerState<TimeAttackScreen> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          'Score: $_score',
+                          '${context.l10n.score}: $_score',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w800,
@@ -327,7 +329,7 @@ class _TimeAttackScreenState extends ConsumerState<TimeAttackScreen> {
                                     const Icon(Icons.local_fire_department_rounded, size: 14, color: Color(0xFFF97316)),
                                     const SizedBox(width: 4),
                                     Text(
-                                      '$_streak Streak! (+2s)',
+                                      '${context.l10n.streakCount(_streak)} (+2s)',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w800,
                                         color: Color(0xFFF97316),

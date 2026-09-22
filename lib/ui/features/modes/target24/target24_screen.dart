@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:learnmath/l10n/l10n.dart';
 import 'package:learnmath/ui/core/services/app_haptics.dart';
 import 'package:learnmath/ui/core/widgets/tangible_button.dart';
 import 'package:learnmath/ui/providers.dart';
@@ -212,10 +213,11 @@ class _Target24ScreenState extends ConsumerState<Target24Screen> {
   }
 
   void _evaluateExpression() {
+    final l10n = context.l10n;
     if (_usedNumbers.contains(false)) {
       AppHaptics.heavy();
       setState(() {
-        _statusMessage = 'Use all 4 numbers!';
+        _statusMessage = l10n.useAll4Numbers;
         _isSuccess = false;
       });
       return;
@@ -227,7 +229,7 @@ class _Target24ScreenState extends ConsumerState<Target24Screen> {
       if (result != null && (result - _currentPuzzle.target).abs() < 0.001) {
         AppHaptics.heavy();
         setState(() {
-          _statusMessage = 'Correct! Equals ${_currentPuzzle.target} 🎉';
+          _statusMessage = l10n.correctEqualsTarget(_currentPuzzle.target);
           _isSuccess = true;
           _solvedStreak++;
         });
@@ -235,14 +237,16 @@ class _Target24ScreenState extends ConsumerState<Target24Screen> {
       } else {
         AppHaptics.heavy();
         setState(() {
-          _statusMessage = result == null ? 'Invalid expression' : 'Equals ${result.toStringAsFixed(1)} (Target: ${_currentPuzzle.target})';
+          _statusMessage = result == null
+              ? l10n.invalidExpression
+              : l10n.equalsTarget(result.toStringAsFixed(1), _currentPuzzle.target);
           _isSuccess = false;
         });
       }
     } catch (e) {
       AppHaptics.heavy();
       setState(() {
-        _statusMessage = 'Invalid math syntax';
+        _statusMessage = l10n.invalidMathSyntax;
         _isSuccess = false;
       });
     }
@@ -306,15 +310,16 @@ class _Target24ScreenState extends ConsumerState<Target24Screen> {
   }
 
   void _showHint() {
+    final l10n = context.l10n;
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('Puzzle Hint'),
-        content: Text('One solution is:\n\n${_currentPuzzle.solution}'),
+        title: Text(l10n.puzzleHint),
+        content: Text(l10n.oneSolutionIs(_currentPuzzle.solution)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
+            child: Text(l10n.ok),
           ),
         ],
       ),
@@ -328,15 +333,15 @@ class _Target24ScreenState extends ConsumerState<Target24Screen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Target 24 Puzzle'),
+        title: Text(context.l10n.target24Title),
         actions: [
           IconButton(
-            tooltip: 'New Puzzle',
+            tooltip: context.l10n.newPuzzle,
             icon: const Icon(Icons.refresh_rounded),
             onPressed: _nextPuzzle,
           ),
           IconButton(
-            tooltip: 'Hint',
+            tooltip: context.l10n.hint,
             icon: const Icon(Icons.lightbulb_outline_rounded),
             onPressed: _showHint,
           ),
@@ -364,7 +369,7 @@ class _Target24ScreenState extends ConsumerState<Target24Screen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Make the Target Number',
+                              context.l10n.makeTargetNumber,
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: colorScheme.onSurfaceVariant,
@@ -372,7 +377,7 @@ class _Target24ScreenState extends ConsumerState<Target24Screen> {
                             ),
                             if (_solvedStreak > 0)
                               Text(
-                                '$_solvedStreak Puzzles Solved',
+                                context.l10n.puzzlesSolved(_solvedStreak),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontSize: 11,
@@ -388,7 +393,7 @@ class _Target24ScreenState extends ConsumerState<Target24Screen> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            'Target: ${_currentPuzzle.target}',
+                            context.l10n.targetLabel(_currentPuzzle.target),
                             style: TextStyle(
                               fontWeight: FontWeight.w900,
                               fontSize: 14,
@@ -455,7 +460,7 @@ class _Target24ScreenState extends ConsumerState<Target24Screen> {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      _tokens.isEmpty ? 'Tap numbers & operators' : _tokens.join(' '),
+                      _tokens.isEmpty ? context.l10n.tapNumbersOperators : _tokens.join(' '),
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w800,
@@ -505,13 +510,13 @@ class _Target24ScreenState extends ConsumerState<Target24Screen> {
                   const SizedBox(height: 14),
                   if (_isSuccess)
                     TangibleButton(
-                      text: 'Next Puzzle',
+                      text: context.l10n.nextPuzzle,
                       height: 48,
                       onPressed: _nextPuzzle,
                     )
                   else
                     TangibleButton(
-                      text: 'Check Equation',
+                      text: context.l10n.checkEquation,
                       height: 48,
                       onPressed: _evaluateExpression,
                     ),

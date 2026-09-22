@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learnmath/l10n/l10n.dart';
 import 'package:learnmath/ui/core/services/app_haptics.dart';
 
 class DrawnLine {
@@ -40,19 +41,21 @@ class _ScratchpadModalState extends State<ScratchpadModal> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       backgroundColor: const Color(0xFF000000),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFF0A0A0C),
         elevation: 0,
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.edit_note_rounded, size: 22, color: Color(0xFF38BDF8)),
-            SizedBox(width: 8),
+            const Icon(Icons.edit_note_rounded, size: 22, color: Color(0xFF38BDF8)),
+            const SizedBox(width: 8),
             Text(
-              'Scratchpad',
-              style: TextStyle(
+              l10n.scratchpad,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
                 color: Colors.white,
@@ -62,7 +65,7 @@ class _ScratchpadModalState extends State<ScratchpadModal> {
         ),
         actions: [
           IconButton(
-            tooltip: 'Undo',
+            tooltip: l10n.undo,
             icon: const Icon(Icons.undo_rounded, color: Colors.white70),
             onPressed: _lines.isEmpty
                 ? null
@@ -74,7 +77,7 @@ class _ScratchpadModalState extends State<ScratchpadModal> {
                   },
           ),
           IconButton(
-            tooltip: 'Clear',
+            tooltip: l10n.clear,
             icon: const Icon(Icons.delete_sweep_rounded, color: Color(0xFFEF4444)),
             onPressed: _lines.isEmpty
                 ? null

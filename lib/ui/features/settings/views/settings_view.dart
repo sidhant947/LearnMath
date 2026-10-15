@@ -127,6 +127,13 @@ class SettingsView extends ConsumerWidget {
                                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                                 ),
                               ),
+                              DropdownMenuItem(
+                                value: 'tr',
+                                child: Text(
+                                  'Türkçe',
+                                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                                ),
+                              ),
                             ],
                             onChanged: (val) {
                               if (val != null && val != languageCode) {

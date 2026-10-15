@@ -103,9 +103,13 @@ extension AppLocalizationsHelpers on AppLocalizations {
 
   String levelTitle(int level) {
     if (level > 60) {
-      return localeName.startsWith('de')
-          ? 'Meister-Übung ${level - 60}'
-          : 'Master Practice ${level - 60}';
+      if (localeName.startsWith('de')) {
+        return 'Meister-Übung ${level - 60}';
+      }
+      if (localeName.startsWith('tr')) {
+        return 'Usta Alıştırması ${level - 60}';
+      }
+      return 'Master Practice ${level - 60}';
     }
     if (localeName.startsWith('de')) {
       switch (level) {
@@ -170,6 +174,71 @@ extension AppLocalizationsHelpers on AppLocalizations {
         case 59: return '👑 Großes Halbfinal-Bosslevel';
         case 60: return '👑 Das Ultimative Abschluss-Bosslevel';
         default: return 'Meister-Übung';
+      }
+    }
+    if (localeName.startsWith('tr')) {
+      switch (level) {
+        case 1: return '0 Nedir & Sayma (1\'den 5\'e)';
+        case 2: return 'Sayma (6\'dan 10\'a) & Karşılaştırma';
+        case 3: return 'Basamak Değeri & Çift / Tek';
+        case 4: return '👑 Sayı Hissi Kilometre Taşı';
+        case 5: return '1 Basamaklı Toplama (5\'e Kadar)';
+        case 6: return '1 Basamaklı Toplama (10\'a Kadar)';
+        case 7: return 'Toplama (10\'u Aşma)';
+        case 8: return '2 Basamaklı + 1 Basamaklı (Basit)';
+        case 9: return '2 Basamaklı + 1 Basamaklı (Eldeli)';
+        case 10: return '2 Basamaklı + 2 Basamaklı (Basit)';
+        case 11: return '2 Basamaklı + 2 Basamaklı (Eldeli)';
+        case 12: return '3 Basamaklı Toplama';
+        case 13: return '4 Basamaklı Toplama';
+        case 14: return '👑 Toplama Ustası Canavarı';
+        case 15: return '1 Basamaklı Çıkarma (5 İçinde)';
+        case 16: return '1 Basamaklı Çıkarma (10 İçinde)';
+        case 17: return '10 Üzerinden Çıkarma';
+        case 18: return '2 Basamaklı - 1 Basamaklı (Basit)';
+        case 19: return '2 Basamaklı - 1 Basamaklı (Onluk Bozarak)';
+        case 20: return '2 Basamaklı - 2 Basamaklı (Basit)';
+        case 21: return '2 Basamaklı - 2 Basamaklı (Onluk Bozarak)';
+        case 22: return '3 Basamaklı Çıkarma';
+        case 23: return '4 Basamaklı Çıkarma';
+        case 24: return '👑 Çıkarma Ustası Canavarı';
+        case 25: return 'Gruplar Halinde Çarpma';
+        case 26: return 'Çarpım Tablosu: 2 & 3';
+        case 27: return 'Çarpım Tablosu: 4 & 5';
+        case 28: return 'Çarpım Tablosu: 6 & 7';
+        case 29: return 'Çarpım Tablosu: 8 & 9';
+        case 30: return 'Çarpım Tablosu: 10, 11 & 12';
+        case 31: return '2 Basamaklı × 1 Basamaklı (Basit)';
+        case 32: return '2 Basamaklı × 1 Basamaklı (İleri)';
+        case 33: return '2 Basamaklı × 2 Basamaklı';
+        case 34: return '👑 Çarpma Ustası Canavarı';
+        case 35: return 'Eşit Paylaşım Olarak Bölme';
+        case 36: return '2, 3 & 4 ile Bölme';
+        case 37: return '5 & 10 ile Bölme';
+        case 38: return '6, 7, 8 & 9 ile Bölme';
+        case 39: return '11 & 12 ile Bölme';
+        case 40: return '2 Basamaklı ÷ 1 Basamaklı (Basit)';
+        case 41: return '2 Basamaklı ÷ 1 Basamaklı (İleri)';
+        case 42: return '3 Basamaklı ÷ 1 Basamaklı';
+        case 43: return '3 Basamaklı ÷ 2 Basamaklı';
+        case 44: return '👑 Bölme Ustası Canavarı';
+        case 45: return 'Kareler Temel (1²\'den 6²\'ye)';
+        case 46: return 'Kareler İleri (7²\'den 12²\'ye)';
+        case 47: return '2 Basamaklı Kareler (13²\'den 25²\'ye)';
+        case 48: return 'Karekökler (√4\'ten √49\'a)';
+        case 49: return 'Karekökler (√64\'ten √400\'e)';
+        case 50: return 'Küpler Temel (1³\'ten 5³\'e)';
+        case 51: return 'Küpler İleri (6³\'ten 10³\'e)';
+        case 52: return '4. Kuvvet Temel (1⁴\'ten 3⁴\'e)';
+        case 53: return '4. Kuvvet İleri (4⁴, 5⁴, 10⁴)';
+        case 54: return '👑 Kuvvetler & Kökler Canavarı';
+        case 55: return 'Hız Testi: Toplama & Çıkarma';
+        case 56: return 'Hız Testi: Çarpma & Bölme';
+        case 57: return 'Hız Testi: Kuvvetler & Kökler';
+        case 58: return 'Çok Yönlü Mücadele';
+        case 59: return '👑 Büyük Yarı Final Canavarı';
+        case 60: return '👑 Nihai Mezuniyet Canavarı';
+        default: return 'Usta Alıştırması';
       }
     }
     switch (level) {
@@ -238,6 +307,33 @@ extension AppLocalizationsHelpers on AppLocalizations {
   }
 
   String translatePrompt(String prompt) {
+    if (localeName.startsWith('tr')) {
+      if (prompt == 'Which number means ZERO?' || prompt == 'Which number means ZERO (nothing)?') {
+        return 'Hangi sayı SIFIR (hiçlik) anlamına gelir?';
+      }
+      if (prompt == 'Count the dots:' || prompt == 'Count the glowing dots:') {
+        return 'Işıltılı noktaları say:';
+      }
+      if (prompt == 'Which number is LARGER?') {
+        return 'Hangi sayı DAHA BÜYÜKTÜR?';
+      }
+      if (prompt == 'Which number is SMALLER?') {
+        return 'Hangi sayı DAHA KÜÇÜKTÜR?';
+      }
+      final tensOnesMatch = RegExp(r'What number has (\d+) Tens and (\d+) Ones\?').firstMatch(prompt);
+      if (tensOnesMatch != null) {
+        return 'Hangi sayıda ${tensOnesMatch.group(1)} Onluk ve ${tensOnesMatch.group(2)} Birlik vardır?';
+      }
+      final htoMatch = RegExp(r'What number is (\d+) Hundreds, (\d+) Tens & (\d+) Ones\?').firstMatch(prompt);
+      if (htoMatch != null) {
+        return '${htoMatch.group(1)} Yüzlük, ${htoMatch.group(2)} Onluk & ${htoMatch.group(3)} Birlik hangi sayıdır?';
+      }
+      final evenOddMatch = RegExp(r'Is the number (\d+) Even or Odd\?').firstMatch(prompt);
+      if (evenOddMatch != null) {
+        return '${evenOddMatch.group(1)} sayısı Çift mi yoksa Tek mi?';
+      }
+      return prompt;
+    }
     if (!localeName.startsWith('de')) return prompt;
     if (prompt == 'Which number means ZERO?' || prompt == 'Which number means ZERO (nothing)?') {
       return 'Welche Zahl bedeutet NULL (nichts)?';
@@ -267,6 +363,18 @@ extension AppLocalizationsHelpers on AppLocalizations {
   }
 
   String translateSubtitle(String subtitle) {
+    if (localeName.startsWith('tr')) {
+      if (subtitle == 'No dots shown below') {
+        return 'Aşağıda hiç nokta gösterilmiyor';
+      }
+      if (subtitle.contains('Even pairs equally') || subtitle.contains('Odd has one left over')) {
+        return 'Çift eşit olarak eşleşir (2, 4, 6...); Tek sayının 1 fazlalığı kalır.';
+      }
+      if (subtitle.contains(' or ')) {
+        return subtitle.replaceAll(' or ', ' veya ');
+      }
+      return subtitle;
+    }
     if (!localeName.startsWith('de')) return subtitle;
     if (subtitle == 'No dots shown below') {
       return 'Keine Punkte unten angezeigt';
@@ -281,6 +389,11 @@ extension AppLocalizationsHelpers on AppLocalizations {
   }
 
   String translateOption(String option) {
+    if (localeName.startsWith('tr')) {
+      if (option == 'Even') return 'Çift';
+      if (option == 'Odd') return 'Tek';
+      return option;
+    }
     if (!localeName.startsWith('de')) return option;
     if (option == 'Even') return 'Gerade';
     if (option == 'Odd') return 'Ungerade';
@@ -288,6 +401,221 @@ extension AppLocalizationsHelpers on AppLocalizations {
   }
 
   String translateExplanation(String step) {
+    if (localeName.startsWith('tr')) {
+      if (step.contains('Zero means nothing') || step.contains('Zero means nothing or empty')) {
+        return 'Sıfır, hiçlik veya boş alan anlamına gelir — sayılacak hiçbir öğe yoktur!';
+      }
+      final countDotsMatch = RegExp(r'Count each glowing dot one by one: 1, 2, 3\.\.\. until you reach (\d+)\.').firstMatch(step);
+      if (countDotsMatch != null) {
+        return 'Her ışıltılı noktayı teker teker say: 1, 2, 3... ta ki ${countDotsMatch.group(1)} sayısına ulaşana kadar.';
+      }
+      final dotsShownMatch = RegExp(r'There are (\d+) dots shown on the screen\.').firstMatch(step);
+      if (dotsShownMatch != null) {
+        return 'Ekranda ${dotsShownMatch.group(1)} nokta gösteriliyor.';
+      }
+      final countingTotalsMatch = RegExp(r'Counting every glowing dot totals (\d+)\.').firstMatch(step);
+      if (countingTotalsMatch != null) {
+        return 'Tüm ışıltılı noktalar sayıldığında toplam ${countingTotalsMatch.group(1)} eder.';
+      }
+      final tensMeansMatch = RegExp(r'First, (\d+) Tens means \1 groups of 10, which equals (\d+)\.').firstMatch(step);
+      if (tensMeansMatch != null) {
+        return 'İlk olarak, ${tensMeansMatch.group(1)} Onluk, ${tensMeansMatch.group(1)} adet 10luk grup anlamına gelir ve ${tensMeansMatch.group(2)} değerine eşittir.';
+      }
+      final onesMeansMatch = RegExp(r'Next, (\d+) Ones simply equals \1\.').firstMatch(step);
+      if (onesMeansMatch != null) {
+        return 'Ardından, ${onesMeansMatch.group(1)} Birlik sadece ${onesMeansMatch.group(1)} eder.';
+      }
+      final combineMatch = RegExp(r'Finally, combine them together: (\d+) plus (\d+) gives (\d+)\.').firstMatch(step);
+      if (combineMatch != null) {
+        return 'Son olarak, bunları birleştir: ${combineMatch.group(1)} artı ${combineMatch.group(2)}, ${combineMatch.group(3)} eder.';
+      }
+      final hundredsMeansMatch = RegExp(r'First, (\d+) Hundreds means \1 groups of 100 = (\d+)\.').firstMatch(step);
+      if (hundredsMeansMatch != null) {
+        return 'İlk olarak, ${hundredsMeansMatch.group(1)} Yüzlük, ${hundredsMeansMatch.group(1)} adet 100lük grup demektir = ${hundredsMeansMatch.group(2)}.';
+      }
+      final tensGroupMatch = RegExp(r'Next, (\d+) Tens means \1 groups of 10 = (\d+)\.').firstMatch(step);
+      if (tensGroupMatch != null) {
+        return 'Ardından, ${tensGroupMatch.group(1)} Onluk, ${tensGroupMatch.group(1)} adet 10luk grup demektir = ${tensGroupMatch.group(2)}.';
+      }
+      final thenOnesMatch = RegExp(r'Then, (\d+) Ones equals \1\.').firstMatch(step);
+      if (thenOnesMatch != null) {
+        return 'Sonra, ${thenOnesMatch.group(1)} Birlik ${thenOnesMatch.group(1)} eder.';
+      }
+      final addAllMatch = RegExp(r'Add them all up: (.+)').firstMatch(step);
+      if (addAllMatch != null) {
+        return 'Hepsini topla: ${addAllMatch.group(1)}';
+      }
+      final tensEqualMatch = RegExp(r'(\d+) Tens = (\d+)\.').firstMatch(step);
+      if (tensEqualMatch != null) {
+        return '${tensEqualMatch.group(1)} Onluk = ${tensEqualMatch.group(2)}.';
+      }
+      final onesEqualMatch = RegExp(r'(\d+) Ones = (\d+)\.').firstMatch(step);
+      if (onesEqualMatch != null) {
+        return '${onesEqualMatch.group(1)} Birlik = ${onesEqualMatch.group(2)}.';
+      }
+      final lineUpMatch = RegExp(r'Line up the numbers: starting with (\d+) and adding (\d+)\.').firstMatch(step);
+      if (lineUpMatch != null) {
+        return 'Sayıları hizala: ${lineUpMatch.group(1)} ile başla ve ${lineUpMatch.group(2)} ekle.';
+      }
+      final addOnesMatch = RegExp(r'First, add the ones digits: (.+)').firstMatch(step);
+      if (addOnesMatch != null) {
+        return 'Önce birlik basamaklarını topla: ${addOnesMatch.group(1)}';
+      }
+      if (step == 'Next, add the remaining digits (tens and hundreds) along with any carry over.') {
+        return 'Ardından kalan basamakları (onlar ve yüzler) elde ile birlikte topla.';
+      }
+      final addTensMatch = RegExp(r'Next, add the tens digits: (.+)').firstMatch(step);
+      if (addTensMatch != null) {
+        return 'Ardından onlar basamaklarını topla: ${addTensMatch.group(1)}';
+      }
+      final putTogetherMatch = RegExp(r'Putting it all together: (.+)').firstMatch(step);
+      if (putTogetherMatch != null) {
+        return 'Hepsini bir araya getir: ${putTogetherMatch.group(1)}';
+      }
+      final addTogetherFinalMatch = RegExp(r'Add them together to get the final sum: (.+)').firstMatch(step);
+      if (addTogetherFinalMatch != null) {
+        return 'Son toplamı bulmak için bunları topla: ${addTogetherFinalMatch.group(1)}';
+      }
+      final startAmountMatch = RegExp(r'Start (?:at the total amount:|with the starting amount of) (\d+)\.').firstMatch(step);
+      if (startAmountMatch != null) {
+        return 'Başlangıç miktarıyla başla: ${startAmountMatch.group(1)}.';
+      }
+      final countBackwardMatch = RegExp(r'(?:Count backward or take|Take) away (\d+) step by step\.').firstMatch(step);
+      if (countBackwardMatch != null) {
+        return 'Geriye doğru say veya adım adım ${countBackwardMatch.group(1)} çıkar.';
+      }
+      final leftWithMatch = RegExp(r'You are left with:? (\d+)\.').firstMatch(step);
+      if (leftWithMatch != null) {
+        return 'Kalan sonuç: ${leftWithMatch.group(1)}.';
+      }
+      final multMeansMatch = RegExp(r'(?:Multiplication \((.+)\) means adding (\d+) a total of (\d+) times\.|Think of (.+) as adding (\d+) to itself (\d+) times\.)').firstMatch(step);
+      if (multMeansMatch != null) {
+        final expr = multMeansMatch.group(1) ?? multMeansMatch.group(4);
+        final num = multMeansMatch.group(2) ?? multMeansMatch.group(5);
+        final times = multMeansMatch.group(3) ?? multMeansMatch.group(6);
+        return 'Çarpma işlemi ($expr), $num sayısını toplamda $times kez eklemek anlamına gelir.';
+      }
+      final groupsMatch = RegExp(r'Think of making (\d+) groups with (\d+) items in each group: (.+)').firstMatch(step);
+      if (groupsMatch != null) {
+        return 'Her grupta ${groupsMatch.group(2)} öğe olacak şekilde ${groupsMatch.group(1)} grup oluşturmayı düşün: ${groupsMatch.group(3)}';
+      }
+      final countGroupsMatch = RegExp(r'Counting up all (\d+) groups of (\d+) gives (\d+)\.').firstMatch(step);
+      if (countGroupsMatch != null) {
+        return '${countGroupsMatch.group(2)} sayılık ${countGroupsMatch.group(1)} grubun tamamı sayıldığında ${countGroupsMatch.group(3)} elde edilir.';
+      }
+      final breakPartsMatch = RegExp(r'Break (\d+) into parts: (.+)').firstMatch(step);
+      if (breakPartsMatch != null) {
+        return '${breakPartsMatch.group(1)} sayısını parçalara ayır: ${breakPartsMatch.group(2)}';
+      }
+      final multTensOnesMatch = RegExp(r'Multiply tens: (.+), then ones: (.+)').firstMatch(step);
+      if (multTensOnesMatch != null) {
+        return 'Onlukları çarp: ${multTensOnesMatch.group(1)}, sonra birlikleri çarp: ${multTensOnesMatch.group(2)}';
+      }
+      final addPartsMatch = RegExp(r'Add the parts: (.+)').firstMatch(step);
+      if (addPartsMatch != null) {
+        return 'Parçaları topla: ${addPartsMatch.group(1)}';
+      }
+      final finalProdMatch = RegExp(r'Final product: (\d+)\.').firstMatch(step);
+      if (finalProdMatch != null) {
+        return 'Son çarpım: ${finalProdMatch.group(1)}.';
+      }
+      final divSplitMatch = RegExp(r'(?:Division \((.+)\) means splitting a total of (\d+) into (\d+) equal groups\.|Imagine dividing (\d+) into (\d+) equal parts\.)').firstMatch(step);
+      if (divSplitMatch != null) {
+        final total = divSplitMatch.group(2) ?? divSplitMatch.group(4);
+        final parts = divSplitMatch.group(3) ?? divSplitMatch.group(5);
+        return 'Bölme işlemi, toplam $total değerini $parts eşit gruba ayırmak demektir.';
+      }
+      final divAskMatch = RegExp(r'Ask: How many times does (\d+) fit into (\d+)\?').firstMatch(step);
+      if (divAskMatch != null) {
+        return 'Sor: ${divAskMatch.group(1)} sayısı ${divAskMatch.group(2)} içine kaç kez sığar?';
+      }
+      final verifyMultMatch = RegExp(r'Verify with multiplication: (.+)').firstMatch(step);
+      if (verifyMultMatch != null) {
+        return 'Çarpma ile doğrula: ${verifyMultMatch.group(1)}';
+      }
+      final becauseDivMatch = RegExp(r'Because (.+) = (\d+), the result is (\d+)\.').firstMatch(step);
+      if (becauseDivMatch != null) {
+        return '${becauseDivMatch.group(1)} = ${becauseDivMatch.group(2)} olduğu için sonuç ${becauseDivMatch.group(3)} olur.';
+      }
+      final divResultMatch = RegExp(r'Result: Each group receives (\d+)\.').firstMatch(step);
+      if (divResultMatch != null) {
+        return 'Sonuç: Her gruba ${divResultMatch.group(1)} düşer.';
+      }
+      if (step.contains('The square root symbol (√) asks:') ||
+          step.contains('The square root (√') ||
+          step.contains('Find the mystery number that gives') ||
+          step.contains('Ask: What number times itself equals')) {
+        return 'Karekök sembolü sorar: Kendisiyle çarpıldığında bu değeri veren sayı hangisidir?';
+      }
+      final testCandMatch = RegExp(r'(?:Test candidate:|Check:) (.+)').firstMatch(step);
+      if (testCandMatch != null) {
+        return 'Kontrol et: ${testCandMatch.group(1)}';
+      }
+      final thereforeRootMatch = RegExp(r'(?:Therefore,|So the square root of \d+ is) (?:√\d+ = )?(\d+)\.').firstMatch(step);
+      if (thereforeRootMatch != null) {
+        return 'Dolayısıyla sonuç ${thereforeRootMatch.group(1)} olur.';
+      }
+      final sinceRootMatch = RegExp(r'(?:Since|Because) (.+) = (\d+), √\2 = (\d+)\.').firstMatch(step);
+      if (sinceRootMatch != null) {
+        return '${sinceRootMatch.group(1)} = ${sinceRootMatch.group(2)} olduğundan, √${sinceRootMatch.group(2)} = ${sinceRootMatch.group(3)} olur.';
+      }
+      final squareExpMatch = RegExp(r'(?:The small ² exponent means "square" — multiply (\d+) by itself \(\1 × \1\)\.|Squaring \((\d+)²\) means multiplying \2 by itself\.|Multiply (\d+) by itself:? \3 × \3\.|Multiply (\d+) by itself \(\4 × \4\)\.|(\d+)² means multiplying \5 by itself.*)').firstMatch(step);
+      if (squareExpMatch != null) {
+        final b = squareExpMatch.group(1) ?? squareExpMatch.group(2) ?? squareExpMatch.group(3) ?? squareExpMatch.group(4) ?? squareExpMatch.group(5);
+        return 'Kare alma ($b²), $b sayısını kendisiyle çarpmak ($b × $b) anlamına gelir.';
+      }
+      final calcMatch = RegExp(r'(?:Calculation:|Final calculation:|Result:) (.+)').firstMatch(step);
+      if (calcMatch != null) {
+        return 'Hesaplama: ${calcMatch.group(1)}';
+      }
+      final cubeExpMatch = RegExp(r'(?:The ³ exponent means "cube" — multiply (\d+) by itself 3 times.*|Cubing \((\d+)³\) means multiplying \2 by itself 3 times\.|Multiply (\d+) by itself 3 times.*|(\d+)³ means multiplying \4 by itself 3 times.*)').firstMatch(step);
+      if (cubeExpMatch != null) {
+        final b = cubeExpMatch.group(1) ?? cubeExpMatch.group(2) ?? cubeExpMatch.group(3) ?? cubeExpMatch.group(4);
+        return 'Küp alma ($b³), $b sayısını kendisiyle 3 kez çarpmak ($b × $b × $b) anlamına gelir.';
+      }
+      final step1SquareMatch = RegExp(r'(?:Step 1 \(square\):|Step 1:|First,) (.+)').firstMatch(step);
+      if (step1SquareMatch != null) {
+        return '1. Adım: ${step1SquareMatch.group(1)}';
+      }
+      final step2CubeMatch = RegExp(r'(?:Step 2 \(cube\):|Step 2: Multiply|Then,) (.+)').firstMatch(step);
+      if (step2CubeMatch != null) {
+        return '2. Adım: ${step2CubeMatch.group(1)}';
+      }
+      final p4Match = RegExp(r'(\d+)⁴ means multiplying \1 by itself 4 times.*|Multiply (\d+) by itself 4 times.*').firstMatch(step);
+      if (p4Match != null) {
+        final b = p4Match.group(1) ?? p4Match.group(2);
+        return '$b⁴, $b sayısını kendisiyle 4 kez çarpmak ($b × $b × $b × $b) anlamına gelir.';
+      }
+      final step2P4Match = RegExp(r'Step 2 \(power of 4\): (.+)').firstMatch(step);
+      if (step2P4Match != null) {
+        return '2. Adım (4. kuvvet): ${step2P4Match.group(1)}';
+      }
+      final compareMatch = RegExp(r'Comparing (\d+) and (\d+)\.').firstMatch(step);
+      if (compareMatch != null) {
+        return '${compareMatch.group(1)} ve ${compareMatch.group(2)} sayılarını karşılaştırma.';
+      }
+      final greaterMatch = RegExp(r'(\d+) is greater because it comes further along the number line\.').firstMatch(step);
+      if (greaterMatch != null) {
+        return '${greaterMatch.group(1)} daha büyüktür çünkü sayı doğrusunda daha sağdadır.';
+      }
+      final smallerMatch = RegExp(r'(\d+) is smaller because it is closer to 0\.').firstMatch(step);
+      if (smallerMatch != null) {
+        return '${smallerMatch.group(1)} daha küçüktür çünkü 0\'a daha yakındır.';
+      }
+      final evenDivideMatch = RegExp(r'Divide (\d+) by 2: \1 ÷ 2 = (\d+) with remainder (\d+)\.').firstMatch(step);
+      if (evenDivideMatch != null) {
+        return '${evenDivideMatch.group(1)} sayısını 2\'ye böl: ${evenDivideMatch.group(1)} ÷ 2 = ${evenDivideMatch.group(2)} ile kalan ${evenDivideMatch.group(3)}.';
+      }
+      final evenNoRemainderMatch = RegExp(r'Since there is no remainder, (\d+) is Even\.').firstMatch(step);
+      if (evenNoRemainderMatch != null) {
+        return 'Kalan olmadığı için ${evenNoRemainderMatch.group(1)} Çifttir.';
+      }
+      final oddRemainderMatch = RegExp(r'Since 1 is left over, (\d+) is Odd\.').firstMatch(step);
+      if (oddRemainderMatch != null) {
+        return '1 kalan olduğu için ${oddRemainderMatch.group(1)} Tektir.';
+      }
+      return step;
+    }
     if (!localeName.startsWith('de')) return step;
 
     if (step.contains('Zero means nothing') || step.contains('Zero means nothing or empty')) {

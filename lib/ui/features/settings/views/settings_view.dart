@@ -128,6 +128,13 @@ class SettingsView extends ConsumerWidget {
                                 ),
                               ),
                               DropdownMenuItem(
+                                value: 'pl',
+                                child: Text(
+                                  'Polski',
+                                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                                ),
+                              ),
+                              DropdownMenuItem(
                                 value: 'tr',
                                 child: Text(
                                   'Türkçe',

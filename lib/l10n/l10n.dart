@@ -109,6 +109,9 @@ extension AppLocalizationsHelpers on AppLocalizations {
       if (localeName.startsWith('tr')) {
         return 'Usta Alıştırması ${level - 60}';
       }
+      if (localeName.startsWith('pl')) {
+        return 'Trening mistrzowski ${level - 60}';
+      }
       return 'Master Practice ${level - 60}';
     }
     if (localeName.startsWith('de')) {
@@ -241,6 +244,71 @@ extension AppLocalizationsHelpers on AppLocalizations {
         default: return 'Usta Alıştırması';
       }
     }
+    if (localeName.startsWith('pl')) {
+      switch (level) {
+        case 1: return 'Co to jest 0 i liczenie (1 do 5)';
+        case 2: return 'Liczenie (6 do 10) i porównywanie';
+        case 3: return 'Wartość miejsca i parzyste / nieparzyste';
+        case 4: return '👑 Kamień milowy zmysłu liczbowego';
+        case 5: return 'Dodawanie 1-cyfrowe (sumy do 5)';
+        case 6: return 'Dodawanie 1-cyfrowe (sumy do 10)';
+        case 7: return 'Dodawanie (przekroczenie 10)';
+        case 8: return '2-cyfrowe + 1-cyfrowe (proste)';
+        case 9: return '2-cyfrowe + 1-cyfrowe (z przeniesieniem)';
+        case 10: return '2-cyfrowe + 2-cyfrowe (proste)';
+        case 11: return '2-cyfrowe + 2-cyfrowe (z przeniesieniem)';
+        case 12: return 'Dodawanie 3-cyfrowe';
+        case 13: return 'Dodawanie 4-cyfrowe';
+        case 14: return '👑 Boss mistrz dodawania';
+        case 15: return 'Odejmowanie 1-cyfrowe (do 5)';
+        case 16: return 'Odejmowanie 1-cyfrowe (do 10)';
+        case 17: return 'Odejmowanie przez 10';
+        case 18: return '2-cyfrowe - 1-cyfrowe (proste)';
+        case 19: return '2-cyfrowe - 1-cyfrowe (z pożyczaniem)';
+        case 20: return '2-cyfrowe - 2-cyfrowe (proste)';
+        case 21: return '2-cyfrowe - 2-cyfrowe (z pożyczaniem)';
+        case 22: return 'Odejmowanie 3-cyfrowe';
+        case 23: return 'Odejmowanie 4-cyfrowe';
+        case 24: return '👑 Boss mistrz odejmowania';
+        case 25: return 'Mnożenie jako grupy';
+        case 26: return 'Tabliczka mnożenia 2 i 3';
+        case 27: return 'Tabliczka mnożenia 4 i 5';
+        case 28: return 'Tabliczka mnożenia 6 i 7';
+        case 29: return 'Tabliczka mnożenia 8 i 9';
+        case 30: return 'Tabliczka mnożenia 10, 11 i 12';
+        case 31: return '2-cyfrowe × 1-cyfrowe (proste)';
+        case 32: return '2-cyfrowe × 1-cyfrowe (zaawansowane)';
+        case 33: return '2-cyfrowe × 2-cyfrowe';
+        case 34: return '👑 Boss mistrz mnożenia';
+        case 35: return 'Dzielenie jako równy podział';
+        case 36: return 'Dzielenie przez 2, 3 i 4';
+        case 37: return 'Dzielenie przez 5 i 10';
+        case 38: return 'Dzielenie przez 6, 7, 8 i 9';
+        case 39: return 'Dzielenie przez 11 i 12';
+        case 40: return '2-cyfrowe ÷ 1-cyfrowe (proste)';
+        case 41: return '2-cyfrowe ÷ 1-cyfrowe (zaawansowane)';
+        case 42: return '3-cyfrowe ÷ 1-cyfrowe';
+        case 43: return '3-cyfrowe ÷ 2-cyfrowe';
+        case 44: return '👑 Boss mistrz dzielenia';
+        case 45: return 'Kwadraty podstawy (1² do 6²)';
+        case 46: return 'Kwadraty zaawansowane (7² do 12²)';
+        case 47: return 'Kwadraty 2-cyfrowe (13² do 25²)';
+        case 48: return 'Pierwiastki kwadratowe (√4 do √49)';
+        case 49: return 'Pierwiastki kwadratowe (√64 do √400)';
+        case 50: return 'Sześciany podstawy (1³ do 5³)';
+        case 51: return 'Sześciany zaawansowane (6³ do 10³)';
+        case 52: return '4. potęgi podstawy (1⁴ do 3⁴)';
+        case 53: return '4. potęgi zaawansowane (4⁴, 5⁴, 10⁴)';
+        case 54: return '👑 Boss potęg i pierwiastków';
+        case 55: return 'Próba szybkości: dodawanie i odejmowanie';
+        case 56: return 'Próba szybkości: mnożenie i dzielenie';
+        case 57: return 'Próba szybkości: potęgi i pierwiastki';
+        case 58: return 'Wyzwanie wszechstronne';
+        case 59: return '👑 Wielki boss półfinałowy';
+        case 60: return '👑 Ostateczny boss ukończenia';
+        default: return 'Trening mistrzowski';
+      }
+    }
     switch (level) {
       case 1: return 'What is 0 & Counting (1 to 5)';
       case 2: return 'Counting (6 to 10) & Comparing';
@@ -334,6 +402,33 @@ extension AppLocalizationsHelpers on AppLocalizations {
       }
       return prompt;
     }
+    if (localeName.startsWith('pl')) {
+      if (prompt == 'Which number means ZERO?' || prompt == 'Which number means ZERO (nothing)?') {
+        return 'Która liczba oznacza ZERO (nic)?';
+      }
+      if (prompt == 'Count the dots:' || prompt == 'Count the glowing dots:') {
+        return 'Policz świecące kropki:';
+      }
+      if (prompt == 'Which number is LARGER?') {
+        return 'Która liczba jest WIĘKSZA?';
+      }
+      if (prompt == 'Which number is SMALLER?') {
+        return 'Która liczba jest MNIEJSZA?';
+      }
+      final tensOnesMatch = RegExp(r'What number has (\d+) Tens and (\d+) Ones\?').firstMatch(prompt);
+      if (tensOnesMatch != null) {
+        return 'Która liczba ma ${tensOnesMatch.group(1)} dziesiątek i ${tensOnesMatch.group(2)} jedności?';
+      }
+      final htoMatch = RegExp(r'What number is (\d+) Hundreds, (\d+) Tens & (\d+) Ones\?').firstMatch(prompt);
+      if (htoMatch != null) {
+        return 'Która liczba to ${htoMatch.group(1)} setek, ${htoMatch.group(2)} dziesiątek i ${htoMatch.group(3)} jedności?';
+      }
+      final evenOddMatch = RegExp(r'Is the number (\d+) Even or Odd\?').firstMatch(prompt);
+      if (evenOddMatch != null) {
+        return 'Czy liczba ${evenOddMatch.group(1)} jest parzysta czy nieparzysta?';
+      }
+      return prompt;
+    }
     if (!localeName.startsWith('de')) return prompt;
     if (prompt == 'Which number means ZERO?' || prompt == 'Which number means ZERO (nothing)?') {
       return 'Welche Zahl bedeutet NULL (nichts)?';
@@ -375,6 +470,18 @@ extension AppLocalizationsHelpers on AppLocalizations {
       }
       return subtitle;
     }
+    if (localeName.startsWith('pl')) {
+      if (subtitle == 'No dots shown below') {
+        return 'Brak kropek poniżej';
+      }
+      if (subtitle.contains('Even pairs equally') || subtitle.contains('Odd has one left over')) {
+        return 'Parzyste tworzą równe pary (2, 4, 6...); nieparzyste mają 1 reszty.';
+      }
+      if (subtitle.contains(' or ')) {
+        return subtitle.replaceAll(' or ', ' lub ');
+      }
+      return subtitle;
+    }
     if (!localeName.startsWith('de')) return subtitle;
     if (subtitle == 'No dots shown below') {
       return 'Keine Punkte unten angezeigt';
@@ -392,6 +499,11 @@ extension AppLocalizationsHelpers on AppLocalizations {
     if (localeName.startsWith('tr')) {
       if (option == 'Even') return 'Çift';
       if (option == 'Odd') return 'Tek';
+      return option;
+    }
+    if (localeName.startsWith('pl')) {
+      if (option == 'Even') return 'Parzysta';
+      if (option == 'Odd') return 'Nieparzysta';
       return option;
     }
     if (!localeName.startsWith('de')) return option;
@@ -613,6 +725,221 @@ extension AppLocalizationsHelpers on AppLocalizations {
       final oddRemainderMatch = RegExp(r'Since 1 is left over, (\d+) is Odd\.').firstMatch(step);
       if (oddRemainderMatch != null) {
         return '1 kalan olduğu için ${oddRemainderMatch.group(1)} Tektir.';
+      }
+      return step;
+    }
+    if (localeName.startsWith('pl')) {
+      if (step.contains('Zero means nothing') || step.contains('Zero means nothing or empty')) {
+        return 'Zero oznacza nic lub pustkę — nie ma czego liczyć!';
+      }
+      final countDotsMatch = RegExp(r'Count each glowing dot one by one: 1, 2, 3\.\.\. until you reach (\d+)\.').firstMatch(step);
+      if (countDotsMatch != null) {
+        return 'Policz każdą świecącą kropkę po kolei: 1, 2, 3... aż dojdziesz do ${countDotsMatch.group(1)}.';
+      }
+      final dotsShownMatch = RegExp(r'There are (\d+) dots shown on the screen\.').firstMatch(step);
+      if (dotsShownMatch != null) {
+        return 'Na ekranie pokazano ${dotsShownMatch.group(1)} kropek.';
+      }
+      final countingTotalsMatch = RegExp(r'Counting every glowing dot totals (\d+)\.').firstMatch(step);
+      if (countingTotalsMatch != null) {
+        return 'Policzenie wszystkich świecących kropek daje łącznie ${countingTotalsMatch.group(1)}.';
+      }
+      final tensMeansMatch = RegExp(r'First, (\d+) Tens means \1 groups of 10, which equals (\d+)\.').firstMatch(step);
+      if (tensMeansMatch != null) {
+        return 'Najpierw ${tensMeansMatch.group(1)} dziesiątek oznacza ${tensMeansMatch.group(1)} grup po 10, co równa się ${tensMeansMatch.group(2)}.';
+      }
+      final onesMeansMatch = RegExp(r'Next, (\d+) Ones simply equals \1\.').firstMatch(step);
+      if (onesMeansMatch != null) {
+        return 'Następnie ${onesMeansMatch.group(1)} jedności to po prostu ${onesMeansMatch.group(1)}.';
+      }
+      final combineMatch = RegExp(r'Finally, combine them together: (\d+) plus (\d+) gives (\d+)\.').firstMatch(step);
+      if (combineMatch != null) {
+        return 'Na koniec połącz je razem: ${combineMatch.group(1)} plus ${combineMatch.group(2)} daje ${combineMatch.group(3)}.';
+      }
+      final hundredsMeansMatch = RegExp(r'First, (\d+) Hundreds means \1 groups of 100 = (\d+)\.').firstMatch(step);
+      if (hundredsMeansMatch != null) {
+        return 'Najpierw ${hundredsMeansMatch.group(1)} setek oznacza ${hundredsMeansMatch.group(1)} grup po 100 = ${hundredsMeansMatch.group(2)}.';
+      }
+      final tensGroupMatch = RegExp(r'Next, (\d+) Tens means \1 groups of 10 = (\d+)\.').firstMatch(step);
+      if (tensGroupMatch != null) {
+        return 'Następnie ${tensGroupMatch.group(1)} dziesiątek oznacza ${tensGroupMatch.group(1)} grup po 10 = ${tensGroupMatch.group(2)}.';
+      }
+      final thenOnesMatch = RegExp(r'Then, (\d+) Ones equals \1\.').firstMatch(step);
+      if (thenOnesMatch != null) {
+        return 'Potem ${thenOnesMatch.group(1)} jedności równa się ${thenOnesMatch.group(1)}.';
+      }
+      final addAllMatch = RegExp(r'Add them all up: (.+)').firstMatch(step);
+      if (addAllMatch != null) {
+        return 'Zsumuj wszystko: ${addAllMatch.group(1)}';
+      }
+      final tensEqualMatch = RegExp(r'(\d+) Tens = (\d+)\.').firstMatch(step);
+      if (tensEqualMatch != null) {
+        return '${tensEqualMatch.group(1)} dziesiątek = ${tensEqualMatch.group(2)}.';
+      }
+      final onesEqualMatch = RegExp(r'(\d+) Ones = (\d+)\.').firstMatch(step);
+      if (onesEqualMatch != null) {
+        return '${onesEqualMatch.group(1)} jedności = ${onesEqualMatch.group(2)}.';
+      }
+      final lineUpMatch = RegExp(r'Line up the numbers: starting with (\d+) and adding (\d+)\.').firstMatch(step);
+      if (lineUpMatch != null) {
+        return 'Ustaw liczby w rzędzie: zacznij od ${lineUpMatch.group(1)} i dodaj ${lineUpMatch.group(2)}.';
+      }
+      final addOnesMatch = RegExp(r'First, add the ones digits: (.+)').firstMatch(step);
+      if (addOnesMatch != null) {
+        return 'Najpierw dodaj cyfry jedności: ${addOnesMatch.group(1)}';
+      }
+      if (step == 'Next, add the remaining digits (tens and hundreds) along with any carry over.') {
+        return 'Następnie dodaj pozostałe cyfry (dziesiątki i setki) wraz z przeniesieniem.';
+      }
+      final addTensMatch = RegExp(r'Next, add the tens digits: (.+)').firstMatch(step);
+      if (addTensMatch != null) {
+        return 'Następnie dodaj cyfry dziesiątek: ${addTensMatch.group(1)}';
+      }
+      final putTogetherMatch = RegExp(r'Putting it all together: (.+)').firstMatch(step);
+      if (putTogetherMatch != null) {
+        return 'Zbierając to wszystko razem: ${putTogetherMatch.group(1)}';
+      }
+      final addTogetherFinalMatch = RegExp(r'Add them together to get the final sum: (.+)').firstMatch(step);
+      if (addTogetherFinalMatch != null) {
+        return 'Dodaj je razem, aby otrzymać końcową sumę: ${addTogetherFinalMatch.group(1)}';
+      }
+      final startAmountMatch = RegExp(r'Start (?:at the total amount:|with the starting amount of) (\d+)\.').firstMatch(step);
+      if (startAmountMatch != null) {
+        return 'Zacznij od wartości początkowej: ${startAmountMatch.group(1)}.';
+      }
+      final countBackwardMatch = RegExp(r'(?:Count backward or take|Take) away (\d+) step by step\.').firstMatch(step);
+      if (countBackwardMatch != null) {
+        return 'Odliczaj wstecz lub odejmuj ${countBackwardMatch.group(1)} krok po kroku.';
+      }
+      final leftWithMatch = RegExp(r'You are left with:? (\d+)\.').firstMatch(step);
+      if (leftWithMatch != null) {
+        return 'Zostaje: ${leftWithMatch.group(1)}.';
+      }
+      final multMeansMatch = RegExp(r'(?:Multiplication \((.+)\) means adding (\d+) a total of (\d+) times\.|Think of (.+) as adding (\d+) to itself (\d+) times\.)').firstMatch(step);
+      if (multMeansMatch != null) {
+        final expr = multMeansMatch.group(1) ?? multMeansMatch.group(4);
+        final num = multMeansMatch.group(2) ?? multMeansMatch.group(5);
+        final times = multMeansMatch.group(3) ?? multMeansMatch.group(6);
+        return 'Mnożenie ($expr) oznacza dodawanie $num łącznie $times razy.';
+      }
+      final groupsMatch = RegExp(r'Think of making (\d+) groups with (\d+) items in each group: (.+)').firstMatch(step);
+      if (groupsMatch != null) {
+        return 'Pomyśl o utworzeniu ${groupsMatch.group(1)} grup po ${groupsMatch.group(2)} elementów każda: ${groupsMatch.group(3)}';
+      }
+      final countGroupsMatch = RegExp(r'Counting up all (\d+) groups of (\d+) gives (\d+)\.').firstMatch(step);
+      if (countGroupsMatch != null) {
+        return 'Policzenie wszystkich ${countGroupsMatch.group(1)} grup po ${countGroupsMatch.group(2)} daje ${countGroupsMatch.group(3)}.';
+      }
+      final breakPartsMatch = RegExp(r'Break (\d+) into parts: (.+)').firstMatch(step);
+      if (breakPartsMatch != null) {
+        return 'Rozbij ${breakPartsMatch.group(1)} na części: ${breakPartsMatch.group(2)}';
+      }
+      final multTensOnesMatch = RegExp(r'Multiply tens: (.+), then ones: (.+)').firstMatch(step);
+      if (multTensOnesMatch != null) {
+        return 'Pomnóż dziesiątki: ${multTensOnesMatch.group(1)}, potem jedności: ${multTensOnesMatch.group(2)}';
+      }
+      final addPartsMatch = RegExp(r'Add the parts: (.+)').firstMatch(step);
+      if (addPartsMatch != null) {
+        return 'Dodaj części: ${addPartsMatch.group(1)}';
+      }
+      final finalProdMatch = RegExp(r'Final product: (\d+)\.').firstMatch(step);
+      if (finalProdMatch != null) {
+        return 'Końcowy iloczyn: ${finalProdMatch.group(1)}.';
+      }
+      final divSplitMatch = RegExp(r'(?:Division \((.+)\) means splitting a total of (\d+) into (\d+) equal groups\.|Imagine dividing (\d+) into (\d+) equal parts\.)').firstMatch(step);
+      if (divSplitMatch != null) {
+        final total = divSplitMatch.group(2) ?? divSplitMatch.group(4);
+        final parts = divSplitMatch.group(3) ?? divSplitMatch.group(5);
+        return 'Dzielenie oznacza podział całości $total na $parts równych grup.';
+      }
+      final divAskMatch = RegExp(r'Ask: How many times does (\d+) fit into (\d+)\?').firstMatch(step);
+      if (divAskMatch != null) {
+        return 'Zapytaj: ile razy ${divAskMatch.group(1)} mieści się w ${divAskMatch.group(2)}?';
+      }
+      final verifyMultMatch = RegExp(r'Verify with multiplication: (.+)').firstMatch(step);
+      if (verifyMultMatch != null) {
+        return 'Sprawdź przez mnożenie: ${verifyMultMatch.group(1)}';
+      }
+      final becauseDivMatch = RegExp(r'Because (.+) = (\d+), the result is (\d+)\.').firstMatch(step);
+      if (becauseDivMatch != null) {
+        return 'Ponieważ ${becauseDivMatch.group(1)} = ${becauseDivMatch.group(2)}, wynik to ${becauseDivMatch.group(3)}.';
+      }
+      final divResultMatch = RegExp(r'Result: Each group receives (\d+)\.').firstMatch(step);
+      if (divResultMatch != null) {
+        return 'Wynik: każda grupa otrzymuje ${divResultMatch.group(1)}.';
+      }
+      if (step.contains('The square root symbol (√) asks:') ||
+          step.contains('The square root (√') ||
+          step.contains('Find the mystery number that gives') ||
+          step.contains('Ask: What number times itself equals')) {
+        return 'Symbol pierwiastka kwadratowego (√) pyta: jaka liczba pomnożona przez siebie daje tę wartość?';
+      }
+      final testCandMatch = RegExp(r'(?:Test candidate:|Check:) (.+)').firstMatch(step);
+      if (testCandMatch != null) {
+        return 'Sprawdź: ${testCandMatch.group(1)}';
+      }
+      final thereforeRootMatch = RegExp(r'(?:Therefore,|So the square root of \d+ is) (?:√\d+ = )?(\d+)\.').firstMatch(step);
+      if (thereforeRootMatch != null) {
+        return 'Zatem wynik to ${thereforeRootMatch.group(1)}.';
+      }
+      final sinceRootMatch = RegExp(r'(?:Since|Because) (.+) = (\d+), √\2 = (\d+)\.').firstMatch(step);
+      if (sinceRootMatch != null) {
+        return 'Ponieważ ${sinceRootMatch.group(1)} = ${sinceRootMatch.group(2)}, to √${sinceRootMatch.group(2)} = ${sinceRootMatch.group(3)}.';
+      }
+      final squareExpMatch = RegExp(r'(?:The small ² exponent means "square" — multiply (\d+) by itself \(\1 × \1\)\.|Squaring \((\d+)²\) means multiplying \2 by itself\.|Multiply (\d+) by itself:? \3 × \3\.|Multiply (\d+) by itself \(\4 × \4\)\.|(\d+)² means multiplying \5 by itself.*)').firstMatch(step);
+      if (squareExpMatch != null) {
+        final b = squareExpMatch.group(1) ?? squareExpMatch.group(2) ?? squareExpMatch.group(3) ?? squareExpMatch.group(4) ?? squareExpMatch.group(5);
+        return 'Podnoszenie do kwadratu ($b²) oznacza pomnożenie $b przez siebie ($b × $b).';
+      }
+      final calcMatch = RegExp(r'(?:Calculation:|Final calculation:|Result:) (.+)').firstMatch(step);
+      if (calcMatch != null) {
+        return 'Obliczenie: ${calcMatch.group(1)}';
+      }
+      final cubeExpMatch = RegExp(r'(?:The ³ exponent means "cube" — multiply (\d+) by itself 3 times.*|Cubing \((\d+)³\) means multiplying \2 by itself 3 times\.|Multiply (\d+) by itself 3 times.*|(\d+)³ means multiplying \4 by itself 3 times.*)').firstMatch(step);
+      if (cubeExpMatch != null) {
+        final b = cubeExpMatch.group(1) ?? cubeExpMatch.group(2) ?? cubeExpMatch.group(3) ?? cubeExpMatch.group(4);
+        return 'Podnoszenie do sześcianu ($b³) oznacza pomnożenie $b przez siebie 3 razy ($b × $b × $b).';
+      }
+      final step1SquareMatch = RegExp(r'(?:Step 1 \(square\):|Step 1:|First,) (.+)').firstMatch(step);
+      if (step1SquareMatch != null) {
+        return 'Krok 1: ${step1SquareMatch.group(1)}';
+      }
+      final step2CubeMatch = RegExp(r'(?:Step 2 \(cube\):|Step 2: Multiply|Then,) (.+)').firstMatch(step);
+      if (step2CubeMatch != null) {
+        return 'Krok 2: ${step2CubeMatch.group(1)}';
+      }
+      final p4Match = RegExp(r'(\d+)⁴ means multiplying \1 by itself 4 times.*|Multiply (\d+) by itself 4 times.*').firstMatch(step);
+      if (p4Match != null) {
+        final b = p4Match.group(1) ?? p4Match.group(2);
+        return '$b⁴ oznacza pomnożenie $b przez siebie 4 razy ($b × $b × $b × $b).';
+      }
+      final step2P4Match = RegExp(r'Step 2 \(power of 4\): (.+)').firstMatch(step);
+      if (step2P4Match != null) {
+        return 'Krok 2 (4. potęga): ${step2P4Match.group(1)}';
+      }
+      final compareMatch = RegExp(r'Comparing (\d+) and (\d+)\.').firstMatch(step);
+      if (compareMatch != null) {
+        return 'Porównywanie ${compareMatch.group(1)} i ${compareMatch.group(2)}.';
+      }
+      final greaterMatch = RegExp(r'(\d+) is greater because it comes further along the number line\.').firstMatch(step);
+      if (greaterMatch != null) {
+        return '${greaterMatch.group(1)} jest większe, ponieważ znajduje się dalej na osi liczbowej.';
+      }
+      final smallerMatch = RegExp(r'(\d+) is smaller because it is closer to 0\.').firstMatch(step);
+      if (smallerMatch != null) {
+        return '${smallerMatch.group(1)} jest mniejsze, ponieważ jest bliżej 0.';
+      }
+      final evenDivideMatch = RegExp(r'Divide (\d+) by 2: \1 ÷ 2 = (\d+) with remainder (\d+)\.').firstMatch(step);
+      if (evenDivideMatch != null) {
+        return 'Podziel ${evenDivideMatch.group(1)} przez 2: ${evenDivideMatch.group(1)} ÷ 2 = ${evenDivideMatch.group(2)} z resztą ${evenDivideMatch.group(3)}.';
+      }
+      final evenNoRemainderMatch = RegExp(r'Since there is no remainder, (\d+) is Even\.').firstMatch(step);
+      if (evenNoRemainderMatch != null) {
+        return 'Ponieważ nie ma reszty, ${evenNoRemainderMatch.group(1)} jest parzysta.';
+      }
+      final oddRemainderMatch = RegExp(r'Since 1 is left over, (\d+) is Odd\.').firstMatch(step);
+      if (oddRemainderMatch != null) {
+        return 'Ponieważ zostaje 1, ${oddRemainderMatch.group(1)} jest nieparzysta.';
       }
       return step;
     }

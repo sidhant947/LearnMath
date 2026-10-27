@@ -59,55 +59,24 @@ class _HomeViewState extends ConsumerState<HomeView> {
   }
 
   void _showGameModesSheet(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     showModalBottomSheet(
       context: context,
+      showDragHandle: true,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 580),
-          child: Container(
-            decoration: BoxDecoration(
-          color: colorScheme.surfaceContainerHigh,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          border: Border.all(color: colorScheme.outline, width: 2),
-        ),
-        padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
-        child: SafeArea(
-          top: false,
+      constraints: const BoxConstraints(maxWidth: 580),
+      builder: (sheetContext) => SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(
-                child: Container(
-                  width: 44,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: colorScheme.outline,
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                context.l10n.specialGameModes,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 22,
-                ),
-              ),
-              const SizedBox(height: 14),
               _modeTile(
-                title: context.l10n.timeAttackTitle,
-                subtitle: context.l10n.timeAttackSubtitle,
+                title: sheetContext.l10n.timeAttackTitle,
                 icon: Icons.timer_rounded,
                 color: const Color(0xFF8B5CF6),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.pop(sheetContext);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => const TimeAttackScreen()),
@@ -116,12 +85,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
               const SizedBox(height: 10),
               _modeTile(
-                title: context.l10n.survivalTitle,
-                subtitle: context.l10n.survivalSubtitle,
+                title: sheetContext.l10n.survivalTitle,
                 icon: Icons.favorite_rounded,
                 color: const Color(0xFFEC4899),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.pop(sheetContext);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => const SurvivalScreen()),
@@ -130,12 +98,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
               const SizedBox(height: 10),
               _modeTile(
-                title: context.l10n.duelTitle,
-                subtitle: context.l10n.duelSubtitle,
+                title: sheetContext.l10n.duelTitle,
                 icon: Icons.sports_kabaddi_rounded,
                 color: const Color(0xFFF97316),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.pop(sheetContext);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => const DuelScreen()),
@@ -144,12 +111,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
               const SizedBox(height: 10),
               _modeTile(
-                title: context.l10n.target24Title,
-                subtitle: context.l10n.target24Subtitle,
+                title: sheetContext.l10n.target24Title,
                 icon: Icons.extension_rounded,
                 color: const Color(0xFF06B6D4),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.pop(sheetContext);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => const Target24Screen()),
@@ -160,14 +126,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
           ),
         ),
       ),
-    ),
-  ),
-);
+    );
   }
 
   Widget _modeTile({
     required String title,
-    required String subtitle,
     required IconData icon,
     required Color color,
     required VoidCallback onTap,
@@ -176,45 +139,31 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
     return TangibleCard(
       onTap: onTap,
-      depth: 3.5,
-      borderRadius: 18,
+      depth: 3,
+      borderRadius: 16,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
           Container(
-            width: 44,
-            height: 44,
+            width: 38,
+            height: 38,
             decoration: BoxDecoration(
               color: color,
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.white24, width: 1.5),
             ),
             child: Center(
-              child: Icon(icon, color: Colors.white, size: 22),
+              child: Icon(icon, color: Colors.white, size: 20),
             ),
           ),
           const SizedBox(width: 14),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: colorScheme.onSurfaceVariant,
-                    height: 1.25,
-                  ),
-                ),
-              ],
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
           Icon(Icons.chevron_right_rounded, color: colorScheme.onSurfaceVariant),

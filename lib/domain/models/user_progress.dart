@@ -19,7 +19,7 @@ class UserProgress {
     this.categoryCorrectCount = const {},
     this.savedMistakes = const [],
     this.hapticsEnabled = true,
-    this.showStepExplanation = true,
+    this.showStepExplanation = false,
     this.languageCode = 'en',
   });
 

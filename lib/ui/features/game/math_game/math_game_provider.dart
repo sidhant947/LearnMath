@@ -19,6 +19,9 @@ class MathGameState {
     this.streak = 0,
     this.isChecking = false,
     this.earnedXp = 0,
+    this.sessionMistakes = const [],
+    this.isReviewPhase = false,
+    this.reviewQueue = const [],
   });
 
   final int levelNumber;
@@ -35,11 +38,18 @@ class MathGameState {
   final int streak;
   final bool isChecking;
   final int earnedXp;
+  final List<MathProblem> sessionMistakes;
+  final bool isReviewPhase;
+  final List<MathProblem> reviewQueue;
 
-  MathProblem? get currentProblem =>
-      (problems.isNotEmpty && currentQuestionIndex < problems.length)
-          ? problems[currentQuestionIndex]
-          : null;
+  MathProblem? get currentProblem {
+    if (isReviewPhase) {
+      return reviewQueue.isNotEmpty ? reviewQueue.first : null;
+    }
+    return (problems.isNotEmpty && currentQuestionIndex < problems.length)
+        ? problems[currentQuestionIndex]
+        : null;
+  }
 
   int get totalQuestions => problems.length;
 
@@ -58,6 +68,9 @@ class MathGameState {
     int? streak,
     bool? isChecking,
     int? earnedXp,
+    List<MathProblem>? sessionMistakes,
+    bool? isReviewPhase,
+    List<MathProblem>? reviewQueue,
     bool clearSelectedOption = false,
     bool clearLastAnswer = false,
   }) {
@@ -81,6 +94,9 @@ class MathGameState {
       streak: streak ?? this.streak,
       isChecking: isChecking ?? this.isChecking,
       earnedXp: earnedXp ?? this.earnedXp,
+      sessionMistakes: sessionMistakes ?? this.sessionMistakes,
+      isReviewPhase: isReviewPhase ?? this.isReviewPhase,
+      reviewQueue: reviewQueue ?? this.reviewQueue,
     );
   }
 }
@@ -125,6 +141,9 @@ class MathGameViewModel extends Notifier<MathGameState> {
       streak: 0,
       isChecking: false,
       earnedXp: 0,
+      sessionMistakes: const [],
+      isReviewPhase: false,
+      reviewQueue: const [],
     );
   }
 
@@ -175,12 +194,20 @@ class MathGameViewModel extends Notifier<MathGameState> {
     final newStreak = isCorrect ? state.streak + 1 : 0;
     final xpThisQuestion = isCorrect ? (10 + (newStreak >= 3 ? 5 : 0)) : 0;
 
+    List<MathProblem> mistakes = List.of(state.sessionMistakes);
+    if (!state.isReviewPhase && !isCorrect && problem != null && !mistakes.contains(problem)) {
+      mistakes.add(problem);
+    }
+
     state = state.copyWith(
       isChecking: true,
       lastAnswerCorrect: isCorrect,
-      correctCount: isCorrect ? state.correctCount + 1 : state.correctCount,
+      correctCount: (!state.isReviewPhase && isCorrect)
+          ? state.correctCount + 1
+          : state.correctCount,
       streak: newStreak,
       earnedXp: state.earnedXp + xpThisQuestion,
+      sessionMistakes: mistakes,
     );
 
     if (problem != null) {
@@ -198,14 +225,54 @@ class MathGameViewModel extends Notifier<MathGameState> {
 
     await Future.delayed(const Duration(milliseconds: 550));
 
+    if (state.isReviewPhase) {
+      final queue = List<MathProblem>.of(state.reviewQueue);
+      if (queue.isNotEmpty) {
+        final current = queue.removeAt(0);
+        if (!isCorrect) {
+          queue.add(current);
+        }
+      }
+
+      if (queue.isEmpty) {
+        state = state.copyWith(
+          isSolved: true,
+          isChecking: false,
+          reviewQueue: const [],
+          clearSelectedOption: true,
+          clearLastAnswer: true,
+        );
+      } else {
+        state = state.copyWith(
+          reviewQueue: queue,
+          currentInput: '',
+          isChecking: false,
+          clearSelectedOption: true,
+          clearLastAnswer: true,
+        );
+      }
+      return;
+    }
+
     final nextIndex = state.currentQuestionIndex + 1;
     if (nextIndex >= state.totalQuestions) {
-      state = state.copyWith(
-        isSolved: true,
-        isChecking: false,
-        clearSelectedOption: true,
-        clearLastAnswer: true,
-      );
+      if (state.sessionMistakes.isNotEmpty) {
+        state = state.copyWith(
+          isReviewPhase: true,
+          reviewQueue: List.of(state.sessionMistakes),
+          currentInput: '',
+          isChecking: false,
+          clearSelectedOption: true,
+          clearLastAnswer: true,
+        );
+      } else {
+        state = state.copyWith(
+          isSolved: true,
+          isChecking: false,
+          clearSelectedOption: true,
+          clearLastAnswer: true,
+        );
+      }
     } else {
       state = state.copyWith(
         currentQuestionIndex: nextIndex,

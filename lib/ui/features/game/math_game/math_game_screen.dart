@@ -109,6 +109,32 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
       } else if (next.lastAnswerCorrect == true && previous?.lastAnswerCorrect != true) {
         AppHaptics.medium();
       }
+      if (next.isReviewPhase && !(previous?.isReviewPhase ?? false)) {
+        AppHaptics.medium();
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: const Color(0xFFF59E0B),
+            content: Row(
+              children: [
+                const Icon(Icons.replay_rounded, color: Colors.white),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    context.l10n.reviewMistakes(next.sessionMistakes.length),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            duration: const Duration(milliseconds: 2000),
+          ),
+        );
+      }
       if (next.isSolved && !(previous?.isSolved ?? false)) {
         AppHaptics.heavy();
         if (widget.isDailyChallenge) {
@@ -160,7 +186,9 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
                       child: problem == null
                           ? const Center(child: CircularProgressIndicator())
                           : _buildQuestionCard(
-                              key: ValueKey(state.currentQuestionIndex),
+                              key: ValueKey(state.isReviewPhase
+                                  ? 'review_${state.currentProblem?.prompt}_${state.reviewQueue.length}'
+                                  : state.currentQuestionIndex),
                               context: context,
                               state: state,
                               problem: problem,
@@ -321,6 +349,77 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
 
   Widget _buildSegmentedProgress(BuildContext context, MathGameState state) {
     final colorScheme = Theme.of(context).colorScheme;
+
+    if (state.isReviewPhase) {
+      final total = state.sessionMistakes.length;
+      final completed = (total - state.reviewQueue.length).clamp(0, total);
+
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(20, 4, 20, 10),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.replay_rounded,
+                      size: 16,
+                      color: Color(0xFFF59E0B),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      context.l10n.mistakeReview,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                        color: Color(0xFFF59E0B),
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  '${completed + 1}/$total',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFFF59E0B),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: List.generate(total, (index) {
+                final isAnswered = index < completed;
+                final isCurrent = index == completed;
+
+                Color segmentColor = colorScheme.surfaceContainerHighest;
+                if (isAnswered) {
+                  segmentColor = const Color(0xFFF59E0B);
+                } else if (isCurrent) {
+                  segmentColor = const Color(0xFFF59E0B).withValues(alpha: 0.4);
+                }
+
+                return Expanded(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 250),
+                    height: 6,
+                    margin: EdgeInsets.only(right: index == total - 1 ? 0 : 6),
+                    decoration: BoxDecoration(
+                      color: segmentColor,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
+      );
+    }
+
     final total = state.totalQuestions == 0 ? 5 : state.totalQuestions;
 
     return Padding(
@@ -474,34 +573,68 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: colorScheme.primaryContainer.withValues(alpha: 0.8),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          _getCategoryIcon(problem.category),
-                          size: 13,
-                          color: colorScheme.onPrimaryContainer,
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: colorScheme.primaryContainer.withValues(alpha: 0.8),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        const SizedBox(width: 6),
-                        Text(
-                          context.l10n.categoryName(problem.category.name).toUpperCase(),
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w800,
-                            color: colorScheme.onPrimaryContainer,
-                            letterSpacing: 0.8,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              _getCategoryIcon(problem.category),
+                              size: 13,
+                              color: colorScheme.onPrimaryContainer,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              context.l10n.categoryName(problem.category.name).toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w800,
+                                color: colorScheme.onPrimaryContainer,
+                                letterSpacing: 0.8,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (state.isReviewPhase) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF59E0B).withValues(alpha: 0.18),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: const Color(0xFFF59E0B).withValues(alpha: 0.4),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.replay_rounded, size: 12, color: Color(0xFFF59E0B)),
+                              const SizedBox(width: 4),
+                              Text(
+                                context.l10n.mistakeReview.toUpperCase(),
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(0xFFF59E0B),
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
-                    ),
+                    ],
                   ),
-                  if (ref.watch(homeViewModelProvider).progress?.showStepExplanation ?? true)
+                  if (ref.watch(homeViewModelProvider).progress?.showStepExplanation ?? false)
                     IconButton(
                       visualDensity: VisualDensity.compact,
                       tooltip: context.l10n.explainStep,
@@ -837,6 +970,34 @@ class _MathGameScreenState extends ConsumerState<MathGameScreen>
                 height: 1.4,
               ),
             ),
+            if (ref.read(mathGameViewModelProvider).sessionMistakes.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: const Color(0xFF10B981).withValues(alpha: 0.4),
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.check_circle_outline_rounded, size: 16, color: Color(0xFF10B981)),
+                    const SizedBox(width: 6),
+                    Text(
+                      l10n.mistakeReview,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF10B981),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
             if (xpEarned > 0) ...[
               const SizedBox(height: 12),
               Container(

@@ -76,7 +76,7 @@ class UserProgressAdapter extends TypeAdapter<UserProgress> {
         categoryCorrectCount: categoryCorrect,
         savedMistakes: savedMistakes,
         hapticsEnabled: fields[14] is bool ? (fields[14] as bool) : true,
-        showStepExplanation: fields[15] is bool ? (fields[15] as bool) : true,
+        showStepExplanation: fields[15] is bool ? (fields[15] as bool) : false,
         languageCode: fields[16]?.toString() ?? 'en',
       );
     } catch (_) {

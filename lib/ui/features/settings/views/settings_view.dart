@@ -29,7 +29,7 @@ class SettingsView extends ConsumerWidget {
     final colorScheme = theme.colorScheme;
     final progress = ref.watch(homeViewModelProvider).progress;
     final hapticsEnabled = progress?.hapticsEnabled ?? true;
-    final showStepExplanation = progress?.showStepExplanation ?? true;
+    final showStepExplanation = progress?.showStepExplanation ?? false;
     final languageCode = progress?.languageCode ?? 'en';
     final l10n = context.l10n;
 

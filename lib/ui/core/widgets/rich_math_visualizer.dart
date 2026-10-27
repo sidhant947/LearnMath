@@ -28,7 +28,13 @@ class RichMathVisualizer extends StatelessWidget {
       case MathVisualType.placeValueBlocks:
         return _buildPlaceValueVisual(context, problem.tensCount, problem.onesCount);
       case MathVisualType.squareGrid:
-        return _buildSquareGridVisual(context, problem.visualRows);
+        final side = problem.visualRows > 0
+            ? problem.visualRows
+            : (int.tryParse(RegExp(r'^\d+').firstMatch(problem.prompt)?.group(0) ?? '') ?? 0);
+        if (side <= 0) {
+          return const SizedBox.shrink();
+        }
+        return _buildSquareGridVisual(context, side);
       case MathVisualType.none:
         if (problem.visualCount > 0) {
           return _buildDotsVisual(context, problem.visualCount);
@@ -290,49 +296,23 @@ class RichMathVisualizer extends StatelessWidget {
 
   Widget _buildSquareGridVisual(BuildContext context, int side) {
     final colorScheme = Theme.of(context).colorScheme;
-    final s = side.clamp(1, 8);
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: colorScheme.outlineVariant.withValues(alpha: 0.4),
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            '$s² = $s × $s = ${s * s}',
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w800,
-              color: colorScheme.primary,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(s, (r) {
-              return Row(
-                mainAxisSize: MainAxisSize.min,
-                children: List.generate(s, (c) {
-                  return Container(
-                    width: 16,
-                    height: 16,
-                    margin: const EdgeInsets.all(1.5),
-                    decoration: BoxDecoration(
-                      color: colorScheme.primary.withValues(alpha: 0.8),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                  );
-                }),
-              );
-            }),
-          ),
-        ],
+      child: Text(
+        '$side² = $side × $side',
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+          color: colorScheme.primary,
+        ),
       ),
     );
   }

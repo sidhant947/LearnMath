@@ -422,7 +422,7 @@ class MathGameEngine {
           inputType: ProblemInputType.numberPad,
           category: MathCategory.powersRoots,
           visualType: MathVisualType.squareGrid,
-          visualRows: b <= 8 ? b : 0,
+          visualRows: b,
           explanationSteps: [
             'The small ² exponent means "square" — multiply $b by itself ($b × $b).',
             'Calculation: $b × $b = ${b * b}.',
@@ -440,7 +440,7 @@ class MathGameEngine {
           inputType: ProblemInputType.numberPad,
           category: MathCategory.powersRoots,
           visualType: MathVisualType.squareGrid,
-          visualRows: b <= 8 ? b : 0,
+          visualRows: b,
           explanationSteps: [
             '$b² means multiplying $b by itself ($b × $b).',
             'Break $b into 10 + ${b % 10}: ($b × 10 = ${b * 10}) plus ($b × ${b % 10} = ${b * (b % 10)}).',
@@ -1004,7 +1004,7 @@ class MathGameEngine {
         inputType: ProblemInputType.numberPad,
         category: MathCategory.powersRoots,
         visualType: MathVisualType.squareGrid,
-        visualRows: b <= 8 ? b : 0,
+        visualRows: b,
         explanationSteps: [
           'Squaring ($b²) means multiplying $b by itself.',
           'Result: $b × $b = ${b * b}.',
